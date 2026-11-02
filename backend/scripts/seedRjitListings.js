@@ -1,4 +1,4 @@
-﻿import 'dotenv/config';
+import 'dotenv/config';
 import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -46,7 +46,7 @@ const seedDatabase = async () => {
       name: 'Rohit Sharma (Senior CSE)',
       email: '0902cs221045@ced.alliance.edu.in',
       passwordHash: demoPasswordHash,
-      college: 'CED - Alliance University (CED), Tekanpur',
+      college: 'CED - Alliance University (CED), Bangalore',
       phone: '+91 98260 12345',
       avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80',
       createdAt: new Date(),

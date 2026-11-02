@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import {
   GraduationCap,
@@ -567,7 +567,7 @@ const Navbar = () => {
                 </h4>
                 <div className="flex items-center gap-1 text-xs text-emerald-800 font-semibold truncate mt-0.5">
                   <GraduationCap className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-                  <span className="truncate">{user?.college || 'CED Tekanpur'}</span>
+                  <span className="truncate">{user?.college || 'CED Bangalore'}</span>
                 </div>
               </div>
             </div>

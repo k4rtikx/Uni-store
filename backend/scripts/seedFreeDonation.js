@@ -1,4 +1,4 @@
-﻿import 'dotenv/config';
+import 'dotenv/config';
 import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -26,7 +26,7 @@ const seedFreeDonation = async () => {
       const demoSeller = {
         name: 'Rohit Sharma (Senior CSE)',
         email: '0902cs221045@ced.alliance.edu.in',
-        college: 'CED - Alliance University (CED), Tekanpur',
+        college: 'CED - Alliance University (CED), Bangalore',
         phone: '+91 98260 12345',
         createdAt: new Date(),
         updatedAt: new Date(),

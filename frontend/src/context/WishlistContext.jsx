@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { WishlistContext } from './wishlistContextInstance';
 import useAuth from './useAuth';
 import { toggleSaveItemApi } from '../services/api';

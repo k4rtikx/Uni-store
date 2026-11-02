@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @file emailTemplates.js
  * @desc Responsive, email-client compatible HTML/CSS email templates for Uni-store.
  * Adheres to a cohesive "Light Emerald" theme matching the frontend aesthetics.
@@ -68,7 +68,7 @@ export const wrapEmailShell = ({ title, preheader = '', contentHtml }) => {
                 <tr>
                   <td style="background-color: rgba(6, 95, 70, 0.4); border: 1px solid rgba(167, 243, 208, 0.4); border-radius: 20px; padding: 4px 14px; text-align: center;">
                     <span style="color: #e6fffa; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">
-                      Official CED Tekanpur Marketplace
+                      Official CED Bangalore Marketplace
                     </span>
                   </td>
                 </tr>
@@ -87,7 +87,7 @@ export const wrapEmailShell = ({ title, preheader = '', contentHtml }) => {
           <tr>
             <td style="padding: 24px 32px; background-color: #f8fafc; border-top: 1px solid #e2e8f0; text-align: center;">
               <p style="margin: 0 0 6px 0; color: #64748b; font-size: 12px; font-weight: 600;">
-                CED - Alliance University (CED) Â· BSF Academy, Tekanpur, Gwalior (M.P.)
+                CED - Alliance University (CED) Â· BSF Academy, Bangalore, Gwalior (M.P.)
               </p>
               <p style="margin: 0 0 10px 0; color: #94a3b8; font-size: 11px; line-height: 1.5;">
                 This is an automated transmission for verified student accounts ending with @ced.alliance.edu.in.

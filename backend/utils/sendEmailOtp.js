@@ -1,4 +1,4 @@
-﻿import nodemailer from 'nodemailer';
+import nodemailer from 'nodemailer';
 import { generateOtpEmail } from './emailTemplates.js';
 
 // Module-level in-memory lock: ensures no email address can receive > 1 email per 60 seconds
@@ -64,7 +64,7 @@ export const sendEmailOtp = async (recipientEmail, otp) => {
     from: `"Uni-store Security" <${smtpUser}>`,
     to: recipientEmail,
     subject: `Your Uni-store Password Reset Code: ${otp}`,
-    text: `Your 6-digit password reset verification code for Uni-store (CED Tekanpur) is: ${otp}\n\nThis code will expire in 10 minutes.\n\nSecurity Notice: Never share this code with anyone.\n\nIf you did not request a password reset, please ignore this email.`,
+    text: `Your 6-digit password reset verification code for Uni-store (CED Bangalore) is: ${otp}\n\nThis code will expire in 10 minutes.\n\nSecurity Notice: Never share this code with anyone.\n\nIf you did not request a password reset, please ignore this email.`,
     html: generateOtpEmail(otp, recipientEmail),
   };
 

@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @file api.test.js
  * @desc Built-in automated test suite using Node's native test runner (node:test).
  * Validates core business logic, CED email security, NoSQL injection sanitization,
@@ -908,7 +908,7 @@ describe('=== Uni-store Senior Engineering Automated Test Suite ===', () => {
       assert.ok(html.includes(testEmail));
       assert.ok(html.includes('Reuse'));
       assert.ok(html.includes('Campus'));
-      assert.ok(html.includes('CED Tekanpur'));
+      assert.ok(html.includes('CED Bangalore'));
       assert.ok(html.includes('Valid for 10 minutes'));
       assert.ok(html.includes('Security Warning:'));
       assert.ok(html.includes('#059669')); // Emerald brand color

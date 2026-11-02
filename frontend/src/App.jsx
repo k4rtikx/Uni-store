@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
@@ -99,7 +99,7 @@ function App() {
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse inline-block" />
                     Live Marketplace
                   </span>
-                  <span>CED Tekanpur</span>
+                  <span>CED Bangalore</span>
                 </div>
               </div>
             </footer>

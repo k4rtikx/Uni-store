@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Share2, Heart, AlertCircle, CheckCircle } from 'lucide-react';
 import { getListingById, markListingAsSold } from '../services/api';
@@ -140,7 +140,7 @@ const ListingDetails = () => {
   );
 
   const sellerName = listing.seller?.name || 'CED Student';
-  const sellerCollege = listing.seller?.college || 'CED Tekanpur';
+  const sellerCollege = listing.seller?.college || 'CED Bangalore';
   const sellerEmail = listing.seller?.email || 'N/A';
   const sellerPhone = listing.seller?.phone || '';
 
