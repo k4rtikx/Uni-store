@@ -1,25 +1,25 @@
-# ReuseCampus ♻️🎓
+﻿# Uni-store â™»ï¸ðŸŽ“
 
 > **A secure, high-performance Peer-to-Peer (P2P) campus marketplace engineered for college students to buy, sell, and donate engineering essentials with zero friction and zero commission.**
 
 [![React](https://img.shields.io/badge/React-19.x-61DAFB?logo=react&logoColor=black)](https://react.dev/)
 [![Node.js](https://img.shields.io/badge/Node.js-18%2B-339933?logo=node.js&logoColor=white)](https://nodejs.org/)
 [![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-47A248?logo=mongodb&logoColor=white)](https://www.mongodb.com/)
-[![Vercel](https://img.shields.io/badge/Frontend-Vercel-000000?logo=vercel&logoColor=white)](https://reusecampus.vercel.app/)
+[![Vercel](https://img.shields.io/badge/Frontend-Vercel-000000?logo=vercel&logoColor=white)](https://uni-store.vercel.app/)
 [![Render](https://img.shields.io/badge/Backend-Render-46E3B7?logo=render&logoColor=white)](https://render.com/)
-[![CI Pipeline](https://img.shields.io/badge/CI-Passing%20(60%2F60)-brightgreen?logo=githubactions&logoColor=white)](https://github.com/abhishekpachori04-cpu/ReuseCampus/actions)
+[![CI Pipeline](https://img.shields.io/badge/CI-Passing%20(60%2F60)-brightgreen?logo=githubactions&logoColor=white)](https://github.com/k4rtikx/Uni-store/actions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 ---
 
-## 🌐 Live Production Deployment
+## ðŸŒ Live Production Deployment
 
 Experience the live application deployed across globally distributed edge infrastructure:
 
 <div align="center">
 
-### 🚀 **[Launch ReuseCampus Live Application](https://reusecampus.vercel.app/)**
-**Production URL:** `https://reusecampus.vercel.app/`
+### ðŸš€ **[Launch Uni-store Live Application](https://uni-store.vercel.app/)**
+**Production URL: `https://uni-store.vercel.app/`
 
 *Frontend hosted on **Vercel Edge Network** &bull; Backend API powered by **Render Cloud Services** &bull; Persistent Cluster on **MongoDB Atlas***
 
@@ -27,43 +27,43 @@ Experience the live application deployed across globally distributed edge infras
 
 ---
 
-## 💡 Overview & Problem Statement
+## ðŸ’¡ Overview & Problem Statement
 
-Every semester across technical institutes like **Rustamji Institute of Technology (RJIT)**, passing seniors discard or store away expensive academic equipment—such as engineering drafters, higher mathematics textbooks, lab coats, and scientific calculators (e.g., Casio FX-991EX). Concurrently, incoming juniors spend substantial sums purchasing brand-new supplies from retail outlets.
+Every semester across technical institutes like **Rustamji Institute of Technology (RJIT)**, passing seniors discard or store away expensive academic equipmentâ€”such as engineering drafters, higher mathematics textbooks, lab coats, and scientific calculators (e.g., Casio FX-991EX). Concurrently, incoming juniors spend substantial sums purchasing brand-new supplies from retail outlets.
 
-Generic classifieds (OLX, Facebook Marketplace) introduce safety concerns, stranger fraud, high shipping fees, and unverified users. **ReuseCampus** resolves this by establishing a walled-garden, peer-to-peer micro-economy exclusively for verified college members, enabling secure same-day handoffs in campus hostels, academic blocks, and canteens.
+Generic classifieds (OLX, Facebook Marketplace) introduce safety concerns, stranger fraud, high shipping fees, and unverified users. **Uni-store** resolves this by establishing a walled-garden, peer-to-peer micro-economy exclusively for verified college members, enabling secure same-day handoffs in campus hostels, academic blocks, and canteens.
 
 ---
 
-## ⚡ Key Features (Engineering Highlights)
+## âš¡ Key Features (Engineering Highlights)
 
-### 📸 AI Visual Search
+### ðŸ“¸ AI Visual Search
 Snap or upload a photo: Gemini identifies the item, the background is removed, campus listings are matched, and Amazon/Flipkart alternatives appear if nothing is found. See [VISUAL_SEARCH.md](VISUAL_SEARCH.md).
 
-### 🛡️ Institutional Security & Verification
+### ðŸ›¡ï¸ Institutional Security & Verification
 - **Domain-Enforced Gatekeeping**: Registration is strictly restricted to verified `@rjit.ac.in` student institutional email addresses via cryptographic regex and database validation, systematically blocking commercial resellers and bad actors.
 - **3-Step Cryptographic Email OTP**: Implements secure 6-digit OTP delivery via Nodemailer with bcrypt-hashed token persistence, strict 10-minute time-to-live (TTL), attempt rate-limiting, and cooldown timers to prevent brute-force recovery attacks.
 
-### ⚡ Zero-Blink UI Architecture
+### âš¡ Zero-Blink UI Architecture
 - **In-Memory Filtering & Memoization**: Eliminates layout shifts and infinite rendering loops on the Wishlist / Saved Items interface by decoupling ID normalization with React's `useMemo` pipeline.
 - **Water-tight Reconciliation**: Missing bookmarked item IDs are reconciled asynchronously in the background while local state serves immediate, zero-latency cache hits with no screen flickering.
 
-### 🚦 Resilient Cloud API & Defense-in-Depth
+### ðŸš¦ Resilient Cloud API & Defense-in-Depth
 - **Proxy-Aware Rate Limiting**: Production Express API is configured with `app.set('trust proxy', 1)`, allowing `express-rate-limit` to inspect accurate client IPs forwarded by Render's reverse proxy without vulnerability to header spoofing.
 - **Dual-Tier Throttling**: Employs global request throttling (150 requests / 15 minutes) alongside high-security auth throttling (15 requests / 15 minutes) on `/api/auth/*` endpoints.
 - **NoSQL Injection Sanitization**: Custom recursive sanitation middleware strips rogue MongoDB evaluation operators (`$` and `.`) across `req.body`, `req.params`, and `req.query`.
 
-### ☁️ Scalable Media Management
+### â˜ï¸ Scalable Media Management
 - **Cloudinary CDN Pipeline**: Seamless asset pipeline featuring multi-part image uploads through Multer directly streamed into Cloudinary.
 - **Automated Compression & Delivery**: Automatic WebP transformation, responsive downscaling, and global CDN delivery to maximize load speeds on constrained mobile networks.
 
-### 🧪 Automated Testing & CI Pipeline
-- **60/60 Passing Backend Native Tests**: Native test suite executed through Node's built-in `node:test` and `node:assert/strict` harness—ensuring zero external test bloat, sub-second execution speeds, and comprehensive coverage across controllers, models, and auth guards.
+### ðŸ§ª Automated Testing & CI Pipeline
+- **60/60 Passing Backend Native Tests**: Native test suite executed through Node's built-in `node:test` and `node:assert/strict` harnessâ€”ensuring zero external test bloat, sub-second execution speeds, and comprehensive coverage across controllers, models, and auth guards.
 - **GitHub Actions Integration**: Automated CI pipeline running on Ubuntu runners that lints frontend assets, verifies production bundle building, and executes backend test suites on every pull request and push to `main`.
 
 ---
 
-## 🛠️ Tech Stack
+## ðŸ› ï¸ Tech Stack
 
 | Domain | Technology | Purpose |
 |---|---|---|
@@ -81,7 +81,7 @@ Snap or upload a photo: Gemini identifies the item, the background is removed, c
 
 ---
 
-## 🏛️ System Architecture
+## ðŸ›ï¸ System Architecture
 
 ```mermaid
 flowchart TD
@@ -122,9 +122,9 @@ flowchart TD
 
 ---
 
-## 💻 Local Setup Instructions
+## ðŸ’» Local Setup Instructions
 
-Follow these instructions to run ReuseCampus locally on your development machine.
+Follow these instructions to run Uni-store locally on your development machine.
 
 ### Prerequisites
 - [Node.js](https://nodejs.org/) (v18.0.0 or higher recommended)
@@ -136,9 +136,8 @@ Follow these instructions to run ReuseCampus locally on your development machine
 
 ### Step 1: Clone the Repository
 ```bash
-git clone https://github.com/abhishekpachori04-cpu/ReuseCampus.git
-cd ReuseCampus
-```
+git clone https://github.com/k4rtikx/Uni-store.git
+cd Uni-store```
 
 ---
 
@@ -187,7 +186,7 @@ cd ReuseCampus
 
 ### Step 4: Run Automated Test Suite
 
-ReuseCampus includes a comprehensive native test suite covering institutional validation, security rules, controllers, and error handling:
+Uni-store includes a comprehensive native test suite covering institutional validation, security rules, controllers, and error handling:
 
 ```bash
 cd backend
@@ -198,7 +197,7 @@ npm test
 
 ---
 
-## 🔐 Environment Variables
+## ðŸ” Environment Variables
 
 The project uses `.env` files to separate configuration from codebase. Below is a specification of required configuration keys:
 
@@ -229,7 +228,7 @@ The project uses `.env` files to separate configuration from codebase. Below is 
 
 ---
 
-## 📡 API Reference Overview
+## ðŸ“¡ API Reference Overview
 
 All private routes require an `Authorization: Bearer <JWT>` header.
 
@@ -254,7 +253,7 @@ All private routes require an `Authorization: Bearer <JWT>` header.
 
 ---
 
-## 📄 License
+## ðŸ“„ License
 
 This repository is distributed under the **[MIT License](LICENSE)**.
 
@@ -277,3 +276,4 @@ copies or substantial portions of the Software.
 <div align="center">
   <sub>Engineered with precision for the student community of <b>Rustamji Institute of Technology (RJIT)</b>.</sub>
 </div>
+

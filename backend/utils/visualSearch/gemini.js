@@ -1,7 +1,6 @@
+import { GoogleGenAI } from '@google/genai';
 import { getVisualSearchConfig } from '../../config/visualSearch.js';
 import { CATEGORIES } from '../../models/Listing.js';
-
-const ENDPOINT = 'https://generativelanguage.googleapis.com/v1beta/models';
 
 const SCHEMA = {
   type: 'OBJECT',
@@ -50,23 +49,32 @@ export class GeminiError extends Error {
   }
 }
 
-const callModel = async ({ model, apiKey, imageBase64, mimeType, timeoutMs, fetchImpl }) => {
-  const ctrl = new AbortController();
-  const timer = setTimeout(() => ctrl.abort(), timeoutMs);
-  try {
-    const res = await fetchImpl(`${ENDPOINT}/${encodeURIComponent(model)}:generateContent`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'x-goog-api-key': apiKey },
-      body: JSON.stringify({
-        contents: [{ role: 'user', parts: [{ text: PROMPT }, { inline_data: { mime_type: mimeType, data: imageBase64 } }] }],
-        generationConfig: { temperature: 0.1, responseMimeType: 'application/json', responseSchema: SCHEMA },
-      }),
-      signal: ctrl.signal,
-    });
-    return res;
-  } finally {
-    clearTimeout(timer);
-  }
+const callModel = async ({ model, apiKey, imageBase64, mimeType, timeoutMs }) => {
+  const ai = new GoogleGenAI({ apiKey });
+
+  const timeoutPromise = new Promise((_, reject) =>
+    setTimeout(() => reject(new Error('AbortError')), timeoutMs)
+  );
+
+  const generatePromise = ai.models.generateContent({
+    model,
+    contents: [
+      {
+        role: 'user',
+        parts: [
+          { text: PROMPT },
+          { inlineData: { mimeType, data: imageBase64 } },
+        ],
+      },
+    ],
+    config: {
+      temperature: 0.1,
+      responseMimeType: 'application/json',
+      responseSchema: SCHEMA,
+    },
+  });
+
+  return Promise.race([generatePromise, timeoutPromise]);
 };
 
 const clean = (s, max = 200) => (typeof s === 'string' ? s.replace(/\s+/g, ' ').trim().slice(0, max) : '');
@@ -110,11 +118,10 @@ export const parseIdentification = (raw) => {
  * Identify the main product in a JPEG buffer using Gemini vision.
  * Supports multiple API keys with automatic failover/rotation on rate limit (429) or quota errors.
  * @param {Buffer} jpegBuffer
- * @param {{fetchImpl?: Function}} [opts] injectable for tests
  */
 let keyIndex = 0;
 
-export const identifyProduct = async (jpegBuffer, { fetchImpl = globalThis.fetch } = {}) => {
+export const identifyProduct = async (jpegBuffer) => {
   const cfg = getVisualSearchConfig();
   const apiKeys = cfg.geminiApiKeys && cfg.geminiApiKeys.length > 0 ? cfg.geminiApiKeys : [cfg.geminiApiKey].filter(Boolean);
 
@@ -126,50 +133,42 @@ export const identifyProduct = async (jpegBuffer, { fetchImpl = globalThis.fetch
   const models = [...new Set([cfg.geminiModel, cfg.geminiFallbackModel].filter(Boolean))];
 
   let lastErr;
-  // Cycle through available keys starting from current index
   for (let attempt = 0; attempt < apiKeys.length; attempt++) {
     const activeKey = apiKeys[(keyIndex + attempt) % apiKeys.length];
 
     for (const model of models) {
-      let res;
+      let result;
       try {
-        res = await callModel({ model, apiKey: activeKey, imageBase64, mimeType: 'image/jpeg', timeoutMs: cfg.geminiTimeoutMs, fetchImpl });
+        result = await callModel({
+          model,
+          apiKey: activeKey,
+          imageBase64,
+          mimeType: 'image/jpeg',
+          timeoutMs: cfg.geminiTimeoutMs,
+        });
       } catch (err) {
+        const isTimeout = err.message === 'AbortError' || err.name === 'AbortError' || /timeout/i.test(err.message);
         lastErr = new GeminiError(
-          err.name === 'AbortError' ? 'The AI took too long to respond. Please try again.' : 'Could not reach the AI service.',
+          isTimeout ? 'The AI took too long to respond. Please try again.' : `Could not reach the AI service: ${err.message}`,
           504,
           'GEMINI_UNREACHABLE'
         );
-        break;
-      }
-
-      if (res.status === 429) {
-        console.warn(`[Gemini] Key ...${activeKey.slice(-6)} hit 429 (rate limit). Rotating to next key.`);
-        lastErr = new GeminiError('The AI service is busy right now (rate limit). Please wait a moment and try again.', 429, 'GEMINI_RATE_LIMIT');
-        break; // break out of model loop to try next key in outer loop
-      }
-      if (res.status === 404 && model !== models[models.length - 1]) {
-        lastErr = new GeminiError(`Model ${model} is unavailable.`, 502, 'GEMINI_MODEL_UNAVAILABLE');
-        continue; // try fallback model
-      }
-      if (res.status === 400 || res.status === 401 || res.status === 403) {
-        console.error('[Gemini] auth/request error', res.status, `on key ...${activeKey.slice(-6)}`);
-        lastErr = new GeminiError('The AI service rejected the request. Check the server GEMINI_API_KEY and model settings.', 502, 'GEMINI_REJECTED');
-        break; // break to try fallback key if any
-      }
-      if (!res.ok) {
-        lastErr = new GeminiError('The AI service failed. Please try again.', 502, 'GEMINI_ERROR');
+        console.error('[Gemini] callModel error:', err.message);
         continue;
       }
 
-      const body = await res.json();
-      if (body?.promptFeedback?.blockReason) {
-        throw new GeminiError('This image could not be analysed. Try a different photo.', 422, 'GEMINI_BLOCKED');
+      // SDK returns the response object directly
+      const text = result?.text;
+      if (!text) {
+        // Check for blocked content
+        const blockReason = result?.promptFeedback?.blockReason;
+        if (blockReason) {
+          throw new GeminiError('This image could not be analysed. Try a different photo.', 422, 'GEMINI_BLOCKED');
+        }
+        lastErr = new GeminiError('The AI returned no result. Try a clearer photo.', 502, 'GEMINI_EMPTY');
+        continue;
       }
-      const text = body?.candidates?.[0]?.content?.parts?.map((p) => p.text || '').join('') || '';
-      if (!text) throw new GeminiError('The AI returned no result. Try a clearer photo.', 502, 'GEMINI_EMPTY');
-      
-      // Update key index for load balancing across successful requests
+
       keyIndex = (keyIndex + attempt) % apiKeys.length;
       return { ...parseIdentification(text), modelUsed: model };
     }

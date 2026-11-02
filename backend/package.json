@@ -1,4 +1,4 @@
-﻿{
+{
   "name": "uni-store-backend",
   "version": "1.0.0",
   "description": "Uni-store API - College-specific second-hand marketplace backend",
@@ -17,6 +17,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@google/genai": "^2.32.0",
     "bcryptjs": "^3.0.3",
     "cloudinary": "^2.11.0",
     "cors": "^2.8.6",
@@ -38,5 +39,3 @@
     "@imgly/background-removal-node": "^1.4.5"
   }
 }
-
-
