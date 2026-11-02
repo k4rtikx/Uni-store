@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <defs>
+    <linearGradient id="rcGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#059669" />
+      <stop offset="50%" stop-color="#10b981" />
+      <stop offset="100%" stop-color="#0d9488" />
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#064e3b" flood-opacity="0.25" />
+    </filter>
+  </defs>
+
+  <!-- Background Rounded Shield -->
+  <rect width="64" height="64" rx="16" fill="url(#rcGrad)" filter="url(#shadow)" />
+
+  <!-- Inner Campus Graduation Cap + Reuse Arrows -->
+  <!-- Mortarboard Diamond Top -->
+  <path d="M32 14L50 23L32 32L14 23L32 14Z" fill="#ffffff" />
+  
+  <!-- Cap Skull Base & Tassel -->
+  <path d="M22 27.5V36C22 38.5 26.5 41 32 41C37.5 41 42 38.5 42 36V27.5L32 32.5L22 27.5Z" fill="#e6fffa" />
+  <path d="M47 24.5V35C47 36 46 37 45 37" stroke="#ffffff" stroke-width="2" stroke-linecap="round" />
+  <circle cx="45" cy="38" r="1.5" fill="#ffffff" />
+
+  <!-- Sustainable Reuse Loop Curve at bottom -->
+  <path d="M20 47C23.5 50 27.5 51.5 32 51.5C37.5 51.5 42.5 49.5 46 45.5" stroke="#ffffff" stroke-width="3" stroke-linecap="round" />
+  <polyline points="42,45 46.5,45.5 47,49.5" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+
+  <path d="M44 43C40.5 40 36.5 38.5 32 38.5C26.5 38.5 21.5 40.5 18 44.5" stroke="#a7f3d0" stroke-width="2.5" stroke-linecap="round" />
+  <polyline points="22,45 17.5,44.5 17,40.5" fill="none" stroke="#a7f3d0" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+</svg>
