@@ -233,7 +233,7 @@ export const deleteListingApi = deleteListing;
 export const identifyProductImage = async (imageBlob, signal) => {
   const form = new FormData();
   form.append('image', imageBlob, 'product.jpg');
-  return API.post('/visual-search/identify', form, { timeout: 60000, signal });
+  return API.post('/visual-search/identify', form, { timeout: 120000, signal });
 };
 
 /** Search existing Uni-Store listings using a Gemini identification */

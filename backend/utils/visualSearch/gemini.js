@@ -139,14 +139,15 @@ export const identifyProduct = async (jpegBuffer) => {
   const imageBase64 = jpegBuffer.toString('base64');
 
   // Build model list: primary + fallback + extra models
-  const extraModels = (process.env.GEMINI_EXTRA_MODELS || '').split(',').map(m => m.trim()).filter(Boolean);
-  const models = [...new Set([cfg.geminiModel, cfg.geminiFallbackModel, ...extraModels].filter(Boolean))];
+  // Only use primary + 1 fallback to keep total time under 50s
+  const models = [...new Set([cfg.geminiModel, cfg.geminiFallbackModel].filter(Boolean))].slice(0, 2);
 
   let lastErr;
 
   // Outer: models — Inner: keys. Try all keys on primary model before falling back.
   for (const model of models) {
-    for (let attempt = 0; attempt < apiKeys.length; attempt++) {
+    const maxAttempts = Math.min(apiKeys.length, 3); // try at most 3 keys per model
+    for (let attempt = 0; attempt < maxAttempts; attempt++) {
       const activeKey = apiKeys[(keyIndex + attempt) % apiKeys.length];
       let result;
       try {
@@ -156,7 +157,7 @@ export const identifyProduct = async (jpegBuffer) => {
           apiKey: activeKey,
           imageBase64,
           mimeType: 'image/jpeg',
-          timeoutMs: cfg.geminiTimeoutMs,
+          timeoutMs: Math.min(cfg.geminiTimeoutMs, 8000), // cap 8s per attempt
         });
       } catch (err) {
         const isTimeout = err.name === 'AbortError' || /timeout|aborted/i.test(err.message);
