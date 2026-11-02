@@ -30,6 +30,7 @@ import {
 } from '../services/api';
 import useAuth from '../context/useAuth';
 import { compressImageFile } from '../utils/imageCompressor';
+import Tilt3D from '../components/ui/Tilt3D';
 
 import { CATEGORIES, CONDITIONS } from '../constants/campusConstants';
 
@@ -313,131 +314,85 @@ const MyListings = () => {
       {/* Clean Luxury Summary Stats */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
         {/* Total Listings Card */}
+        <Tilt3D max={6} perspective={800} className="w-full">
         <div
           onClick={() => setFilterTab('ALL')}
           className={`p-6 rounded-2xl border transition-all cursor-pointer relative overflow-hidden group ${
             filterTab === 'ALL'
               ? 'bg-slate-900 text-white border-slate-900 shadow-xl'
-              : 'bg-white text-slate-800 border-slate-200 hover:border-slate-300 shadow-sm'
+              : 'bg-white/80 backdrop-blur-sm text-slate-800 border-slate-200 hover:border-slate-300 shadow-sm'
           }`}
         >
           <div className="flex items-center justify-between">
-            <span
-              className={`text-xs font-bold uppercase tracking-wider ${
-                filterTab === 'ALL' ? 'text-slate-400' : 'text-slate-400'
-              }`}
-            >
-              Total Listings
-            </span>
-            <div
-              className={`w-10 h-10 rounded-xl flex items-center justify-center ${
-                filterTab === 'ALL'
-                  ? 'bg-slate-800 text-emerald-400'
-                  : 'bg-slate-100 text-slate-600'
-              }`}
-            >
+            <span className={`text-xs font-bold uppercase tracking-wider ${filterTab === 'ALL' ? 'text-slate-400' : 'text-slate-400'}`}>Total Listings</span>
+            <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${filterTab === 'ALL' ? 'bg-slate-800 text-emerald-400' : 'bg-slate-100 text-slate-600'}`}>
               <Package className="w-5 h-5" />
             </div>
           </div>
           <div className="mt-4 flex items-baseline gap-2">
             <span className="font-mono text-3xl sm:text-4xl font-bold">{totalCount}</span>
-            <span
-              className={`text-xs font-medium ${
-                filterTab === 'ALL' ? 'text-slate-400' : 'text-slate-500'
-              }`}
-            >
-              items posted
-            </span>
+            <span className={`text-xs font-medium ${filterTab === 'ALL' ? 'text-slate-400' : 'text-slate-500'}`}>items posted</span>
           </div>
           <div className="mt-2 flex items-center text-xs font-semibold gap-1">
             <span>View All</span>
             <ArrowUpRight className="w-3.5 h-3.5" />
           </div>
         </div>
+        </Tilt3D>
 
         {/* Active / Available Listings Card */}
+        <Tilt3D max={6} perspective={800} className="w-full">
         <div
           onClick={() => setFilterTab('AVAILABLE')}
           className={`p-6 rounded-2xl border transition-all cursor-pointer relative overflow-hidden group ${
             filterTab === 'AVAILABLE'
               ? 'bg-emerald-600 text-white border-emerald-600 shadow-xl shadow-emerald-600/25'
-              : 'bg-white text-slate-800 border-slate-200 hover:border-emerald-300 shadow-sm'
+              : 'bg-white/80 backdrop-blur-sm text-slate-800 border-slate-200 hover:border-emerald-300 shadow-sm'
           }`}
         >
           <div className="flex items-center justify-between">
-            <span
-              className={`text-xs font-bold uppercase tracking-wider ${
-                filterTab === 'AVAILABLE' ? 'text-emerald-100' : 'text-slate-400'
-              }`}
-            >
-              Active Listings
-            </span>
-            <div
-              className={`w-10 h-10 rounded-xl flex items-center justify-center ${
-                filterTab === 'AVAILABLE'
-                  ? 'bg-emerald-700 text-white'
-                  : 'bg-emerald-50 text-emerald-600'
-              }`}
-            >
+            <span className={`text-xs font-bold uppercase tracking-wider ${filterTab === 'AVAILABLE' ? 'text-emerald-100' : 'text-slate-400'}`}>Active Listings</span>
+            <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${filterTab === 'AVAILABLE' ? 'bg-emerald-700 text-white' : 'bg-emerald-50 text-emerald-600'}`}>
               <CheckCircle2 className="w-5 h-5" />
             </div>
           </div>
           <div className="mt-4 flex items-baseline gap-2">
             <span className="font-mono text-3xl sm:text-4xl font-bold">{activeCount}</span>
-            <span
-              className={`text-xs font-medium ${
-                filterTab === 'AVAILABLE' ? 'text-emerald-100' : 'text-slate-500'
-              }`}
-            >
-              available on campus
-            </span>
+            <span className={`text-xs font-medium ${filterTab === 'AVAILABLE' ? 'text-emerald-100' : 'text-slate-500'}`}>available on campus</span>
           </div>
           <div className="mt-2 flex items-center text-xs font-semibold gap-1">
             <span>Show Available Only</span>
             <ArrowUpRight className="w-3.5 h-3.5" />
           </div>
         </div>
+        </Tilt3D>
 
         {/* Sold Listings Card */}
+        <Tilt3D max={6} perspective={800} className="w-full">
         <div
           onClick={() => setFilterTab('SOLD')}
           className={`p-6 rounded-2xl border transition-all cursor-pointer relative overflow-hidden group ${
             filterTab === 'SOLD'
               ? 'bg-amber-600 text-white border-amber-600 shadow-xl shadow-amber-600/25'
-              : 'bg-white text-slate-800 border-slate-200 hover:border-amber-300 shadow-sm'
+              : 'bg-white/80 backdrop-blur-sm text-slate-800 border-slate-200 hover:border-amber-300 shadow-sm'
           }`}
         >
           <div className="flex items-center justify-between">
-            <span
-              className={`text-xs font-bold uppercase tracking-wider ${
-                filterTab === 'SOLD' ? 'text-amber-100' : 'text-slate-400'
-              }`}
-            >
-              Sold Items
-            </span>
-            <div
-              className={`w-10 h-10 rounded-xl flex items-center justify-center ${
-                filterTab === 'SOLD' ? 'bg-amber-700 text-white' : 'bg-amber-50 text-amber-600'
-              }`}
-            >
+            <span className={`text-xs font-bold uppercase tracking-wider ${filterTab === 'SOLD' ? 'text-amber-100' : 'text-slate-400'}`}>Sold Items</span>
+            <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${filterTab === 'SOLD' ? 'bg-amber-700 text-white' : 'bg-amber-50 text-amber-600'}`}>
               <ShoppingBag className="w-5 h-5" />
             </div>
           </div>
           <div className="mt-4 flex items-baseline gap-2">
             <span className="font-mono text-3xl sm:text-4xl font-bold">{soldCount}</span>
-            <span
-              className={`text-xs font-medium ${
-                filterTab === 'SOLD' ? 'text-amber-100' : 'text-slate-500'
-              }`}
-            >
-              completed sales
-            </span>
+            <span className={`text-xs font-medium ${filterTab === 'SOLD' ? 'text-amber-100' : 'text-slate-500'}`}>completed sales</span>
           </div>
           <div className="mt-2 flex items-center text-xs font-semibold gap-1">
             <span>Show Sold Only</span>
             <ArrowUpRight className="w-3.5 h-3.5" />
           </div>
         </div>
+        </Tilt3D>
       </div>
 
       {/* Notifications / Feedback */}
@@ -568,7 +523,7 @@ const MyListings = () => {
             return (
               <div
                 key={item._id}
-                className="bg-white rounded-3xl border border-slate-200/90 overflow-hidden shadow-sm hover:shadow-xl hover:border-slate-300 transition-all duration-300 flex flex-col group relative"
+                className="bg-white/90 backdrop-blur-sm rounded-3xl border border-white/70 overflow-hidden shadow-sm hover:shadow-xl hover:shadow-emerald-900/10 hover:border-emerald-200/60 transition-all duration-300 flex flex-col group relative card-3d-shadow"
               >
                 {/* Image Section */}
                 <div className="relative aspect-[4/3] w-full bg-slate-100 overflow-hidden">
@@ -711,7 +666,7 @@ const MyListings = () => {
         >
           <div
             onClick={(e) => e.stopPropagation()}
-            className="bg-white rounded-3xl max-w-lg w-full border border-slate-200 shadow-2xl p-6 sm:p-7 space-y-5 relative my-8 text-left"
+            className="bg-white/95 backdrop-blur-xl rounded-3xl max-w-lg w-full border border-white/70 shadow-2xl p-6 sm:p-7 space-y-5 relative my-8 text-left overflow-hidden"
           >
             {/* Close Button */}
             <button
@@ -1022,7 +977,7 @@ const MyListings = () => {
         >
           <div
             onClick={(e) => e.stopPropagation()}
-            className="bg-white rounded-3xl max-w-md w-full border border-slate-200 shadow-2xl p-6 sm:p-7 space-y-5 text-center relative"
+            className="bg-white/95 backdrop-blur-xl rounded-3xl max-w-md w-full border border-white/70 shadow-2xl p-6 sm:p-7 space-y-5 text-center relative overflow-hidden"
           >
             <div className="w-14 h-14 bg-rose-100 text-rose-600 rounded-2xl flex items-center justify-center mx-auto shadow-sm">
               <AlertTriangle className="w-7 h-7" />

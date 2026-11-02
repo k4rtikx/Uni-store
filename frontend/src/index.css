@@ -10,6 +10,8 @@
   :root {
     --primary: #059669;
     --primary-hover: #047857;
+    --glass-bg: rgba(255, 255, 255, 0.7);
+    --glass-border: rgba(255, 255, 255, 0.5);
   }
 
   html {
@@ -18,7 +20,12 @@
 
   body {
     font-family: var(--font-sans);
-    background: linear-gradient(135deg, #ecfdf5 0%, #f0fdfa 45%, #e0f2fe 100%) fixed;
+    /* Deep 3D dark space-green gradient background */
+    background:
+      radial-gradient(ellipse at 20% 50%, rgba(5, 150, 105, 0.12) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 20%, rgba(20, 184, 166, 0.10) 0%, transparent 55%),
+      radial-gradient(ellipse at 50% 90%, rgba(6, 182, 212, 0.08) 0%, transparent 60%),
+      linear-gradient(135deg, #ecfdf5 0%, #f0fdfa 35%, #e0f2fe 70%, #f8fafc 100%) fixed;
     color: #0f172a;
     min-height: 100vh;
     -webkit-font-smoothing: antialiased;
@@ -30,136 +37,227 @@
     letter-spacing: -0.025em;
   }
 
-  /* Custom sleek scrollbar */
-  ::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-  }
-  ::-webkit-scrollbar-track {
-    background: transparent;
-  }
+  /* Premium smooth scrollbar */
+  ::-webkit-scrollbar { width: 5px; height: 5px; }
+  ::-webkit-scrollbar-track { background: transparent; }
   ::-webkit-scrollbar-thumb {
-    background: #cbd5e1;
+    background: linear-gradient(to bottom, #10b981, #06b6d4);
     border-radius: 9999px;
   }
-  ::-webkit-scrollbar-thumb:hover {
-    background: #94a3b8;
-  }
+  ::-webkit-scrollbar-thumb:hover { background: #059669; }
 }
 
-/* Background Pattern Utilities */
+/* ==========================================================================
+   BACKGROUND PATTERNS
+   ========================================================================== */
 .bg-grid-pattern {
   background-size: 32px 32px;
-  background-image: 
-    linear-gradient(to right, rgba(148, 163, 184, 0.08) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(148, 163, 184, 0.08) 1px, transparent 1px);
+  background-image:
+    linear-gradient(to right, rgba(148, 163, 184, 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(148, 163, 184, 0.06) 1px, transparent 1px);
 }
 
 .bg-dot-pattern {
   background-size: 24px 24px;
-  background-image: radial-gradient(circle, rgba(16, 185, 129, 0.15) 1.5px, transparent 1.5px);
+  background-image: radial-gradient(circle, rgba(16, 185, 129, 0.18) 1.5px, transparent 1.5px);
 }
 
 .bg-dot-pattern-dark {
   background-size: 24px 24px;
-  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.07) 1px, transparent 1px);
 }
 
-/* Hide scrollbar for Chrome, Safari, Opera, Edge, Firefox */
+/* Noise texture overlay */
+.bg-noise::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+/* Scrollbar hide utilities */
 .hide-scrollbar::-webkit-scrollbar,
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-.hide-scrollbar,
-.no-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.hide-scrollbar, .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
 
 /* ==========================================================================
-   3D LAYER (ReuseCampus 3D)
+   3D LAYER SYSTEM — ReuseCampus
    ========================================================================== */
 
-/* Keep real content above the fixed WebGL background */
+/* All real content sits above the fixed WebGL canvas */
 #root { position: relative; z-index: 1; }
 
+/* ---- Animations ---- */
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-.animate-fadeIn { animation: fadeIn 0.35s ease-out both; }
+.animate-fadeIn { animation: fadeIn 0.4s ease-out both; }
 
-/* 3D page transition: pages swing in from depth (no transform left behind, so fixed modals keep working) */
-.page-3d { perspective: 1600px; perspective-origin: 50% 0; }
-@keyframes page-in {
-  from { opacity: 0; transform: rotateX(10deg) translateY(28px) translateZ(-120px); }
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
   to   { opacity: 1; transform: none; }
 }
-.page-3d-inner { animation: page-in 0.7s cubic-bezier(.2,.8,.2,1) backwards; transform-origin: 50% 0; }
+.animate-slideUp { animation: slideUp 0.5s cubic-bezier(.2,.8,.2,1) both; }
 
-/* Frosted-glass surfaces so the 3D scene shows through every page */
-main .bg-white {
-  background-color: rgba(255, 255, 255, 0.88);
-  -webkit-backdrop-filter: blur(14px) saturate(1.4);
-  backdrop-filter: blur(14px) saturate(1.4);
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.94); }
+  to   { opacity: 1; transform: scale(1); }
 }
-main .bg-slate-50 { background-color: rgba(248, 250, 252, 0.6); }
-nav.sticky { -webkit-backdrop-filter: blur(18px) saturate(1.6); backdrop-filter: blur(18px) saturate(1.6); }
-footer { background-color: rgba(255,255,255,0.55) !important; }
+.animate-scaleIn { animation: scaleIn 0.35s cubic-bezier(.2,.8,.2,1) both; }
 
-/* Layered depth shadows on big rounded containers */
+/* ---- 3D Page Transition ---- */
+/* Pages "fly in" from depth like a card being dealt */
+.page-3d { perspective: 1800px; perspective-origin: 50% 0; }
+
+@keyframes page-in {
+  from { opacity: 0; transform: rotateX(12deg) translateY(32px) translateZ(-140px); }
+  to   { opacity: 1; transform: none; }
+}
+.page-3d-inner {
+  animation: page-in 0.75s cubic-bezier(.18,.82,.22,1) backwards;
+  transform-origin: 50% 0;
+}
+
+/* ---- Glass morphism ---- */
+/* Every white bg panel in main gets frosted glass so the 3D scene bleeds through */
+main .bg-white {
+  background-color: rgba(255, 255, 255, 0.82) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(1.5);
+  backdrop-filter: blur(18px) saturate(1.5);
+}
+main .bg-slate-50 {
+  background-color: rgba(248, 250, 252, 0.55) !important;
+  backdrop-filter: blur(10px);
+}
+
+/* Navbar glass */
+nav.sticky {
+  -webkit-backdrop-filter: blur(22px) saturate(1.8);
+  backdrop-filter: blur(22px) saturate(1.8);
+  background-color: rgba(255, 255, 255, 0.72) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+}
+
+/* Footer glass */
+footer {
+  background-color: rgba(255, 255, 255, 0.60) !important;
+  backdrop-filter: blur(16px);
+}
+
+/* ---- Depth shadows on big rounded containers ---- */
 main [class*="rounded-3xl"] {
+  box-shadow:
+    0 1px 0 rgba(255,255,255,0.95) inset,
+    0 0 0 1px rgba(255,255,255,0.4) inset,
+    0 2px 4px rgba(15, 23, 42, 0.03),
+    0 14px 28px -8px rgba(15, 23, 42, 0.09),
+    0 48px 72px -32px rgba(5, 150, 105, 0.20);
+}
+
+/* ---- Card 3D shadows ---- */
+.card-3d-shadow {
   box-shadow:
     0 1px 0 rgba(255,255,255,0.9) inset,
     0 2px 4px rgba(15, 23, 42, 0.04),
-    0 12px 24px -8px rgba(15, 23, 42, 0.10),
-    0 40px 60px -30px rgba(5, 150, 105, 0.22);
-}
-
-/* Listing card shadow that grows as the card lifts */
-.card-3d-shadow {
-  box-shadow:
-    0 2px 4px rgba(15, 23, 42, 0.05),
-    0 14px 24px -10px rgba(15, 23, 42, 0.16),
-    0 34px 40px -26px rgba(5, 150, 105, 0.35);
-  transition: box-shadow 0.4s ease;
+    0 12px 22px -8px rgba(15, 23, 42, 0.14),
+    0 32px 40px -24px rgba(5, 150, 105, 0.32);
+  transition: box-shadow 0.4s ease, transform 0.4s ease;
 }
 .card-3d-shadow:hover {
   box-shadow:
-    0 4px 8px rgba(15, 23, 42, 0.06),
-    0 26px 40px -12px rgba(15, 23, 42, 0.22),
-    0 60px 60px -30px rgba(5, 150, 105, 0.5);
+    0 1px 0 rgba(255,255,255,0.95) inset,
+    0 4px 8px rgba(15, 23, 42, 0.05),
+    0 24px 40px -10px rgba(15, 23, 42, 0.20),
+    0 60px 70px -28px rgba(5, 150, 105, 0.48);
 }
 
-/* Chunky 3D buttons: every primary emerald gradient button gets a solid "edge" and presses down */
+/* ---- Chunky 3D emerald buttons ---- */
 a[class*="from-emerald-600"][class*="to-teal-600"],
 button[class*="from-emerald-600"][class*="to-teal-600"] {
-  box-shadow: 0 4px 0 #065f46, 0 10px 18px -4px rgba(5, 150, 105, 0.45);
+  box-shadow: 0 4px 0 #065f46, 0 12px 20px -4px rgba(5, 150, 105, 0.40);
   transform: translateY(0);
-  transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.2s;
+  transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.18s;
 }
 a[class*="from-emerald-600"][class*="to-teal-600"]:hover,
 button[class*="from-emerald-600"][class*="to-teal-600"]:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 0 #065f46, 0 16px 24px -6px rgba(5, 150, 105, 0.5);
+  box-shadow: 0 6px 0 #065f46, 0 18px 26px -6px rgba(5, 150, 105, 0.48);
+  filter: brightness(1.04);
 }
 a[class*="from-emerald-600"][class*="to-teal-600"]:active,
 button[class*="from-emerald-600"][class*="to-teal-600"]:active {
   transform: translateY(3px) !important;
-  box-shadow: 0 1px 0 #065f46, 0 4px 8px -2px rgba(5, 150, 105, 0.4) !important;
+  box-shadow: 0 1px 0 #065f46, 0 4px 8px -2px rgba(5, 150, 105, 0.36) !important;
 }
 
-/* Logo flips like a coin on hover */
-.logo-3d { transform-style: preserve-3d; transition: transform 0.8s cubic-bezier(.2,.8,.2,1); }
+/* ---- Logo coin flip ---- */
+.logo-3d {
+  transform-style: preserve-3d;
+  transition: transform 0.8s cubic-bezier(.18,.82,.22,1);
+}
 a:hover .logo-3d { transform: rotateY(360deg); }
 
-/* Floating idle motion for hero chips */
+/* ---- Hero chip floating idle ---- */
 @keyframes float-3d {
-  0%, 100% { transform: translateY(0) translateZ(30px); }
-  50% { transform: translateY(-8px) translateZ(50px); }
+  0%, 100% { transform: translateY(0) translateZ(28px); }
+  50%       { transform: translateY(-9px) translateZ(52px); }
 }
-.float-3d { animation: float-3d 5s ease-in-out infinite; }
+.float-3d { animation: float-3d 5.5s ease-in-out infinite; }
 
+/* ---- Orbit ring spin animation ---- */
+@keyframes orbit-spin {
+  from { transform: rotateZ(0deg) rotateX(70deg); }
+  to   { transform: rotateZ(360deg) rotateX(70deg); }
+}
+
+/* ---- Shimmer skeleton ---- */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.skeleton {
+  background: linear-gradient(90deg,
+    rgba(226, 232, 240, 0.9) 0%,
+    rgba(241, 245, 249, 0.95) 40%,
+    rgba(226, 232, 240, 0.9) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.6s ease-in-out infinite;
+}
+
+/* ---- Pulse glow on emerald badge ---- */
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }
+  50%       { box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
+}
+.badge-pulse { animation: pulse-glow 2.5s ease infinite; }
+
+/* ---- 3D Card pop depth ---- */
+.preserve-3d { transform-style: preserve-3d; }
+.backface-hidden { backface-visibility: hidden; }
+
+/* ---- Gradient text utility ---- */
+.text-gradient-emerald {
+  background: linear-gradient(135deg, #059669, #0891b2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ---- Hero grid overlay ---- */
+.hero-grid {
+  background-image:
+    linear-gradient(rgba(16,185,129,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(16,185,129,0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* ---- Reduced motion ---- */
 @media (prefers-reduced-motion: reduce) {
-  .page-3d-inner, .float-3d { animation: none !important; }
+  .page-3d-inner,
+  .float-3d,
+  .badge-pulse { animation: none !important; }
   .logo-3d { transition: none; }
+  * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
 }

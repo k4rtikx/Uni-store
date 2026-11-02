@@ -311,7 +311,7 @@ const ListingDetails = () => {
       )}
 
       {/* Main Listing Layout: 2 Columns */}
-      <div className="bg-white rounded-3xl border border-slate-200/90 shadow-xl overflow-hidden flex flex-col md:flex-row gap-0">
+      <div className="bg-white/90 backdrop-blur-xl rounded-3xl border border-white/70 shadow-2xl shadow-slate-900/10 card-3d-shadow overflow-hidden flex flex-col md:flex-row gap-0">
         {/* Left Column: Product Photo & Badges */}
         <ListingImage
           imageUrl={listing.imageUrl}

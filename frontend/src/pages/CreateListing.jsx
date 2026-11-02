@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import { createListing } from '../services/api';
 import useAuth from '../context/useAuth';
+import Tilt3D from '../components/ui/Tilt3D';
 
 import { CATEGORIES, CONDITIONS } from '../constants/campusConstants';
 
@@ -178,11 +179,13 @@ const CreateListing = () => {
 
   return (
     <div className="max-w-3xl mx-auto px-4 md:px-8 py-8 sm:py-10 relative">
-      {/* Subtle ambient glows */}
-      <div className="absolute top-10 -left-16 w-72 h-72 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-10 -right-16 w-72 h-72 bg-teal-500/10 rounded-full blur-3xl pointer-events-none" />
+      {/* Ambient glow blobs */}
+      <div className="absolute top-10 -left-16 w-72 h-72 bg-emerald-500/12 rounded-full blur-3xl pointer-events-none animate-pulse" />
+      <div className="absolute bottom-10 -right-16 w-72 h-72 bg-teal-500/12 rounded-full blur-3xl pointer-events-none animate-pulse" style={{ animationDelay: '1s' }} />
 
-      <div className="bg-white/95 backdrop-blur-md rounded-3xl p-5 sm:p-8 md:p-10 border border-slate-200/80 shadow-2xl shadow-slate-900/5 space-y-8 relative z-10">
+      <Tilt3D max={3} perspective={1200} className="w-full">
+      <div className="bg-white/85 backdrop-blur-xl rounded-3xl p-5 sm:p-8 md:p-10 border border-white/70 shadow-2xl shadow-slate-900/8 card-3d-shadow space-y-8 relative z-10 overflow-hidden">
+        <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-600 rounded-b-3xl" />
         <div>
           <div className="flex flex-wrap items-center gap-3 mb-4">
             <button
@@ -516,6 +519,7 @@ const CreateListing = () => {
           </button>
         </form>
       </div>
+      </Tilt3D>
     </div>
   );
 };

@@ -14,7 +14,7 @@ import { AuthProvider } from './context/AuthContext';
 import { WishlistProvider } from './context/WishlistContext';
 import Scene3D from './components/three/Scene3D';
 
-/** Re-mounts on every route change so each page swings in with a 3D transition. */
+/** Pages fly in from depth with a 3D perspective swing on every route change. */
 const PageTransition = ({ children }) => {
   const location = useLocation();
   return (
@@ -33,61 +33,78 @@ function App() {
     <AuthProvider>
       <WishlistProvider>
         <Router>
-        <div className="min-h-screen flex flex-col text-slate-900">
-          {/* Fixed WebGL background (three.js) */}
-          <Scene3D kind="background" />
-          {/* Responsive Navigation Bar */}
-          <Navbar />
+          <div className="min-h-screen flex flex-col text-slate-900">
 
-          {/* Main Content Area */}
-          <main className="flex-1">
-            <PageTransition>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
-              <Route
-                path="/create"
-                element={
-                  <ProtectedRoute>
-                    <CreateListing />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/my-listings"
-                element={
-                  <ProtectedRoute>
-                    <MyListings />
-                  </ProtectedRoute>
-                }
-              />
-              <Route path="/listings/:id" element={<ListingDetails />} />
-              <Route path="/listing/:id" element={<ListingDetails />} />
-              <Route path="/saved" element={<SavedItems />} />
-              <Route path="/wishlist" element={<SavedItems />} />
-              <Route path="/saved-items" element={<SavedItems />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-            </PageTransition>
-          </main>
+            {/* Fixed WebGL background — behind everything */}
+            <Scene3D kind="background" />
 
-          {/* Luxury Minimal Footer */}
-          <footer className="border-t border-slate-200/80 bg-white/80 backdrop-blur-md py-8 text-center text-xs text-slate-500">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-              <div className="flex items-center gap-2">
-                <div className="w-6 h-6 rounded-lg bg-gradient-to-br from-emerald-500 to-teal-700 text-white flex items-center justify-center font-bold text-xs shadow-sm">
-                  R
+            {/* Sticky frosted-glass navbar */}
+            <Navbar />
+
+            {/* Main routed content */}
+            <main className="flex-1">
+              <PageTransition>
+                <Routes>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/login" element={<Login />} />
+                  <Route path="/register" element={<Register />} />
+                  <Route
+                    path="/create"
+                    element={
+                      <ProtectedRoute>
+                        <CreateListing />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/my-listings"
+                    element={
+                      <ProtectedRoute>
+                        <MyListings />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route path="/listings/:id" element={<ListingDetails />} />
+                  <Route path="/listing/:id" element={<ListingDetails />} />
+                  <Route path="/saved" element={<SavedItems />} />
+                  <Route path="/wishlist" element={<SavedItems />} />
+                  <Route path="/saved-items" element={<SavedItems />} />
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </PageTransition>
+            </main>
+
+            {/* Premium glass footer */}
+            <footer className="border-t border-white/50 py-8 text-center text-xs text-slate-500 relative overflow-hidden">
+              {/* Faint grid in footer */}
+              <div className="absolute inset-0 bg-grid-pattern opacity-30 pointer-events-none" />
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 relative z-10">
+                <div className="flex items-center gap-2.5">
+                  <div className="logo-3d w-7 h-7 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-700 text-white flex items-center justify-center font-black text-xs shadow-md shadow-emerald-500/25">
+                    R
+                  </div>
+                  <span className="font-black text-slate-800 tracking-tight">
+                    Reuse<span className="text-emerald-600">Campus</span>
+                  </span>
+                  <span className="text-slate-300">·</span>
+                  <span className="text-slate-500 font-medium hidden sm:inline">
+                    Rustamji Institute of Technology (RJIT)
+                  </span>
                 </div>
-                <span className="font-bold text-slate-800">ReuseCampus</span>
-                <span className="text-slate-300">·</span>
-                <span className="text-slate-500 font-medium">Rustamji Institute of Technology (RJIT)</span>
+                <p className="font-medium text-slate-500">
+                  © {CURRENT_YEAR} ReuseCampus. Built for sustainable campus living.
+                </p>
+                <div className="flex items-center gap-3 text-[11px] font-semibold text-slate-400">
+                  <span className="flex items-center gap-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse inline-block" />
+                    Live Marketplace
+                  </span>
+                  <span>RJIT Tekanpur</span>
+                </div>
               </div>
-              <p className="font-medium text-slate-500">© {CURRENT_YEAR} ReuseCampus. Built for sustainable campus living.</p>
-            </div>
-          </footer>
-        </div>
-      </Router>
+            </footer>
+          </div>
+        </Router>
       </WishlistProvider>
     </AuthProvider>
   );
