@@ -187,7 +187,9 @@ export const getListingById = async (req, res) => {
  */
 export const createListing = async (req, res) => {
   try {
-    const { title, description, price, category, condition, imageUrl, itemPhoto } = req.body;
+    const { title, description, price, category, condition, imageUrl, itemPhoto,
+      listingType, rentPricePerHour, rentPricePerDay, rentPricePerWeek,
+      rentDeposit, rentMinDuration, rentAvailability } = req.body;
 
     const trimmedTitle = typeof title === 'string' ? title.trim() : '';
     const trimmedDesc = typeof description === 'string' ? description.trim() : '';
@@ -270,6 +272,15 @@ export const createListing = async (req, res) => {
       creatorId: req.user._id,
       status: 'Available',
       views: 0,
+      listingType: listingType || 'sell',
+      ...(listingType === 'rent' && {
+        rentPricePerHour: rentPricePerHour ? Number(rentPricePerHour) : null,
+        rentPricePerDay:  rentPricePerDay  ? Number(rentPricePerDay)  : null,
+        rentPricePerWeek: rentPricePerWeek ? Number(rentPricePerWeek) : null,
+        rentDeposit:      rentDeposit      ? Number(rentDeposit)      : null,
+        rentMinDuration:  rentMinDuration  || '',
+        rentAvailability: rentAvailability || '',
+      }),
     });
 
     const populatedListing = await listing.populate(

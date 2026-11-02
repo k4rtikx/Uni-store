@@ -13,6 +13,11 @@ import {
   X,
   Link as LinkIcon,
   ArrowLeft,
+  Clock,
+  Calendar,
+  ShoppingBag,
+  Gift,
+  KeyRound,
 } from 'lucide-react';
 import { createListing } from '../services/api';
 import useAuth from '../context/useAuth';
@@ -66,6 +71,15 @@ const CreateListing = () => {
   const [successMessage, setSuccessMessage] = useState('');
   const [imageFileName, setImageFileName] = useState('');
   const [isFreeDonation, setIsFreeDonation] = useState(false);
+  const [listingType, setListingType] = useState('sell'); // 'sell' | 'rent' | 'donate'
+  const [rentData, setRentData] = useState({
+    rentPricePerHour: '',
+    rentPricePerDay: '',
+    rentPricePerWeek: '',
+    rentDeposit: '',
+    rentMinDuration: '',
+    rentAvailability: '',
+  });
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -120,7 +134,7 @@ const CreateListing = () => {
 
     const trimmedTitle = formData.title.trim();
     const trimmedDescription = formData.description.trim();
-    const numPrice = isFreeDonation ? 0 : Number(formData.price);
+    const numPrice = (isFreeDonation || listingType === 'donate') ? 0 : Number(formData.price);
 
     if (!trimmedTitle) {
       setErrorMessage('Please provide an item title (cannot be whitespace only).');
@@ -132,8 +146,12 @@ const CreateListing = () => {
       return;
     }
 
-    if (!isFreeDonation && (formData.price === '' || isNaN(numPrice) || numPrice < 0)) {
-      setErrorMessage('Price cannot be negative. Set ₹0 for free giveaways.');
+    if (listingType !== 'donate' && (formData.price === '' || isNaN(numPrice) || numPrice < 0)) {
+      setErrorMessage('Price cannot be negative. Set 0 for free giveaways.');
+      return;
+    }
+    if (listingType === 'rent' && !rentData.rentPricePerHour && !rentData.rentPricePerDay && !rentData.rentPricePerWeek) {
+      setErrorMessage('Please enter at least one rental price (per hour, day, or week).');
       return;
     }
 
@@ -151,6 +169,15 @@ const CreateListing = () => {
       submitData.append('price', numPrice);
       submitData.append('category', formData.category);
       submitData.append('condition', formData.condition);
+      submitData.append('listingType', listingType);
+      if (listingType === 'rent') {
+        if (rentData.rentPricePerHour) submitData.append('rentPricePerHour', rentData.rentPricePerHour);
+        if (rentData.rentPricePerDay)  submitData.append('rentPricePerDay',  rentData.rentPricePerDay);
+        if (rentData.rentPricePerWeek) submitData.append('rentPricePerWeek', rentData.rentPricePerWeek);
+        if (rentData.rentDeposit)      submitData.append('rentDeposit',      rentData.rentDeposit);
+        if (rentData.rentMinDuration)  submitData.append('rentMinDuration',  rentData.rentMinDuration);
+        if (rentData.rentAvailability) submitData.append('rentAvailability', rentData.rentAvailability);
+      }
 
       if (imageFile) {
         submitData.append('image', imageFile);
@@ -296,45 +323,96 @@ const CreateListing = () => {
             </div>
           </div>
 
-          {/* Free Donation to Junior Toggle & Price */}
-          <div className="space-y-3">
-            {/* Prominent Free Donation Checkbox */}
-            <div className="flex items-center justify-between p-3.5 bg-emerald-50/80 border border-emerald-200 rounded-2xl transition-all">
-              <label htmlFor="create-free-donation-toggle" className="flex items-center gap-3 cursor-pointer select-none">
-                <input
-                  id="create-free-donation-toggle"
-                  type="checkbox"
-                  checked={isFreeDonation}
-                  onChange={(e) => {
-                    const checked = e.target.checked;
-                    setIsFreeDonation(checked);
-                    setFormData((prev) => ({
-                      ...prev,
-                      price: checked ? '0' : '',
-                    }));
+          {/* Listing Type Selector */}
+          <div>
+            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-3">
+              Listing Type *
+            </label>
+            <div className="grid grid-cols-3 gap-3">
+              {[
+                { value: 'sell', label: 'Sell', icon: <ShoppingBag className="w-5 h-5" />, desc: 'One-time sale' },
+                { value: 'rent', label: 'Rent Out', icon: <KeyRound className="w-5 h-5" />, desc: 'Earn per hour/day' },
+                { value: 'donate', label: 'Donate Free', icon: <Gift className="w-5 h-5" />, desc: 'Give to juniors' },
+              ].map(({ value, label, icon, desc }) => (
+                <button
+                  key={value}
+                  type="button"
+                  onClick={() => {
+                    setListingType(value);
+                    if (value === 'donate') { setIsFreeDonation(true); setFormData(p => ({ ...p, price: '0' })); }
+                    else { setIsFreeDonation(false); setFormData(p => ({ ...p, price: '' })); }
                   }}
-                  className="w-4 h-4 rounded text-emerald-600 focus:ring-emerald-500 border-slate-300 cursor-pointer accent-emerald-600"
-                />
-                <div>
-                  <span className="text-sm font-bold text-emerald-950 flex items-center gap-1.5">
-                    🎁 Donate this item for FREE to a Junior (₹0)
-                  </span>
-                  <p className="text-[11px] text-emerald-700">
-                    Give back to your campus community by passing down textbooks, notes, or lab gear without charge.
-                  </p>
-                </div>
-              </label>
-
-              {isFreeDonation && (
-                <span className="px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-emerald-600 text-white shadow-sm shrink-0">
-                  FREE GIVEAWAY
-                </span>
-              )}
+                  className={`flex flex-col items-center gap-2 p-4 rounded-2xl border-2 transition-all font-semibold text-sm
+                    ${listingType === value
+                      ? 'border-emerald-500 bg-emerald-50 text-emerald-700 shadow-md shadow-emerald-100'
+                      : 'border-slate-200 bg-white text-slate-500 hover:border-emerald-300'}`}
+                >
+                  {icon}
+                  <span>{label}</span>
+                  <span className="text-[10px] font-normal text-slate-400">{desc}</span>
+                </button>
+              ))}
             </div>
+          </div>
 
+          {/* Rent Pricing Fields */}
+          {listingType === 'rent' && (
+            <div className="space-y-4 p-5 rounded-2xl bg-blue-50 border border-blue-200">
+              <p className="text-xs font-bold text-blue-700 uppercase tracking-wider flex items-center gap-2">
+                <Clock className="w-4 h-4" /> Rental Pricing
+              </p>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="text-xs font-semibold text-slate-600 mb-1 block">Per Hour (Rs.)</label>
+                  <input type="number" min="0" placeholder="e.g. 20"
+                    value={rentData.rentPricePerHour}
+                    onChange={e => setRentData(p => ({ ...p, rentPricePerHour: e.target.value }))}
+                    className="w-full border border-slate-200 rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-emerald-400 outline-none" />
+                </div>
+                <div>
+                  <label className="text-xs font-semibold text-slate-600 mb-1 block">Per Day (Rs.)</label>
+                  <input type="number" min="0" placeholder="e.g. 100"
+                    value={rentData.rentPricePerDay}
+                    onChange={e => setRentData(p => ({ ...p, rentPricePerDay: e.target.value }))}
+                    className="w-full border border-slate-200 rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-emerald-400 outline-none" />
+                </div>
+                <div>
+                  <label className="text-xs font-semibold text-slate-600 mb-1 block">Per Week (Rs.)</label>
+                  <input type="number" min="0" placeholder="e.g. 500"
+                    value={rentData.rentPricePerWeek}
+                    onChange={e => setRentData(p => ({ ...p, rentPricePerWeek: e.target.value }))}
+                    className="w-full border border-slate-200 rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-emerald-400 outline-none" />
+                </div>
+                <div>
+                  <label className="text-xs font-semibold text-slate-600 mb-1 block">Security Deposit (Rs.)</label>
+                  <input type="number" min="0" placeholder="e.g. 500"
+                    value={rentData.rentDeposit}
+                    onChange={e => setRentData(p => ({ ...p, rentDeposit: e.target.value }))}
+                    className="w-full border border-slate-200 rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-emerald-400 outline-none" />
+                </div>
+              </div>
+              <div>
+                <label className="text-xs font-semibold text-slate-600 mb-1 block">Minimum Duration</label>
+                <input type="text" placeholder="e.g. 1 hour, 1 day"
+                  value={rentData.rentMinDuration}
+                  onChange={e => setRentData(p => ({ ...p, rentMinDuration: e.target.value }))}
+                  className="w-full border border-slate-200 rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-emerald-400 outline-none" />
+              </div>
+              <div>
+                <label className="text-xs font-semibold text-slate-600 mb-1 block">Availability / When to Pick Up</label>
+                <input type="text" placeholder="e.g. Weekends only, after 5pm"
+                  value={rentData.rentAvailability}
+                  onChange={e => setRentData(p => ({ ...p, rentAvailability: e.target.value }))}
+                  className="w-full border border-slate-200 rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-emerald-400 outline-none" />
+              </div>
+            </div>
+          )}
+
+          {/* Price field - hidden for donate */}
+          {listingType !== 'donate' && (
             <div>
               <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
-                Price (₹) *
+                {listingType === 'rent' ? 'Base / Display Price (Rs.) *' : 'Price (Rs.) *'}
               </label>
               <div className="relative">
                 <IndianRupee className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
@@ -343,19 +421,15 @@ const CreateListing = () => {
                   name="price"
                   value={formData.price}
                   onChange={handleChange}
-                  disabled={isFreeDonation}
-                  placeholder={isFreeDonation ? '0 (Free Donation to Juniors)' : '0 (Set 0 for free giveaway)'}
+                  placeholder={listingType === 'rent' ? 'e.g. 200 (shown on card)' : '0 (Set 0 for free giveaway)'}
                   min="0"
-                  required={!isFreeDonation}
-                  className={`w-full pl-10 pr-4 py-3 rounded-xl border text-sm font-mono transition-all ${
-                    isFreeDonation
-                      ? 'bg-emerald-50/50 border-emerald-300 text-emerald-800 font-bold cursor-not-allowed'
-                      : 'border-slate-200 bg-slate-50/50 text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 focus:bg-white'
-                  }`}
+                  required
+                  className="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50 text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 focus:bg-white text-sm transition-all"
                 />
               </div>
             </div>
-          </div>
+          )}
+
 
           {/* Item Photo Upload Section */}
           <div className="space-y-3">

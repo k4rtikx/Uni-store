@@ -214,13 +214,13 @@ const Navbar = () => {
                 <span>Search by photo</span>
               </button>
 
-              {/* Sell / Donate Item CTA Button */}
+              {/* Sell / Rent / Donate CTA Button */}
               <Link
                 to="/create"
                 className="ml-1 inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-600 hover:text-white hover:border-emerald-600 text-sm font-semibold transition-colors duration-200 active:scale-95 shadow-xs"
               >
                 <PlusCircle className="w-4 h-4" />
-                <span>Sell / Donate Item</span>
+                <span>Sell / Rent / Donate</span>
               </Link>
             </div>
 
@@ -444,7 +444,7 @@ const Navbar = () => {
               className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl text-sm font-semibold bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-sm shadow-emerald-600/20"
             >
               <PlusCircle className="w-4 h-4 text-emerald-100" />
-              Sell / Donate Item
+              Sell / Rent / Donate
             </Link>
 
             {isAuthenticated && (

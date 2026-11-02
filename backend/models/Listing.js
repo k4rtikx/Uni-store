@@ -12,8 +12,8 @@ export const CATEGORIES = [
 ];
 
 export const CONDITIONS = ['New', 'Like New', 'Good', 'Fair'];
-
 export const STATUSES = ['Available', 'Sold'];
+export const LISTING_TYPES = ['sell', 'rent', 'donate'];
 
 const listingSchema = new mongoose.Schema(
   {
@@ -34,6 +34,23 @@ const listingSchema = new mongoose.Schema(
       required: [true, 'Please specify the price (set 0 for free/donation)'],
       min: [0, 'Price cannot be negative'],
     },
+
+    // ── Listing type: sell | rent | donate ───────────────────
+    listingType: {
+      type: String,
+      enum: LISTING_TYPES,
+      default: 'sell',
+    },
+
+    // ── Rent-specific pricing ────────────────────────────────
+    rentPricePerHour: { type: Number, min: 0, default: null },
+    rentPricePerDay:  { type: Number, min: 0, default: null },
+    rentPricePerWeek: { type: Number, min: 0, default: null },
+    rentDeposit:      { type: Number, min: 0, default: null },
+    rentMinDuration:  { type: String, trim: true, default: '' },
+    rentAvailability: { type: String, trim: true, default: '' },
+    // ─────────────────────────────────────────────────────────
+
     category: {
       type: String,
       required: [true, 'Please select a category'],
@@ -55,13 +72,9 @@ const listingSchema = new mongoose.Schema(
       type: String,
       required: [true, 'Please provide an image URL for the listing'],
       trim: true,
-      maxlength: [800000, 'Image payload is too large. Please upload a standard compressed image.'],
+      maxlength: [800000, 'Image payload is too large.'],
     },
-    itemPhoto: {
-      type: String,
-      trim: true,
-      default: '',
-    },
+    itemPhoto: { type: String, trim: true, default: '' },
     seller: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
@@ -70,14 +83,9 @@ const listingSchema = new mongoose.Schema(
     creatorId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
-      default: function () {
-        return this.seller;
-      },
+      default: function () { return this.seller; },
     },
-    views: {
-      type: Number,
-      default: 0,
-    },
+    views:  { type: Number, default: 0 },
     status: {
       type: String,
       enum: ['Available', 'Sold'],
@@ -93,25 +101,17 @@ const listingSchema = new mongoose.Schema(
       },
     },
   },
-  {
-    timestamps: true,
-  }
+  { timestamps: true }
 );
 
 listingSchema.pre('save', function () {
-  if (!this.creatorId && this.seller) {
-    this.creatorId = this.seller;
-  }
+  if (!this.creatorId && this.seller) this.creatorId = this.seller;
 });
 
-/**
- * ADR-002: High-speed compound indexes for feed filtering and seller dashboard queries
- * Paired with .lean() in listingController.js to ensure sub-millisecond execution
- */
 listingSchema.index({ status: 1, category: 1, createdAt: -1 });
 listingSchema.index({ seller: 1, createdAt: -1 });
+listingSchema.index({ listingType: 1, status: 1, createdAt: -1 });
 listingSchema.index({ title: 'text', description: 'text' });
 
 const Listing = mongoose.model('Listing', listingSchema);
-
 export default Listing;

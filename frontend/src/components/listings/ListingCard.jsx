@@ -156,10 +156,24 @@ const ListingCard = ({ item, listing: propListing }) => {
               <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-50 text-emerald-800 font-extrabold text-xs border border-emerald-200 shadow-sm">
                 🎁 FREE FOR JUNIORS
               </span>
+            ) : listing.listingType === 'rent' ? (
+              <div className="flex flex-col gap-0">
+                {listing.rentPricePerHour ? (
+                  <span className="text-xl sm:text-2xl font-black text-slate-900">{'₹'}{Number(listing.rentPricePerHour).toLocaleString()}<span className="text-sm font-semibold text-blue-600">/hr</span></span>
+                ) : listing.rentPricePerDay ? (
+                  <span className="text-xl sm:text-2xl font-black text-slate-900">{'₹'}{Number(listing.rentPricePerDay).toLocaleString()}<span className="text-sm font-semibold text-blue-600">/day</span></span>
+                ) : (
+                  <span className="text-xl sm:text-2xl font-black text-slate-900">{'₹'}{listing.price ? Number(listing.price).toLocaleString() : 0}</span>
+                )}
+                {listing.rentPricePerHour && listing.rentPricePerDay && (
+                  <span className="text-[11px] text-slate-400">{'₹'}{Number(listing.rentPricePerDay).toLocaleString()}/day also</span>
+                )}
+                <span className="text-[11px] font-medium text-blue-500">rental item</span>
+              </div>
             ) : (
               <div className="flex items-baseline gap-1">
-                <span className="font-mono text-xl sm:text-2xl font-black text-slate-900">
-                  {'\u20B9'}{listing.price.toLocaleString()}
+                <span className="text-xl sm:text-2xl font-black text-slate-900">
+                  {'₹'}{listing.price ? Number(listing.price).toLocaleString() : 0}
                 </span>
                 <span className="text-[11px] font-medium text-slate-400">campus deal</span>
               </div>
