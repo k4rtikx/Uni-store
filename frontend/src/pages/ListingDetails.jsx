@@ -116,7 +116,7 @@ const ListingDetails = () => {
             className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-slate-900 text-white font-semibold text-sm hover:bg-emerald-600 transition-colors shadow-md cursor-pointer"
           >
             <ArrowLeft className="w-4 h-4" />
-            â† Back to Marketplace
+            ← Back to Marketplace
           </button>
         </div>
       </div>
@@ -182,7 +182,7 @@ const ListingDetails = () => {
     const subject = encodeURIComponent(`Uni-store CED: Inquiring about ${listing.title}`);
     const body = encodeURIComponent(
       `Hi ${sellerName},\n\nI saw your listing for "${listing.title}" (${
-        isFree ? 'FREE / DONATION' : `â‚¹${listing.price}`
+        isFree ? 'FREE / DONATION' : `₹${listing.price}`
       }) on Uni-store and would like to buy it.\n\nPlease let me know when and where on campus we can meet.\n\nThank you!`
     );
     return `mailto:${sellerEmail}?subject=${subject}&body=${body}`;
@@ -190,7 +190,7 @@ const ListingDetails = () => {
 
   const handleShare = async () => {
     const shareUrl = window.location.href;
-    const priceText = isFree ? 'FREE' : `â‚¹${listing.price}`;
+    const priceText = isFree ? 'FREE' : `₹${listing.price}`;
     const shareData = {
       title: listing.title,
       text: `${listing.title} - ${priceText} on Uni-store CED`,
@@ -228,7 +228,7 @@ const ListingDetails = () => {
   const copySellerDetails = () => {
     const formatted = `Seller: ${sellerName}\nCollege: ${sellerCollege}\nEmail: ${sellerEmail}\nPhone: ${
       sellerPhone || 'N/A'
-    }\nItem: ${listing.title} (${isFree ? 'FREE' : `â‚¹${listing.price}`})`;
+    }\nItem: ${listing.title} (${isFree ? 'FREE' : `₹${listing.price}`})`;
 
     if (navigator?.clipboard?.writeText) {
       navigator.clipboard.writeText(formatted).catch(() => {});
@@ -249,7 +249,7 @@ const ListingDetails = () => {
           className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-slate-600 hover:text-emerald-700 bg-white hover:bg-slate-50 border border-slate-200/90 rounded-full px-4 py-2 shadow-sm transition-all active:scale-95 cursor-pointer"
         >
           <ArrowLeft className="w-4 h-4" />
-          <span>â† Back to Marketplace</span>
+          <span>← Back to Marketplace</span>
         </button>
 
         <div className="flex items-center gap-2">

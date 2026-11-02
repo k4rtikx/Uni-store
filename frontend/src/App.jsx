@@ -35,7 +35,7 @@ function App() {
         <Router>
           <div className="min-h-screen flex flex-col text-slate-900">
 
-            {/* Fixed WebGL background â€” behind everything */}
+            {/* Fixed WebGL background — behind everything */}
             <Scene3D kind="background" />
 
             {/* Sticky frosted-glass navbar */}
@@ -86,13 +86,13 @@ function App() {
                   <span className="font-black text-slate-800 tracking-tight">
                     Uni<span className="text-emerald-600">-store</span>
                   </span>
-                  <span className="text-slate-300">Â·</span>
+                  <span className="text-slate-300">·</span>
                   <span className="text-slate-500 font-medium hidden sm:inline">
                     CED - Alliance University (CED)
                   </span>
                 </div>
                 <p className="font-medium text-slate-500">
-                  Â© {CURRENT_YEAR} Uni-store. Built for sustainable campus living.
+                  © {CURRENT_YEAR} Uni-store. Built for sustainable campus living.
                 </p>
                 <div className="flex items-center gap-3 text-[11px] font-semibold text-slate-400">
                   <span className="flex items-center gap-1">

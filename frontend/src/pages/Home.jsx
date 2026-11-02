@@ -264,7 +264,7 @@ const Home = () => {
             <div className="lg:col-span-7 text-left space-y-4">
               {/* Top Pill Badge */}
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-100/80 text-emerald-800 border border-emerald-300/60 text-xs font-bold tracking-wide uppercase shadow-sm">
-                <span>ðŸŽ“</span>
+                <span>🎓</span>
                 <span>Official Uni-store Student Marketplace</span>
               </div>
 
@@ -288,14 +288,14 @@ const Home = () => {
                   to="/create"
                   className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-bold text-sm shadow-md shadow-emerald-600/20 active:scale-95 transition-all"
                 >
-                  List an Item for Free â†’
+                  List an Item for Free →
                 </Link>
                 <button
                   type="button"
                   onClick={handleExploreFreeDonations}
                   className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white hover:bg-emerald-50 text-emerald-800 border border-emerald-200 font-bold text-sm shadow-sm hover:shadow transition-all active:scale-95 cursor-pointer"
                 >
-                  Explore Free Donations ðŸŽ
+                  Explore Free Donations 🎁
                 </button>
                 <button
                   type="button"
@@ -336,7 +336,7 @@ const Home = () => {
                     <Gift className="w-5 h-5" />
                   </div>
                   <div>
-                    <h3 className="text-xs sm:text-sm font-bold text-slate-900">â‚¹0 Junior Donations</h3>
+                    <h3 className="text-xs sm:text-sm font-bold text-slate-900">₹0 Junior Donations</h3>
                     <p className="text-[11px] text-slate-500 mt-0.5 leading-snug">Pass down notes &amp; drafters</p>
                   </div>
                 </Tilt3D>
@@ -464,7 +464,7 @@ const Home = () => {
                     to="/create"
                     className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-bold text-xs shadow-md shadow-emerald-600/20 transition-all"
                   >
-                    ðŸŽ Donate an Item Free
+                    🎁 Donate an Item Free
                   </Link>
                 </div>
               </div>
