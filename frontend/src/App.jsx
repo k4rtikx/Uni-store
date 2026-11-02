@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
@@ -35,7 +35,7 @@ function App() {
         <Router>
           <div className="min-h-screen flex flex-col text-slate-900">
 
-            {/* Fixed WebGL background — behind everything */}
+            {/* Fixed WebGL background â€” behind everything */}
             <Scene3D kind="background" />
 
             {/* Sticky frosted-glass navbar */}
@@ -81,18 +81,18 @@ function App() {
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 relative z-10">
                 <div className="flex items-center gap-2.5">
                   <div className="logo-3d w-7 h-7 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-700 text-white flex items-center justify-center font-black text-xs shadow-md shadow-emerald-500/25">
-                    R
+                    U
                   </div>
                   <span className="font-black text-slate-800 tracking-tight">
-                    Reuse<span className="text-emerald-600">Campus</span>
+                    Uni<span className="text-emerald-600">-store</span>
                   </span>
-                  <span className="text-slate-300">·</span>
+                  <span className="text-slate-300">Â·</span>
                   <span className="text-slate-500 font-medium hidden sm:inline">
                     Rustamji Institute of Technology (RJIT)
                   </span>
                 </div>
                 <p className="font-medium text-slate-500">
-                  © {CURRENT_YEAR} ReuseCampus. Built for sustainable campus living.
+                  Â© {CURRENT_YEAR} Uni-store. Built for sustainable campus living.
                 </p>
                 <div className="flex items-center gap-3 text-[11px] font-semibold text-slate-400">
                   <span className="flex items-center gap-1">
@@ -111,3 +111,5 @@ function App() {
 }
 
 export default App;
+
+

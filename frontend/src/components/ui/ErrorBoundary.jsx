@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { AlertTriangle, RefreshCw, Home } from 'lucide-react';
 
 /**
@@ -51,7 +51,7 @@ class ErrorBoundary extends React.Component {
             </h1>
             
             <p className="text-sm text-slate-600 mb-6 leading-relaxed">
-              ReuseCampus encountered an unexpected issue while rendering this page.
+              Uni-store encountered an unexpected issue while rendering this page.
               Your data and account are safe. Try reloading to continue browsing.
             </p>
 
@@ -94,3 +94,4 @@ class ErrorBoundary extends React.Component {
 }
 
 export default ErrorBoundary;
+

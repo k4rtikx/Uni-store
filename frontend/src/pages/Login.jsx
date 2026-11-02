@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+﻿import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import {
   LogIn,
@@ -258,7 +258,7 @@ const Login = () => {
               <GraduationCap className="w-7 h-7" />
             </div>
             <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight">Welcome Back</h2>
-            <p className="text-sm text-slate-500">Sign in to your ReuseCampus account</p>
+            <p className="text-sm text-slate-500">Sign in to your Uni-store account</p>
           </div>
 
           {loginSuccessMessage && (
@@ -306,7 +306,7 @@ const Login = () => {
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
-                  placeholder="••••••••"
+                  placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"
                   required
                   autoComplete="current-password"
                   className="w-full pl-10 pr-10 py-2.5 rounded-xl border border-slate-200 bg-slate-50/50 text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 focus:bg-white text-sm transition-all"
@@ -435,9 +435,9 @@ const Login = () => {
                   <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">New Password (min. 6 characters) *</label>
                   <div className="relative">
                     <KeyRound className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
-                    <input type={showNewPassword ? 'text' : 'password'} name="reusecampus_new_password" id="reusecampus_new_password"
+                    <input type={showNewPassword ? 'text' : 'password'} name="uni-store_new_password" id="uni-store_new_password"
                       autoComplete="new-password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)}
-                      placeholder="••••••••" required minLength={6} autoFocus
+                      placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢" required minLength={6} autoFocus
                       className="w-full pl-10 pr-10 py-2.5 rounded-xl border border-slate-200 bg-slate-50/50 text-slate-800 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:bg-white" />
                     <button type="button" onClick={() => setShowNewPassword(!showNewPassword)}
                       className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 p-1 cursor-pointer" tabIndex="-1">
@@ -449,9 +449,9 @@ const Login = () => {
                   <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Confirm New Password *</label>
                   <div className="relative">
                     <Lock className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
-                    <input type={showConfirmPassword ? 'text' : 'password'} name="reusecampus_confirm_password" id="reusecampus_confirm_password"
+                    <input type={showConfirmPassword ? 'text' : 'password'} name="uni-store_confirm_password" id="uni-store_confirm_password"
                       autoComplete="new-password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}
-                      placeholder="••••••••" required minLength={6}
+                      placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢" required minLength={6}
                       className="w-full pl-10 pr-10 py-2.5 rounded-xl border border-slate-200 bg-slate-50/50 text-slate-800 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:bg-white" />
                     <button type="button" onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                       className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 p-1 cursor-pointer" tabIndex="-1">
@@ -476,3 +476,4 @@ const Login = () => {
 };
 
 export default Login;
+

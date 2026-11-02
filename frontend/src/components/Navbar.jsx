@@ -166,7 +166,7 @@ const Navbar = () => {
               </div>
               <div className="flex items-center gap-1 sm:gap-1.5 min-w-0">
                 <span className="font-extrabold text-base sm:text-xl tracking-tight text-slate-900 group-hover:text-emerald-700 transition-colors truncate">
-                  Reuse<span className="text-emerald-600">Campus</span>
+                  Uni<span className="text-emerald-600">-store</span>
                 </span>
                 <span className="px-1.5 py-0.5 rounded-full text-[9px] sm:text-[10px] font-extrabold bg-emerald-100 text-emerald-800 border border-emerald-200/60 uppercase tracking-wider shrink-0">
                   RJIT

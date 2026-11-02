@@ -1,4 +1,4 @@
-// 1. Load environment variables before ANY other imports (ES module standard)
+﻿// 1. Load environment variables before ANY other imports (ES module standard)
 import 'dotenv/config';
 import dotenv from 'dotenv';
 import path from 'path';
@@ -115,7 +115,7 @@ app.use('/api', globalApiLimiter);
 app.get('/api/health', (req, res) => {
   res.json({
     success: true,
-    message: 'ReuseCampus API is running',
+    message: 'Uni-store API is running',
     status: 'online',
     environment: process.env.NODE_ENV || 'development',
     timestamp: new Date().toISOString(),
@@ -138,7 +138,7 @@ let server = null;
 // Start Server (only if not imported by automated test runners)
 if (process.env.NODE_ENV !== 'test') {
   server = app.listen(PORT, () => {
-    console.log(`[ReuseCampus Server] Running on http://localhost:${PORT}`);
+    console.log(`[Uni-store Server] Running on http://localhost:${PORT}`);
   });
 }
 
@@ -202,3 +202,4 @@ process.on('uncaughtException', (error) => {
 
 export { app, server };
 export default app;
+

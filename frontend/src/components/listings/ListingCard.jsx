@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+﻿import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Clock, Heart, CheckCircle2, ArrowRight, Share2, Check, Eye } from 'lucide-react';
 import useWishlist from '../../context/useWishlist';
@@ -35,10 +35,10 @@ const ListingCard = ({ item, listing: propListing }) => {
   const handleShare = async (e) => {
     e.stopPropagation();
     const shareUrl = `${window.location.origin}/listings/${listing._id}`;
-    const priceText = isFree ? 'FREE' : `₹${listing.price}`;
+    const priceText = isFree ? 'FREE' : `â‚¹${listing.price}`;
     const shareData = {
       title: listing.title,
-      text: `${listing.title} - ${priceText} (${listing.condition}) on ReuseCampus RJIT`,
+      text: `${listing.title} - ${priceText} (${listing.condition}) on Uni-store RJIT`,
       url: shareUrl,
     };
 
@@ -154,12 +154,12 @@ const ListingCard = ({ item, listing: propListing }) => {
           <div className="pt-1">
             {isFree ? (
               <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-50 text-emerald-800 font-extrabold text-xs border border-emerald-200 shadow-sm">
-                🎁 FREE FOR JUNIORS
+                ðŸŽ FREE FOR JUNIORS
               </span>
             ) : (
               <div className="flex items-baseline gap-1">
                 <span className="font-mono text-xl sm:text-2xl font-black text-slate-900">
-                  ₹{listing.price.toLocaleString()}
+                  â‚¹{listing.price.toLocaleString()}
                 </span>
                 <span className="text-[11px] font-medium text-slate-400">campus deal</span>
               </div>
@@ -187,7 +187,7 @@ const ListingCard = ({ item, listing: propListing }) => {
         </div>
       </div>
 
-      {/* ── Floating depth layers (translateZ so they pop out of the card) ── */}
+      {/* â”€â”€ Floating depth layers (translateZ so they pop out of the card) â”€â”€ */}
 
       {/* Category + free/sold badges */}
       <div
@@ -199,7 +199,7 @@ const ListingCard = ({ item, listing: propListing }) => {
         </span>
         {isFree && !isSold && (
           <span className="px-2.5 py-0.5 rounded-full text-[11px] font-extrabold bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-lg border border-emerald-400/40">
-            🎁 FREE
+            ðŸŽ FREE
           </span>
         )}
         {isSold && (
@@ -263,3 +263,4 @@ const ListingCard = ({ item, listing: propListing }) => {
 };
 
 export default ListingCard;
+

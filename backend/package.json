@@ -1,7 +1,7 @@
-{
-  "name": "backend",
+﻿{
+  "name": "uni-store-backend",
   "version": "1.0.0",
-  "description": "ReuseCampus API - College-specific second-hand marketplace backend",
+  "description": "Uni-store API - College-specific second-hand marketplace backend",
   "main": "server.js",
   "type": "module",
   "scripts": {
@@ -12,7 +12,7 @@
   "keywords": [
     "mern",
     "campus-marketplace",
-    "reusecampus"
+    "Uni-store"
   ],
   "author": "",
   "license": "ISC",
@@ -38,3 +38,5 @@
     "@imgly/background-removal-node": "^1.4.5"
   }
 }
+
+

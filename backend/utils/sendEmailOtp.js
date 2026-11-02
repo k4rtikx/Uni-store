@@ -1,4 +1,4 @@
-import nodemailer from 'nodemailer';
+﻿import nodemailer from 'nodemailer';
 import { generateOtpEmail } from './emailTemplates.js';
 
 // Module-level in-memory lock: ensures no email address can receive > 1 email per 60 seconds
@@ -24,14 +24,14 @@ export const sendEmailOtp = async (recipientEmail, otp) => {
   // Local development fallback if SMTP credentials are not configured
   if (!smtpUser || !smtpPass) {
     console.info(`
-┌─────────────────────────────────────────────────────────────┐
-│                [DEV EMAIL OTP FALLBACK]                     │
-├─────────────────────────────────────────────────────────────┤
-│ Recipient : ${recipientEmail.padEnd(46, ' ')}│
-│ 6-Digit OTP : ${otp}                                      │
-│ Validity  : 10 Minutes                                      │
-│ Note      : Configure SMTP_USER and SMTP_PASS for live SMTP │
-└─────────────────────────────────────────────────────────────┘
+â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+â”‚                [DEV EMAIL OTP FALLBACK]                     â”‚
+â”œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¤
+â”‚ Recipient : ${recipientEmail.padEnd(46, ' ')}â”‚
+â”‚ 6-Digit OTP : ${otp}                                      â”‚
+â”‚ Validity  : 10 Minutes                                      â”‚
+â”‚ Note      : Configure SMTP_USER and SMTP_PASS for live SMTP â”‚
+â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
 `);
     return { success: true, devFallback: true };
   }
@@ -61,10 +61,10 @@ export const sendEmailOtp = async (recipientEmail, otp) => {
   });
 
   const mailOptions = {
-    from: `"ReuseCampus Security" <${smtpUser}>`,
+    from: `"Uni-store Security" <${smtpUser}>`,
     to: recipientEmail,
-    subject: `Your ReuseCampus Password Reset Code: ${otp}`,
-    text: `Your 6-digit password reset verification code for ReuseCampus (RJIT Tekanpur) is: ${otp}\n\nThis code will expire in 10 minutes.\n\nSecurity Notice: Never share this code with anyone.\n\nIf you did not request a password reset, please ignore this email.`,
+    subject: `Your Uni-store Password Reset Code: ${otp}`,
+    text: `Your 6-digit password reset verification code for Uni-store (RJIT Tekanpur) is: ${otp}\n\nThis code will expire in 10 minutes.\n\nSecurity Notice: Never share this code with anyone.\n\nIf you did not request a password reset, please ignore this email.`,
     html: generateOtpEmail(otp, recipientEmail),
   };
 
@@ -75,3 +75,4 @@ export const sendEmailOtp = async (recipientEmail, otp) => {
 };
 
 export default sendEmailOtp;
+

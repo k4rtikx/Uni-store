@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+﻿import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import {
   ShieldCheck,
@@ -264,8 +264,8 @@ const Home = () => {
             <div className="lg:col-span-7 text-left space-y-4">
               {/* Top Pill Badge */}
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-100/80 text-emerald-800 border border-emerald-300/60 text-xs font-bold tracking-wide uppercase shadow-sm">
-                <span>🎓</span>
-                <span>Official RJIT Tekanpur Student Marketplace</span>
+                <span>ðŸŽ“</span>
+                <span>Official Uni-store Student Marketplace</span>
               </div>
 
               {/* Headline */}
@@ -278,7 +278,7 @@ const Home = () => {
 
               {/* Subheading */}
               <p className="text-slate-600 text-sm sm:text-base leading-relaxed max-w-xl font-normal">
-                Connect directly with verified students at RJIT Tekanpur to trade textbooks, calculators,
+                Connect directly with verified students on Uni-store to trade textbooks, calculators,
                 engineering drafters, and hostel gear safely with zero middleman fees.
               </p>
 
@@ -288,14 +288,14 @@ const Home = () => {
                   to="/create"
                   className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-bold text-sm shadow-md shadow-emerald-600/20 active:scale-95 transition-all"
                 >
-                  List an Item for Free →
+                  List an Item for Free â†’
                 </Link>
                 <button
                   type="button"
                   onClick={handleExploreFreeDonations}
                   className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white hover:bg-emerald-50 text-emerald-800 border border-emerald-200 font-bold text-sm shadow-sm hover:shadow transition-all active:scale-95 cursor-pointer"
                 >
-                  Explore Free Donations 🎁
+                  Explore Free Donations ðŸŽ
                 </button>
                 <button
                   type="button"
@@ -336,7 +336,7 @@ const Home = () => {
                     <Gift className="w-5 h-5" />
                   </div>
                   <div>
-                    <h3 className="text-xs sm:text-sm font-bold text-slate-900">₹0 Junior Donations</h3>
+                    <h3 className="text-xs sm:text-sm font-bold text-slate-900">â‚¹0 Junior Donations</h3>
                     <p className="text-[11px] text-slate-500 mt-0.5 leading-snug">Pass down notes &amp; drafters</p>
                   </div>
                 </Tilt3D>
@@ -363,7 +363,7 @@ const Home = () => {
                   </div>
                   <div>
                     <h3 className="text-xs sm:text-sm font-bold text-slate-900">{totalCount > 0 ? `${totalCount} Active Items` : 'Active Items'}</h3>
-                    <p className="text-[11px] text-slate-500 mt-0.5 leading-snug">Live on RJIT marketplace</p>
+                    <p className="text-[11px] text-slate-500 mt-0.5 leading-snug">Live on Uni-store marketplace</p>
                   </div>
                 </Tilt3D>
               </div>
@@ -380,7 +380,7 @@ const Home = () => {
               Campus Marketplace Feed
             </h2>
             <p className="text-sm text-slate-500 mt-0.5">
-              Fresh second-hand items listed by verified students at RJIT Tekanpur
+              Fresh second-hand items listed by verified students on Uni-store
             </p>
           </div>
           {totalCount > 0 && (
@@ -464,7 +464,7 @@ const Home = () => {
                     to="/create"
                     className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-bold text-xs shadow-md shadow-emerald-600/20 transition-all"
                   >
-                    🎁 Donate an Item Free
+                    ðŸŽ Donate an Item Free
                   </Link>
                 </div>
               </div>
@@ -574,3 +574,4 @@ const Home = () => {
 };
 
 export default Home;
+

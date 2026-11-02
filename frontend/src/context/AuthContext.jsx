@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect } from 'react';
 import {
   getMeApi,
   loginUserApi,
@@ -14,7 +14,7 @@ export const AuthProvider = ({ children }) => {
   // Verify initial user session on mount
   useEffect(() => {
     const checkAuthStatus = async () => {
-      const token = localStorage.getItem('reusecampus_token');
+      const token = localStorage.getItem('Uni-store_token');
       if (token) {
         try {
           // Backend provides GET /api/auth/me (and /api/users/me)
@@ -25,7 +25,7 @@ export const AuthProvider = ({ children }) => {
             setUser(null);
           }
         } catch {
-          localStorage.removeItem('reusecampus_token');
+          localStorage.removeItem('Uni-store_token');
           setUser(null);
         }
       }
@@ -38,16 +38,16 @@ export const AuthProvider = ({ children }) => {
       setUser(null);
     };
 
-    window.addEventListener('reusecampus-auth-expired', handleAuthExpired);
+    window.addEventListener('Uni-store-auth-expired', handleAuthExpired);
     return () => {
-      window.removeEventListener('reusecampus-auth-expired', handleAuthExpired);
+      window.removeEventListener('Uni-store-auth-expired', handleAuthExpired);
     };
   }, []);
 
   // Login handler accepting user data and JWT token
   const login = (userData, token) => {
     if (token) {
-      localStorage.setItem('reusecampus_token', token);
+      localStorage.setItem('Uni-store_token', token);
     }
     setUser(userData);
   };
@@ -58,7 +58,7 @@ export const AuthProvider = ({ children }) => {
     if (res.data?.success && res.data?.data) {
       const { token } = res.data.data;
       if (token) {
-        localStorage.setItem('reusecampus_token', token);
+        localStorage.setItem('Uni-store_token', token);
       }
       setUser(res.data.data);
       return res.data.data;
@@ -72,7 +72,7 @@ export const AuthProvider = ({ children }) => {
     if (res.data?.success && res.data?.data) {
       const { token } = res.data.data;
       if (token) {
-        localStorage.setItem('reusecampus_token', token);
+        localStorage.setItem('Uni-store_token', token);
       }
       setUser(res.data.data);
       return res.data.data;
@@ -82,7 +82,7 @@ export const AuthProvider = ({ children }) => {
 
   // Logout handler
   const logout = () => {
-    localStorage.removeItem('reusecampus_token');
+    localStorage.removeItem('Uni-store_token');
     setUser(null);
   };
 
@@ -133,4 +133,5 @@ export const AuthProvider = ({ children }) => {
 };
 
 export default AuthProvider;
+
 

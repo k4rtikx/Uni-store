@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+﻿import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Share2, Heart, AlertCircle, CheckCircle } from 'lucide-react';
 import { getListingById, markListingAsSold } from '../services/api';
@@ -116,7 +116,7 @@ const ListingDetails = () => {
             className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-slate-900 text-white font-semibold text-sm hover:bg-emerald-600 transition-colors shadow-md cursor-pointer"
           >
             <ArrowLeft className="w-4 h-4" />
-            ← Back to Marketplace
+            â† Back to Marketplace
           </button>
         </div>
       </div>
@@ -173,27 +173,27 @@ const ListingDetails = () => {
     const cleanDigits = sellerPhone.replace(/[^0-9]/g, '');
     const phoneWithCountry = cleanDigits.length === 10 ? `91${cleanDigits}` : cleanDigits;
     const message = encodeURIComponent(
-      `Hi, I am interested in your listing "${listing.title}" on ReuseCampus RJIT!`
+      `Hi, I am interested in your listing "${listing.title}" on Uni-store RJIT!`
     );
     return `https://wa.me/${phoneWithCountry}?text=${message}`;
   };
 
   const getEmailLink = () => {
-    const subject = encodeURIComponent(`ReuseCampus RJIT: Inquiring about ${listing.title}`);
+    const subject = encodeURIComponent(`Uni-store RJIT: Inquiring about ${listing.title}`);
     const body = encodeURIComponent(
       `Hi ${sellerName},\n\nI saw your listing for "${listing.title}" (${
-        isFree ? 'FREE / DONATION' : `₹${listing.price}`
-      }) on ReuseCampus and would like to buy it.\n\nPlease let me know when and where on campus we can meet.\n\nThank you!`
+        isFree ? 'FREE / DONATION' : `â‚¹${listing.price}`
+      }) on Uni-store and would like to buy it.\n\nPlease let me know when and where on campus we can meet.\n\nThank you!`
     );
     return `mailto:${sellerEmail}?subject=${subject}&body=${body}`;
   };
 
   const handleShare = async () => {
     const shareUrl = window.location.href;
-    const priceText = isFree ? 'FREE' : `₹${listing.price}`;
+    const priceText = isFree ? 'FREE' : `â‚¹${listing.price}`;
     const shareData = {
       title: listing.title,
-      text: `${listing.title} - ${priceText} on ReuseCampus RJIT`,
+      text: `${listing.title} - ${priceText} on Uni-store RJIT`,
       url: shareUrl,
     };
 
@@ -228,7 +228,7 @@ const ListingDetails = () => {
   const copySellerDetails = () => {
     const formatted = `Seller: ${sellerName}\nCollege: ${sellerCollege}\nEmail: ${sellerEmail}\nPhone: ${
       sellerPhone || 'N/A'
-    }\nItem: ${listing.title} (${isFree ? 'FREE' : `₹${listing.price}`})`;
+    }\nItem: ${listing.title} (${isFree ? 'FREE' : `â‚¹${listing.price}`})`;
 
     if (navigator?.clipboard?.writeText) {
       navigator.clipboard.writeText(formatted).catch(() => {});
@@ -249,7 +249,7 @@ const ListingDetails = () => {
           className="inline-flex items-center gap-2 text-xs sm:text-sm font-bold text-slate-600 hover:text-emerald-700 bg-white hover:bg-slate-50 border border-slate-200/90 rounded-full px-4 py-2 shadow-sm transition-all active:scale-95 cursor-pointer"
         >
           <ArrowLeft className="w-4 h-4" />
-          <span>← Back to Marketplace</span>
+          <span>â† Back to Marketplace</span>
         </button>
 
         <div className="flex items-center gap-2">
@@ -353,3 +353,4 @@ const ListingDetails = () => {
 };
 
 export default ListingDetails;
+

@@ -1,5 +1,5 @@
-// ReuseCampus Progressive Web App Service Worker
-const CACHE_NAME = 'reusecampus-v1';
+﻿// Uni-store Progressive Web App Service Worker
+const CACHE_NAME = 'Uni-store-v1';
 
 // Core static assets to pre-cache on install
 const PRECACHE_ASSETS = [
@@ -87,3 +87,4 @@ self.addEventListener('fetch', (event) => {
     })
   );
 });
+

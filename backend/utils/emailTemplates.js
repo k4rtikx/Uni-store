@@ -1,12 +1,12 @@
-/**
+﻿/**
  * @file emailTemplates.js
- * @desc Responsive, email-client compatible HTML/CSS email templates for ReuseCampus.
+ * @desc Responsive, email-client compatible HTML/CSS email templates for Uni-store.
  * Adheres to a cohesive "Light Emerald" theme matching the frontend aesthetics.
  * Uses inline styles and table layouts for maximum cross-client email rendering support.
  */
 
 /**
- * Reusable HTML shell wrapper for all ReuseCampus transactional emails.
+ * Reusable HTML shell wrapper for all Uni-store transactional emails.
  *
  * @param {Object} options
  * @param {string} options.title - Email document title
@@ -53,7 +53,7 @@ export const wrapEmailShell = ({ title, preheader = '', contentHtml }) => {
               <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" style="margin: 0 auto 12px auto;">
                 <tr>
                   <td style="width: 44px; height: 44px; background-color: rgba(255, 255, 255, 0.18); border: 1px solid rgba(255, 255, 255, 0.35); border-radius: 14px; text-align: center; vertical-align: middle; font-size: 22px;">
-                    🎓
+                    ðŸŽ“
                   </td>
                 </tr>
               </table>
@@ -87,13 +87,13 @@ export const wrapEmailShell = ({ title, preheader = '', contentHtml }) => {
           <tr>
             <td style="padding: 24px 32px; background-color: #f8fafc; border-top: 1px solid #e2e8f0; text-align: center;">
               <p style="margin: 0 0 6px 0; color: #64748b; font-size: 12px; font-weight: 600;">
-                Rustamji Institute of Technology (RJIT) · BSF Academy, Tekanpur, Gwalior (M.P.)
+                Rustamji Institute of Technology (RJIT) Â· BSF Academy, Tekanpur, Gwalior (M.P.)
               </p>
               <p style="margin: 0 0 10px 0; color: #94a3b8; font-size: 11px; line-height: 1.5;">
                 This is an automated transmission for verified student accounts ending with @rjit.ac.in.
               </p>
               <p style="margin: 0; color: #cbd5e1; font-size: 11px;">
-                © ${currentYear} ReuseCampus RJIT · All rights reserved.
+                Â© ${currentYear} Uni-store RJIT Â· All rights reserved.
               </p>
             </td>
           </tr>
@@ -140,7 +140,7 @@ export const generateOtpEmail = (otp, recipientEmail = '') => {
           <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center" style="margin: 0 auto;">
             <tr>
               <td style="background-color: #d1fae5; border-radius: 20px; padding: 4px 14px; color: #047857; font-size: 12px; font-weight: 700;">
-                ⏱️ Valid for 10 minutes only
+                â±ï¸ Valid for 10 minutes only
               </td>
             </tr>
           </table>
@@ -152,10 +152,10 @@ export const generateOtpEmail = (otp, recipientEmail = '') => {
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin: 0 0 24px 0; background-color: #fffbeb; border: 1px solid #fde68a; border-radius: 14px; padding: 14px 16px;">
       <tr>
         <td style="vertical-align: top; width: 24px; padding-right: 10px; font-size: 16px;">
-          🔒
+          ðŸ”’
         </td>
         <td style="color: #92400e; font-size: 13px; line-height: 1.5; font-weight: 500;">
-          <strong>Security Warning:</strong> Never share this OTP with anyone. ReuseCampus administrators and faculty will <em>never</em> ask for your verification code or password.
+          <strong>Security Warning:</strong> Never share this OTP with anyone. Uni-store administrators and faculty will <em>never</em> ask for your verification code or password.
         </td>
       </tr>
     </table>
@@ -170,7 +170,7 @@ export const generateOtpEmail = (otp, recipientEmail = '') => {
   `;
 
   return wrapEmailShell({
-    title: 'Your ReuseCampus Password Reset Code',
+    title: 'Your Uni-store Password Reset Code',
     preheader: `Your 6-digit verification code is ${otp}. Valid for 10 minutes.`,
     contentHtml,
   });
@@ -188,17 +188,17 @@ export const generateWelcomeEmail = (userName) => {
   const contentHtml = `
     <!-- Header Greeting -->
     <h2 style="margin: 0 0 10px 0; color: #0f172a; font-size: 24px; font-weight: 800; letter-spacing: -0.3px;">
-      Welcome to the Campus Family, ${displayName}! 🎉
+      Welcome to the Campus Family, ${displayName}! ðŸŽ‰
     </h2>
 
     <p style="margin: 0 0 24px 0; color: #475569; font-size: 15px; line-height: 1.6;">
-      Congratulations! Your student account is now verified and active. You have full access to the <strong>Official RJIT Campus Marketplace</strong>—where students buy, sell, and donate second-hand academic gear safely on campus.
+      Congratulations! Your student account is now verified and active. You have full access to the <strong>Official RJIT Campus Marketplace</strong>â€”where students buy, sell, and donate second-hand academic gear safely on campus.
     </p>
 
     <!-- 3 Quick Tips Box -->
     <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 18px; padding: 24px 20px; margin: 0 0 28px 0;">
       <h3 style="margin: 0 0 16px 0; color: #065f46; font-size: 15px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;">
-        ⚡ 3 Quick Tips to Get Started
+        âš¡ 3 Quick Tips to Get Started
       </h3>
 
       <!-- Tip 1 -->
@@ -206,7 +206,7 @@ export const generateWelcomeEmail = (userName) => {
         <tr>
           <td style="width: 38px; vertical-align: top; padding-right: 12px;">
             <div style="width: 34px; height: 34px; background-color: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 10px; text-align: center; line-height: 34px; font-size: 17px;">
-              🎓
+              ðŸŽ“
             </div>
           </td>
           <td>
@@ -214,7 +214,7 @@ export const generateWelcomeEmail = (userName) => {
               Verified @rjit.ac.in Community Only
             </h4>
             <p style="margin: 0; color: #64748b; font-size: 13px; line-height: 1.5;">
-              Every user on ReuseCampus is an authenticated student or staff member. No strangers or commercial brokers—trade with trust.
+              Every user on Uni-store is an authenticated student or staff member. No strangers or commercial brokersâ€”trade with trust.
             </p>
           </td>
         </tr>
@@ -225,7 +225,7 @@ export const generateWelcomeEmail = (userName) => {
         <tr>
           <td style="width: 38px; vertical-align: top; padding-right: 12px;">
             <div style="width: 34px; height: 34px; background-color: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 10px; text-align: center; line-height: 34px; font-size: 17px;">
-              💸
+              ðŸ’¸
             </div>
           </td>
           <td>
@@ -233,7 +233,7 @@ export const generateWelcomeEmail = (userName) => {
               100% Free & Zero Commission
             </h4>
             <p style="margin: 0; color: #64748b; font-size: 13px; line-height: 1.5;">
-              Keep 100% of your earnings. Donate books or engineering drafters to junior batchmates for ₹0 or sell at student-friendly prices.
+              Keep 100% of your earnings. Donate books or engineering drafters to junior batchmates for â‚¹0 or sell at student-friendly prices.
             </p>
           </td>
         </tr>
@@ -244,7 +244,7 @@ export const generateWelcomeEmail = (userName) => {
         <tr>
           <td style="width: 38px; vertical-align: top; padding-right: 12px;">
             <div style="width: 34px; height: 34px; background-color: #ecfdf5; border: 1px solid #a7f3d0; border-radius: 10px; text-align: center; line-height: 34px; font-size: 17px;">
-              💬
+              ðŸ’¬
             </div>
           </td>
           <td>
@@ -263,8 +263,8 @@ export const generateWelcomeEmail = (userName) => {
     <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin: 0 0 28px 0; text-align: center;">
       <tr>
         <td align="center">
-          <a href="https://reusecampus.netlify.app" target="_blank" rel="noopener noreferrer" style="display: inline-block; background: linear-gradient(135deg, #059669 0%, #0d9488 100%); color: #ffffff; text-decoration: none; padding: 14px 28px; border-radius: 12px; font-weight: 700; font-size: 14px; letter-spacing: 0.3px; box-shadow: 0 4px 12px rgba(5, 150, 105, 0.25);">
-            Explore Campus Listings →
+          <a href="https://Uni-store.netlify.app" target="_blank" rel="noopener noreferrer" style="display: inline-block; background: linear-gradient(135deg, #059669 0%, #0d9488 100%); color: #ffffff; text-decoration: none; padding: 14px 28px; border-radius: 12px; font-weight: 700; font-size: 14px; letter-spacing: 0.3px; box-shadow: 0 4px 12px rgba(5, 150, 105, 0.25);">
+            Explore Campus Listings â†’
           </a>
         </td>
       </tr>
@@ -276,12 +276,12 @@ export const generateWelcomeEmail = (userName) => {
 
     <p style="margin: 20px 0 0 0; color: #64748b; font-size: 13px; font-weight: 600;">
       Warm regards,<br>
-      <span style="color: #059669;">The ReuseCampus Student Team</span>
+      <span style="color: #059669;">The Uni-store Student Team</span>
     </p>
   `;
 
   return wrapEmailShell({
-    title: 'Welcome to ReuseCampus - RJIT Student Marketplace',
+    title: 'Welcome to Uni-store - RJIT Student Marketplace',
     preheader: `Welcome ${displayName}! Start buying, selling, and donating academic gear on campus.`,
     contentHtml,
   });
@@ -292,3 +292,4 @@ export default {
   generateOtpEmail,
   generateWelcomeEmail,
 };
+

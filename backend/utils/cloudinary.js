@@ -1,4 +1,4 @@
-import 'dotenv/config';
+﻿import 'dotenv/config';
 import { v2 as cloudinary } from 'cloudinary';
 import dotenv from 'dotenv';
 import path from 'path';
@@ -45,7 +45,7 @@ configureCloudinary();
 
 /**
  * Uploads a file buffer or base64 data URI to Cloudinary with auto-compression.
- * Applies folder: 'reusecampus', format: 'webp', width limit: 800, quality: 'auto'.
+ * Applies folder: 'Uni-store', format: 'webp', width limit: 800, quality: 'auto'.
  *
  * @param {Buffer|string} fileInput - Buffer from multer or base64 data URI string
  * @param {string} [mimetype='image/jpeg'] - Optional MIME type
@@ -56,7 +56,7 @@ export const uploadToCloudinary = (fileInput, mimetype = 'image/jpeg') => {
     configureCloudinary();
 
     const uploadOptions = {
-      folder: 'reusecampus',
+      folder: 'Uni-store',
       resource_type: 'image',
       format: 'webp',
       transformation: [
@@ -95,3 +95,4 @@ export const uploadToCloudinary = (fileInput, mimetype = 'image/jpeg') => {
 };
 
 export default cloudinary;
+

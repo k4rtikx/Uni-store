@@ -1,7 +1,7 @@
-{
-  "name": "ReuseCampus RJIT",
-  "short_name": "ReuseCampus",
-  "description": "Verified student-to-student marketplace for Rustamji Institute of Technology (RJIT). Buy, sell, and donate second-hand textbooks, electronics, and campus gear.",
+﻿{
+  "name": "Uni-store",
+  "short_name": "Uni-store",
+  "description": "Verified student-to-student marketplace. Buy, sell, and donate second-hand textbooks, electronics, and campus gear.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
@@ -22,3 +22,4 @@
     }
   ]
 }
+

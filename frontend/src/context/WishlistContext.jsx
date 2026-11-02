@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+﻿import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { WishlistContext } from './wishlistContextInstance';
 import useAuth from './useAuth';
 import { toggleSaveItemApi } from '../services/api';
 
-const STORAGE_KEY = 'reusecampus_wishlist';
+const STORAGE_KEY = 'Uni-store_wishlist';
 
 /**
  * Safely normalizes any item or ID (string, ObjectId, or object with _id) to string
@@ -107,7 +107,7 @@ export const WishlistProvider = ({ children }) => {
       });
 
       // If authenticated, persist to backend API in background
-      if (localStorage.getItem('reusecampus_token')) {
+      if (localStorage.getItem('Uni-store_token')) {
         toggleSaveItemApi(stringId).catch((err) => {
           console.warn('[Wishlist] Failed to sync toggle with backend API:', err.message);
         });
@@ -176,3 +176,4 @@ export const WishlistProvider = ({ children }) => {
 };
 
 export default WishlistProvider;
+

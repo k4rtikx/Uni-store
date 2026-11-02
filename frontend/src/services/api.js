@@ -1,4 +1,4 @@
-import axios from 'axios';
+﻿import axios from 'axios';
 
 const API = axios.create({
   baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000/api',
@@ -10,7 +10,7 @@ const API = axios.create({
 
 API.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('reusecampus_token');
+    const token = localStorage.getItem('Uni-store_token');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -39,11 +39,11 @@ API.interceptors.response.use(
 
     if (status === 401 && !isAuthExempt) {
       // Clear client session tokens
-      localStorage.removeItem('reusecampus_token');
-      localStorage.removeItem('reusecampus_user');
+      localStorage.removeItem('Uni-store_token');
+      localStorage.removeItem('Uni-store_user');
 
       // Dispatch global auth expiration event for React context synchronization
-      window.dispatchEvent(new Event('reusecampus-auth-expired'));
+      window.dispatchEvent(new Event('Uni-store-auth-expired'));
     }
 
     return Promise.reject(error);
@@ -248,3 +248,4 @@ export const searchExternalByIdentification = async (identification, signal) => 
 
 export { API };
 export default API;
+

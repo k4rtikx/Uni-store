@@ -1,4 +1,4 @@
-import nodemailer from 'nodemailer';
+﻿import nodemailer from 'nodemailer';
 import { generateWelcomeEmail } from './emailTemplates.js';
 
 /**
@@ -21,14 +21,14 @@ export const sendWelcomeEmail = async (recipientEmail, userName) => {
   // Local development fallback if SMTP credentials are not configured
   if (!smtpUser || !smtpPass) {
     console.info(`
-┌─────────────────────────────────────────────────────────────┐
-│              [DEV WELCOME EMAIL FALLBACK]                   │
-├─────────────────────────────────────────────────────────────┤
-│ Recipient : ${recipientEmail.padEnd(46, ' ')}│
-│ Student   : ${(userName || 'Student').padEnd(46, ' ')}│
-│ Template  : generateWelcomeEmail                            │
-│ Note      : Configure SMTP_USER and SMTP_PASS for live SMTP │
-└─────────────────────────────────────────────────────────────┘
+â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+â”‚              [DEV WELCOME EMAIL FALLBACK]                   â”‚
+â”œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¤
+â”‚ Recipient : ${recipientEmail.padEnd(46, ' ')}â”‚
+â”‚ Student   : ${(userName || 'Student').padEnd(46, ' ')}â”‚
+â”‚ Template  : generateWelcomeEmail                            â”‚
+â”‚ Note      : Configure SMTP_USER and SMTP_PASS for live SMTP â”‚
+â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
 `);
     return { success: true, devFallback: true };
   }
@@ -47,10 +47,10 @@ export const sendWelcomeEmail = async (recipientEmail, userName) => {
   const displayName = userName ? userName.split(' ')[0] : 'Student';
 
   const mailOptions = {
-    from: `"ReuseCampus Team" <${smtpUser}>`,
+    from: `"Uni-store Team" <${smtpUser}>`,
     to: recipientEmail,
-    subject: `Welcome to ReuseCampus, ${displayName}! 🎓 Official RJIT Marketplace`,
-    text: `Welcome to ReuseCampus, ${userName || 'Student'}!\n\nYour student account is now verified and active on the Official RJIT Campus Marketplace.\n\n3 Quick Tips to Get Started:\n1. Verified @rjit.ac.in Community Only - Trade safely with fellow batchmates.\n2. 100% Free & Zero Commission - Keep 100% of your earnings or donate to juniors for ₹0.\n3. Direct WhatsApp Deals - Meet safely at the library, canteen, or hostels.\n\nStart browsing listings: https://reusecampus.netlify.app\n\nHappy trading!\n— The ReuseCampus RJIT Team`,
+    subject: `Welcome to Uni-store, ${displayName}! ðŸŽ“ Official RJIT Marketplace`,
+    text: `Welcome to Uni-store, ${userName || 'Student'}!\n\nYour student account is now verified and active on the Official RJIT Campus Marketplace.\n\n3 Quick Tips to Get Started:\n1. Verified @rjit.ac.in Community Only - Trade safely with fellow batchmates.\n2. 100% Free & Zero Commission - Keep 100% of your earnings or donate to juniors for â‚¹0.\n3. Direct WhatsApp Deals - Meet safely at the library, canteen, or hostels.\n\nStart browsing listings: https://Uni-store.netlify.app\n\nHappy trading!\nâ€” The Uni-store RJIT Team`,
     html: generateWelcomeEmail(userName),
   };
 
@@ -59,3 +59,4 @@ export const sendWelcomeEmail = async (recipientEmail, userName) => {
 };
 
 export default sendWelcomeEmail;
+
