@@ -138,7 +138,7 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="sticky top-0 z-40 backdrop-blur-xl bg-white/80 border-b border-slate-200/70 shadow-[0_1px_3px_rgba(15,23,42,0.03)] transition-all">
+      <nav className="sticky top-0 z-40 backdrop-blur-xl bg-white/60 border-b border-white/70 shadow-[0_1px_3px_rgba(15,23,42,0.03)] transition-all">
         <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-15 sm:h-18">
             {/* Logo */}
@@ -146,7 +146,7 @@ const Navbar = () => {
               to="/"
               className="flex items-center gap-2 sm:gap-3 group transition-transform active:scale-95 shrink-0"
             >
-              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-700 text-white shadow-md shadow-emerald-500/20 flex items-center justify-center transition-all duration-300 group-hover:scale-105 shrink-0">
+              <div className="logo-3d w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-700 text-white shadow-md shadow-emerald-500/20 flex items-center justify-center transition-all duration-300 group-hover:scale-105 shrink-0">
                 <GraduationCap className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
               </div>
               <div className="flex items-center gap-1 sm:gap-1.5 min-w-0">

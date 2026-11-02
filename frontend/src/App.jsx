@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import Login from './pages/Login';
@@ -12,6 +12,19 @@ import NotFound from './pages/NotFound';
 import ProtectedRoute from './components/ProtectedRoute';
 import { AuthProvider } from './context/AuthContext';
 import { WishlistProvider } from './context/WishlistContext';
+import Scene3D from './components/three/Scene3D';
+
+/** Re-mounts on every route change so each page swings in with a 3D transition. */
+const PageTransition = ({ children }) => {
+  const location = useLocation();
+  return (
+    <div className="page-3d">
+      <div key={location.pathname} className="page-3d-inner">
+        {children}
+      </div>
+    </div>
+  );
+};
 
 const CURRENT_YEAR = new Date().getFullYear();
 
@@ -20,12 +33,15 @@ function App() {
     <AuthProvider>
       <WishlistProvider>
         <Router>
-        <div className="min-h-screen flex flex-col bg-slate-50 text-slate-900">
+        <div className="min-h-screen flex flex-col text-slate-900">
+          {/* Fixed WebGL background (three.js) */}
+          <Scene3D kind="background" />
           {/* Responsive Navigation Bar */}
           <Navbar />
 
           {/* Main Content Area */}
           <main className="flex-1">
+            <PageTransition>
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
@@ -53,6 +69,7 @@ function App() {
               <Route path="/saved-items" element={<SavedItems />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
+            </PageTransition>
           </main>
 
           {/* Luxury Minimal Footer */}

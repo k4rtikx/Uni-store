@@ -18,6 +18,8 @@ import useWishlist from '../hooks/useWishlist';
 import ListingCard from '../components/listings/ListingCard';
 import ListingFilterBar from '../components/listings/ListingFilterBar';
 import ListingSkeleton from '../components/ui/ListingSkeleton';
+import Tilt3D from '../components/ui/Tilt3D';
+import Scene3D from '../components/three/Scene3D';
 
 /**
  * Main campus marketplace discovery feed with compact Light Emerald Split Hero,
@@ -296,66 +298,65 @@ const Home = () => {
               </div>
             </div>
 
-            {/* Right Column: 2x2 Bento Grid of Frosted White Trust Cards */}
-            <div className="lg:col-span-5 grid grid-cols-2 gap-3 sm:gap-3.5">
-              {/* Card 1: 100% @rjit.ac.in Verified */}
-              <div className="bg-white/90 backdrop-blur-md p-4 rounded-2xl border border-emerald-100 shadow-sm hover:shadow-md transition-all flex flex-col justify-between space-y-2">
-                <div className="w-9 h-9 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0">
-                  <ShieldCheck className="w-5 h-5" />
-                </div>
-                <div>
-                  <h3 className="text-xs sm:text-sm font-bold text-slate-900">
-                    100% @rjit.ac.in Verified
-                  </h3>
-                  <p className="text-[11px] text-slate-500 mt-0.5 leading-snug">
-                    Student gatekeeping
-                  </p>
-                </div>
+            {/* Right Column: live WebGL scene + floating 3D trust chips */}
+            <div className="lg:col-span-5 relative lg:h-[400px]">
+              <div className="h-60 sm:h-72 lg:h-full lg:absolute lg:inset-0">
+                <Scene3D kind="hero" />
               </div>
 
-              {/* Card 2: ₹0 Junior Donations */}
-              <div className="bg-white/90 backdrop-blur-md p-4 rounded-2xl border border-emerald-100 shadow-sm hover:shadow-md transition-all flex flex-col justify-between space-y-2">
-                <div className="w-9 h-9 rounded-xl bg-teal-100 text-teal-700 flex items-center justify-center shrink-0">
-                  <Gift className="w-5 h-5" />
-                </div>
-                <div>
-                  <h3 className="text-xs sm:text-sm font-bold text-slate-900">
-                    ₹0 Junior Donations
-                  </h3>
-                  <p className="text-[11px] text-slate-500 mt-0.5 leading-snug">
-                    Pass down notes & drafters
-                  </p>
-                </div>
-              </div>
-
-              {/* Card 3: Direct WhatsApp Deal */}
-              <div className="bg-white/90 backdrop-blur-md p-4 rounded-2xl border border-emerald-100 shadow-sm hover:shadow-md transition-all flex flex-col justify-between space-y-2">
-                <div className="w-9 h-9 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0">
-                  <MessageCircle className="w-5 h-5" />
-                </div>
-                <div>
-                  <h3 className="text-xs sm:text-sm font-bold text-slate-900">
-                    Direct WhatsApp Deal
-                  </h3>
-                  <p className="text-[11px] text-slate-500 mt-0.5 leading-snug">
-                    Instant handover, 0% fee
-                  </p>
-                </div>
-              </div>
-
-              {/* Card 4: Dynamic Active Items Count */}
-              <div className="bg-white/90 backdrop-blur-md p-4 rounded-2xl border border-emerald-100 shadow-sm hover:shadow-md transition-all flex flex-col justify-between space-y-2">
-                <div className="w-9 h-9 rounded-xl bg-teal-100 text-teal-700 flex items-center justify-center shrink-0">
-                  <Package className="w-5 h-5" />
-                </div>
-                <div>
-                  <h3 className="text-xs sm:text-sm font-bold text-slate-900">
-                    {totalCount > 0 ? `${totalCount} Active Items` : 'Active Items'}
-                  </h3>
-                  <p className="text-[11px] text-slate-500 mt-0.5 leading-snug">
-                    Live on RJIT marketplace
-                  </p>
-                </div>
+              <div className="grid grid-cols-2 gap-3 mt-3 lg:mt-0 lg:block">
+                <Tilt3D
+                  max={14}
+                  className="float-3d bg-white/90 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-emerald-100 card-3d-shadow flex items-center gap-3 lg:absolute lg:w-56 lg:top-0 lg:left-0"
+                  style={{ animationDelay: '0s' }}
+                >
+                  <div className="w-9 h-9 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0">
+                    <ShieldCheck className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h3 className="text-xs sm:text-sm font-bold text-slate-900">100% @rjit.ac.in Verified</h3>
+                    <p className="text-[11px] text-slate-500 mt-0.5 leading-snug">Student gatekeeping</p>
+                  </div>
+                </Tilt3D>
+                <Tilt3D
+                  max={14}
+                  className="float-3d bg-white/90 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-emerald-100 card-3d-shadow flex items-center gap-3 lg:absolute lg:w-56 lg:top-14 lg:right-0"
+                  style={{ animationDelay: '0.8s' }}
+                >
+                  <div className="w-9 h-9 rounded-xl bg-teal-100 text-teal-700 flex items-center justify-center shrink-0">
+                    <Gift className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h3 className="text-xs sm:text-sm font-bold text-slate-900">₹0 Junior Donations</h3>
+                    <p className="text-[11px] text-slate-500 mt-0.5 leading-snug">Pass down notes &amp; drafters</p>
+                  </div>
+                </Tilt3D>
+                <Tilt3D
+                  max={14}
+                  className="float-3d bg-white/90 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-emerald-100 card-3d-shadow flex items-center gap-3 lg:absolute lg:w-56 lg:bottom-14 lg:left-0"
+                  style={{ animationDelay: '1.6s' }}
+                >
+                  <div className="w-9 h-9 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0">
+                    <MessageCircle className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h3 className="text-xs sm:text-sm font-bold text-slate-900">Direct WhatsApp Deal</h3>
+                    <p className="text-[11px] text-slate-500 mt-0.5 leading-snug">Instant handover, 0% fee</p>
+                  </div>
+                </Tilt3D>
+                <Tilt3D
+                  max={14}
+                  className="float-3d bg-white/90 backdrop-blur-md p-3 sm:p-4 rounded-2xl border border-emerald-100 card-3d-shadow flex items-center gap-3 lg:absolute lg:w-56 lg:bottom-0 lg:right-0"
+                  style={{ animationDelay: '2.4s' }}
+                >
+                  <div className="w-9 h-9 rounded-xl bg-teal-100 text-teal-700 flex items-center justify-center shrink-0">
+                    <Package className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h3 className="text-xs sm:text-sm font-bold text-slate-900">{totalCount > 0 ? `${totalCount} Active Items` : 'Active Items'}</h3>
+                    <p className="text-[11px] text-slate-500 mt-0.5 leading-snug">Live on RJIT marketplace</p>
+                  </div>
+                </Tilt3D>
               </div>
             </div>
           </div>
@@ -528,7 +529,7 @@ const Home = () => {
       {/* Sustainable Campus Value Props */}
       <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="p-6 bg-white rounded-3xl border border-slate-200/90 shadow-sm hover:shadow-md transition-all space-y-3">
+          <Tilt3D max={8} className="p-6 bg-white rounded-3xl border border-slate-200/90 space-y-3">
             <div className="w-12 h-12 rounded-2xl bg-teal-50 text-teal-600 flex items-center justify-center">
               <ShieldCheck className="w-6 h-6" />
             </div>
@@ -536,9 +537,9 @@ const Home = () => {
             <p className="text-sm text-slate-500 leading-relaxed">
               Only students with official @rjit.ac.in institutional accounts can trade, guaranteeing safety and trust.
             </p>
-          </div>
+          </Tilt3D>
 
-          <div className="p-6 bg-white rounded-3xl border border-slate-200/90 shadow-sm hover:shadow-md transition-all space-y-3">
+          <Tilt3D max={8} className="p-6 bg-white rounded-3xl border border-slate-200/90 space-y-3">
             <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
               <Coins className="w-6 h-6" />
             </div>
@@ -546,9 +547,9 @@ const Home = () => {
             <p className="text-sm text-slate-500 leading-relaxed">
               Direct peer-to-peer exchange right on campus. 100% of the agreed price goes straight to the student seller.
             </p>
-          </div>
+          </Tilt3D>
 
-          <div className="p-6 bg-white rounded-3xl border border-slate-200/90 shadow-sm hover:shadow-md transition-all space-y-3">
+          <Tilt3D max={8} className="p-6 bg-white rounded-3xl border border-slate-200/90 space-y-3">
             <div className="w-12 h-12 rounded-2xl bg-cyan-50 text-cyan-600 flex items-center justify-center">
               <RefreshCw className="w-6 h-6" />
             </div>
@@ -556,7 +557,7 @@ const Home = () => {
             <p className="text-sm text-slate-500 leading-relaxed">
               Prevent hostel waste by passing down textbooks, calculators, and lab tools to upcoming batches.
             </p>
-          </div>
+          </Tilt3D>
         </div>
       </section>
     </div>
