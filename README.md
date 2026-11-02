@@ -1,4 +1,4 @@
-﻿# Uni-store â™»ï¸ðŸŽ“
+# Uni-store
 
 > **A secure, high-performance Peer-to-Peer (P2P) campus marketplace engineered for college students to buy, sell, and donate engineering essentials with zero friction and zero commission.**
 
@@ -12,14 +12,14 @@
 
 ---
 
-## ðŸŒ Live Production Deployment
+## Live Production Deployment
 
 Experience the live application deployed across globally distributed edge infrastructure:
 
 <div align="center">
 
-### ðŸš€ **[Launch Uni-store Live Application](https://uni-store.vercel.app/)**
-**Production URL: `https://uni-store.vercel.app/`
+### **[Launch Uni-store Live Application](https://uni-store.vercel.app/)**
+**Production URL:** `https://uni-store.vercel.app/`
 
 *Frontend hosted on **Vercel Edge Network** &bull; Backend API powered by **Render Cloud Services** &bull; Persistent Cluster on **MongoDB Atlas***
 
@@ -27,43 +27,43 @@ Experience the live application deployed across globally distributed edge infras
 
 ---
 
-## ðŸ’¡ Overview & Problem Statement
+## Overview & Problem Statement
 
-Every semester across technical institutes like **CED - Alliance University (CED)**, passing seniors discard or store away expensive academic equipmentâ€”such as engineering drafters, higher mathematics textbooks, lab coats, and scientific calculators (e.g., Casio FX-991EX). Concurrently, incoming juniors spend substantial sums purchasing brand-new supplies from retail outlets.
+Every semester across technical institutes like **CED - Alliance University**, passing seniors discard or store away expensive academic equipment such as engineering drafters, higher mathematics textbooks, lab coats, and scientific calculators (e.g., Casio FX-991EX). Concurrently, incoming juniors spend substantial sums purchasing brand-new supplies from retail outlets.
 
 Generic classifieds (OLX, Facebook Marketplace) introduce safety concerns, stranger fraud, high shipping fees, and unverified users. **Uni-store** resolves this by establishing a walled-garden, peer-to-peer micro-economy exclusively for verified college members, enabling secure same-day handoffs in campus hostels, academic blocks, and canteens.
 
 ---
 
-## âš¡ Key Features (Engineering Highlights)
+## Key Features
 
-### ðŸ“¸ AI Visual Search
+### AI Visual Search
 Snap or upload a photo: Gemini identifies the item, the background is removed, campus listings are matched, and Amazon/Flipkart alternatives appear if nothing is found. See [VISUAL_SEARCH.md](VISUAL_SEARCH.md).
 
-### ðŸ›¡ï¸ Institutional Security & Verification
+### Institutional Security & Verification
 - **Domain-Enforced Gatekeeping**: Registration is strictly restricted to verified `@ced.alliance.edu.in` student institutional email addresses via cryptographic regex and database validation, systematically blocking commercial resellers and bad actors.
 - **3-Step Cryptographic Email OTP**: Implements secure 6-digit OTP delivery via Nodemailer with bcrypt-hashed token persistence, strict 10-minute time-to-live (TTL), attempt rate-limiting, and cooldown timers to prevent brute-force recovery attacks.
 
-### âš¡ Zero-Blink UI Architecture
+### Zero-Blink UI Architecture
 - **In-Memory Filtering & Memoization**: Eliminates layout shifts and infinite rendering loops on the Wishlist / Saved Items interface by decoupling ID normalization with React's `useMemo` pipeline.
 - **Water-tight Reconciliation**: Missing bookmarked item IDs are reconciled asynchronously in the background while local state serves immediate, zero-latency cache hits with no screen flickering.
 
-### ðŸš¦ Resilient Cloud API & Defense-in-Depth
+### Resilient Cloud API & Defense-in-Depth
 - **Proxy-Aware Rate Limiting**: Production Express API is configured with `app.set('trust proxy', 1)`, allowing `express-rate-limit` to inspect accurate client IPs forwarded by Render's reverse proxy without vulnerability to header spoofing.
 - **Dual-Tier Throttling**: Employs global request throttling (150 requests / 15 minutes) alongside high-security auth throttling (15 requests / 15 minutes) on `/api/auth/*` endpoints.
 - **NoSQL Injection Sanitization**: Custom recursive sanitation middleware strips rogue MongoDB evaluation operators (`$` and `.`) across `req.body`, `req.params`, and `req.query`.
 
-### â˜ï¸ Scalable Media Management
+### Scalable Media Management
 - **Cloudinary CDN Pipeline**: Seamless asset pipeline featuring multi-part image uploads through Multer directly streamed into Cloudinary.
 - **Automated Compression & Delivery**: Automatic WebP transformation, responsive downscaling, and global CDN delivery to maximize load speeds on constrained mobile networks.
 
-### ðŸ§ª Automated Testing & CI Pipeline
-- **60/60 Passing Backend Native Tests**: Native test suite executed through Node's built-in `node:test` and `node:assert/strict` harnessâ€”ensuring zero external test bloat, sub-second execution speeds, and comprehensive coverage across controllers, models, and auth guards.
+### Automated Testing & CI Pipeline
+- **60/60 Passing Backend Native Tests**: Native test suite executed through Node's built-in `node:test` and `node:assert/strict` harness ensuring zero external test bloat, sub-second execution speeds, and comprehensive coverage across controllers, models, and auth guards.
 - **GitHub Actions Integration**: Automated CI pipeline running on Ubuntu runners that lints frontend assets, verifies production bundle building, and executes backend test suites on every pull request and push to `main`.
 
 ---
 
-## ðŸ› ï¸ Tech Stack
+## Tech Stack
 
 | Domain | Technology | Purpose |
 |---|---|---|
@@ -81,48 +81,7 @@ Snap or upload a photo: Gemini identifies the item, the background is removed, c
 
 ---
 
-## ðŸ›ï¸ System Architecture
-
-```mermaid
-flowchart TD
-    subgraph Client ["Client Layer (React 19 + Tailwind CSS)"]
-        UI["React SPA (Vite)"]
-        State["AuthContext & useMemo Cache"]
-        Axios["Axios Interceptor (Bearer JWT + Auto 401 Handler)"]
-        UI --> State --> Axios
-    end
-
-    subgraph Edge ["Edge & Reverse Proxy"]
-        VercelCDN["Vercel Global CDN"]
-        RenderProxy["Render Reverse Proxy (trust proxy: 1)"]
-    end
-
-    subgraph Backend ["Backend API (Express.js on Node.js)"]
-        Security["Helmet & CORS & NoSQL Sanitizer"]
-        Limiter["Express Rate Limiting"]
-        AuthGuard["JWT Authentication Guard"]
-        Router["Express REST Routes (/auth, /listings, /users)"]
-        
-        Security --> Limiter --> AuthGuard --> Router
-    end
-
-    subgraph External ["Managed Cloud Services"]
-        Mongo[("MongoDB Atlas Database")]
-        Cloudinary[("Cloudinary Asset CDN")]
-        SMTP["Nodemailer SMTP Gateway"]
-    end
-
-    VercelCDN -.-> UI
-    Axios -->|HTTPS / REST| RenderProxy
-    RenderProxy --> Backend
-    Router -->|Mongoose Queries (.lean)| Mongo
-    Router -->|Image Pipeline| Cloudinary
-    Router -->|OTP / Transactional Email| SMTP
-```
-
----
-
-## ðŸ’» Local Setup Instructions
+## Local Setup Instructions
 
 Follow these instructions to run Uni-store locally on your development machine.
 
@@ -137,7 +96,8 @@ Follow these instructions to run Uni-store locally on your development machine.
 ### Step 1: Clone the Repository
 ```bash
 git clone https://github.com/k4rtikx/Uni-store.git
-cd Uni-store```
+cd Uni-store
+```
 
 ---
 
@@ -171,12 +131,7 @@ cd Uni-store```
    npm install
    ```
 
-2. Initialize the frontend environment file:
-   ```bash
-   cp .env.example .env
-   ```
-
-3. Start the Vite development server:
+2. Start the Vite development server:
    ```bash
    npm run dev
    ```
@@ -197,7 +152,7 @@ npm test
 
 ---
 
-## ðŸ” Environment Variables
+## Environment Variables
 
 The project uses `.env` files to separate configuration from codebase. Below is a specification of required configuration keys:
 
@@ -207,11 +162,9 @@ The project uses `.env` files to separate configuration from codebase. Below is 
 |---|---|---|---|
 | `PORT` | Optional | Port on which the Express server listens (defaults to `5000`) | `5000` |
 | `NODE_ENV` | Yes | Runtime environment flag | `development` / `production` / `test` |
-| `MONGO_URI` | Yes | MongoDB Atlas connection string URI | `mongodb+srv://<user>:<pwd>@cluster0.mongodb.net/<db>?retryWrites=true&w=majority` |
+| `MONGO_URI` | Yes | MongoDB Atlas connection string URI | `mongodb+srv://<user>:<pwd>@cluster0.mongodb.net/<db>` |
 | `JWT_SECRET` | Yes | Cryptographic secret key used for signing JWT tokens | `your_super_secret_jwt_key_min_32_chars` |
-| `CLIENT_URL` | Yes | Allowed frontend origin for CORS access policies | `http://localhost:5173` |
-| `ALLOWED_COLLEGE_DOMAIN`| Yes | Approved academic email domain for campus gatekeeping | `ced.alliance.edu.in` |
-| `ALLOWED_EMAIL_DOMAINS` | Optional | Secondary alias list for allowed institutional domains | `ced.alliance.edu.in` |
+| `ALLOWED_COLLEGE_DOMAIN` | Yes | Approved academic email domain for campus gatekeeping | `ced.alliance.edu.in` |
 | `CLOUDINARY_CLOUD_NAME` | Yes | Cloudinary cloud account name | `your_cloudinary_cloud_name` |
 | `CLOUDINARY_API_KEY` | Yes | Cloudinary public API key | `your_cloudinary_api_key` |
 | `CLOUDINARY_API_SECRET` | Yes | Cloudinary private API secret | `your_cloudinary_api_secret` |
@@ -219,6 +172,7 @@ The project uses `.env` files to separate configuration from codebase. Below is 
 | `SMTP_PORT` | Optional | SMTP network port (defaults to `587`) | `587` / `465` |
 | `SMTP_USER` | Optional | SMTP authentication email address | `student-council@ced.alliance.edu.in` |
 | `SMTP_PASS` | Optional | SMTP app password or credential token | `your_smtp_app_password` |
+| `GEMINI_API_KEY` | Optional | Google Gemini API key for AI visual search | `AQ.Ab8RN6...` |
 
 ### Frontend Configuration (`frontend/.env`)
 
@@ -228,7 +182,7 @@ The project uses `.env` files to separate configuration from codebase. Below is 
 
 ---
 
-## ðŸ“¡ API Reference Overview
+## API Reference
 
 All private routes require an `Authorization: Bearer <JWT>` header.
 
@@ -253,12 +207,12 @@ All private routes require an `Authorization: Bearer <JWT>` header.
 
 ---
 
-## ðŸ“„ License
+## License
 
 This repository is distributed under the **[MIT License](LICENSE)**.
 
 ```
-Copyright (c) 2026 Abhishek Pachori
+Copyright (c) 2026 Uni-store
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -274,6 +228,5 @@ copies or substantial portions of the Software.
 ---
 
 <div align="center">
-  <sub>Engineered with precision for the student community of <b>CED - Alliance University (CED)</b>.</sub>
+  <sub>Engineered for the student community of <b>CED - Alliance University</b>.</sub>
 </div>
-

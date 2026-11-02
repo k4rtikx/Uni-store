@@ -52,29 +52,36 @@ export class GeminiError extends Error {
 const callModel = async ({ model, apiKey, imageBase64, mimeType, timeoutMs }) => {
   const ai = new GoogleGenAI({ apiKey });
 
-  const timeoutPromise = new Promise((_, reject) =>
-    setTimeout(() => reject(new Error('AbortError')), timeoutMs)
-  );
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
 
-  const generatePromise = ai.models.generateContent({
-    model,
-    contents: [
-      {
-        role: 'user',
-        parts: [
-          { text: PROMPT },
-          { inlineData: { mimeType, data: imageBase64 } },
-        ],
+  try {
+    const response = await ai.models.generateContent({
+      model,
+      contents: [
+        {
+          role: 'user',
+          parts: [
+            { text: PROMPT },
+            { inlineData: { mimeType, data: imageBase64 } },
+          ],
+        },
+      ],
+      config: {
+        temperature: 0.1,
+        responseMimeType: 'application/json',
+        responseSchema: SCHEMA,
       },
-    ],
-    config: {
-      temperature: 0.1,
-      responseMimeType: 'application/json',
-      responseSchema: SCHEMA,
-    },
-  });
-
-  return Promise.race([generatePromise, timeoutPromise]);
+    });
+    return response;
+  } catch (err) {
+    if (err.name === 'AbortError' || controller.signal.aborted) {
+      throw new Error('AbortError');
+    }
+    throw err;
+  } finally {
+    clearTimeout(timer);
+  }
 };
 
 const clean = (s, max = 200) => (typeof s === 'string' ? s.replace(/\s+/g, ' ').trim().slice(0, max) : '');
@@ -116,7 +123,7 @@ export const parseIdentification = (raw) => {
 
 /**
  * Identify the main product in a JPEG buffer using Gemini vision.
- * Supports multiple API keys with automatic failover/rotation on rate limit (429) or quota errors.
+ * Supports multiple API keys and multiple models with automatic failover.
  * @param {Buffer} jpegBuffer
  */
 let keyIndex = 0;
@@ -130,7 +137,10 @@ export const identifyProduct = async (jpegBuffer) => {
   }
 
   const imageBase64 = jpegBuffer.toString('base64');
-  const models = [...new Set([cfg.geminiModel, cfg.geminiFallbackModel].filter(Boolean))];
+
+  // Build model list: primary + fallback + any extra models from env
+  const extraModels = (process.env.GEMINI_EXTRA_MODELS || '').split(',').map(m => m.trim()).filter(Boolean);
+  const models = [...new Set([cfg.geminiModel, cfg.geminiFallbackModel, ...extraModels].filter(Boolean))];
 
   let lastErr;
   for (let attempt = 0; attempt < apiKeys.length; attempt++) {
@@ -148,12 +158,17 @@ export const identifyProduct = async (jpegBuffer) => {
         });
       } catch (err) {
         const isTimeout = err.message === 'AbortError' || err.name === 'AbortError' || /timeout/i.test(err.message);
+        const is503 = /503|unavailable|high demand/i.test(err.message);
+        console.error(`[Gemini] model=${model} error:`, err.message?.slice(0, 120));
         lastErr = new GeminiError(
-          isTimeout ? 'The AI took too long to respond. Please try again.' : `Could not reach the AI service: ${err.message}`,
-          504,
+          isTimeout
+            ? 'The AI took too long to respond. Please try again.'
+            : is503
+            ? 'The AI service is busy. Please try again in a moment.'
+            : `Could not reach the AI service: ${err.message}`,
+          is503 ? 503 : isTimeout ? 504 : 502,
           'GEMINI_UNREACHABLE'
         );
-        console.error('[Gemini] callModel error:', err.message);
         continue;
       }
 

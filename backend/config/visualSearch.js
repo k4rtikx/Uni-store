@@ -17,8 +17,8 @@ export const getVisualSearchConfig = () => {
   return {
     geminiApiKey: geminiApiKeys[0] || '',
     geminiApiKeys,
-    geminiModel: process.env.GEMINI_MODEL || 'gemini-2.5-flash',
-    geminiFallbackModel: process.env.GEMINI_FALLBACK_MODEL || 'gemini-2.0-flash',
+    geminiModel: process.env.GEMINI_MODEL || 'gemini-3.8-flash',
+    geminiFallbackModel: process.env.GEMINI_FALLBACK_MODEL || 'gemini-3.6-flash',
     geminiTimeoutMs: int(process.env.GEMINI_TIMEOUT_MS, 30000),
     // 'imgly' (local ONNX model, optional dependency) | 'removebg' (remove.bg API) | 'none'
     bgProvider: (process.env.BACKGROUND_REMOVAL_PROVIDER || 'imgly').toLowerCase(),
