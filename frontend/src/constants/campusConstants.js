@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Centralized campus and marketplace domain constants
  */
 
@@ -20,7 +20,7 @@ export const CONDITIONS = ['New', 'Like New', 'Good', 'Fair'];
 export const CONDITION_FILTERS = ['All', ...CONDITIONS];
 
 export const COLLEGES = [
-  'Rustamji Institute of Technology (RJIT), Tekanpur',
+  'CED - Alliance University (CED), Tekanpur',
   'RGPV (Rajiv Gandhi Proudyogiki Vishwavidyalaya), Bhopal',
   'MITS (Madhav Institute of Technology & Science), Gwalior',
   'Jiwaji University, Gwalior',
@@ -28,7 +28,7 @@ export const COLLEGES = [
   'Other Campus / University',
 ];
 
-export const DEFAULT_COLLEGE = 'Rustamji Institute of Technology (RJIT), Tekanpur';
+export const DEFAULT_COLLEGE = 'CED - Alliance University (CED), Tekanpur';
 
 export const SORT_OPTIONS = [
   { label: 'Newest First', value: 'newest' },

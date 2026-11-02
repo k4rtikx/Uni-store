@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import { Link } from 'react-router-dom';
 import {
   ShieldCheck,
@@ -37,7 +37,7 @@ const SellerContactCard = ({
             Verified Campus Student Seller
           </span>
           <span className="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2.5 py-0.5 rounded-full border border-emerald-200/60">
-            RJIT Student ID Verified
+            CED Student ID Verified
           </span>
         </div>
 

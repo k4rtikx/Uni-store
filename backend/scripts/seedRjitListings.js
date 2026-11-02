@@ -1,4 +1,4 @@
-import 'dotenv/config';
+﻿import 'dotenv/config';
 import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -18,16 +18,16 @@ const seedDatabase = async () => {
     const listingsCol = mongoose.connection.collection('listings');
 
     // 1. Find Abhishek pachori's account to ensure it is kept intact
-    const userAbhishek = await usersCol.findOne({ email: '0902cs241008@rjit.ac.in' });
+    const userAbhishek = await usersCol.findOne({ email: '0902cs241008@ced.alliance.edu.in' });
     if (!userAbhishek) {
       console.warn('[Warning] Abhishek account not found, proceeding with caution.');
     } else {
       console.log(`[Keep] Abhishek account identified: ${userAbhishek._id}`);
     }
 
-    // 2. Remove all test users EXCEPT Abhishek and any rjit account
+    // 2. Remove all test users EXCEPT Abhishek and any CED account
     const removeUsersResult = await usersCol.deleteMany({
-      email: { $ne: '0902cs241008@rjit.ac.in' }
+      email: { $ne: '0902cs241008@ced.alliance.edu.in' }
     });
     console.log(`[Clean] Deleted ${removeUsersResult.deletedCount} old test users.`);
 
@@ -38,15 +38,15 @@ const seedDatabase = async () => {
     const removeListingsResult = await listingsCol.deleteMany(deleteListingsQuery);
     console.log(`[Clean] Deleted ${removeListingsResult.deletedCount} test listings.`);
 
-    // 4. Create or ensure a realistic RJIT demo senior student seller
+    // 4. Create or ensure a realistic CED demo senior student seller
     const salt = await bcrypt.genSalt(10);
     const demoPasswordHash = await bcrypt.hash('rjit2026', salt);
 
     const demoSeller = {
       name: 'Rohit Sharma (Senior CSE)',
-      email: '0902cs221045@rjit.ac.in',
+      email: '0902cs221045@ced.alliance.edu.in',
       passwordHash: demoPasswordHash,
-      college: 'Rustamji Institute of Technology (RJIT), Tekanpur',
+      college: 'CED - Alliance University (CED), Tekanpur',
       phone: '+91 98260 12345',
       avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80',
       createdAt: new Date(),
@@ -55,13 +55,13 @@ const seedDatabase = async () => {
 
     const insertedSeller = await usersCol.insertOne(demoSeller);
     const demoSellerId = insertedSeller.insertedId;
-    console.log(`[Seed] Created demo RJIT student seller: ${demoSeller.name} (${demoSeller.email})`);
+    console.log(`[Seed] Created demo CED student seller: ${demoSeller.name} (${demoSeller.email})`);
 
-    // 5. Seed the 4 realistic RJIT campus listings requested
+    // 5. Seed the 4 realistic CED campus listings requested
     const rjitListings = [
       {
         title: 'Engineering Drawing Mini Drafter & Sheet Holder',
-        description: 'Omega professional mini drafter with clamp and waterproof sheet container tube. Perfect condition for 1st year Mechanical / Civil / CS engineering drawing practicals at RJIT. Can hand over near Academic Block 2.',
+        description: 'Omega professional mini drafter with clamp and waterproof sheet container tube. Perfect condition for 1st year Mechanical / Civil / CS engineering drawing practicals at CED. Can hand over near Academic Block 2.',
         price: 350,
         category: 'Lab Equipment',
         condition: 'Good',
@@ -110,7 +110,7 @@ const seedDatabase = async () => {
     ];
 
     const insertResult = await listingsCol.insertMany(rjitListings);
-    console.log(`[Seed] Successfully inserted ${insertResult.insertedCount} realistic RJIT listings!`);
+    console.log(`[Seed] Successfully inserted ${insertResult.insertedCount} realistic CED listings!`);
 
     await mongoose.disconnect();
     console.log('[DB] Disconnected.');

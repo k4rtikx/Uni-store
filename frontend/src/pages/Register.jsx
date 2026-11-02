@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+﻿import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { UserPlus, Mail, Lock, User, Building, Phone, AlertCircle, Loader2, ArrowLeft, Eye, EyeOff } from 'lucide-react';
 import useAuth from '../context/useAuth';
@@ -35,8 +35,8 @@ const Register = () => {
     if (!trimmedName) { setErrorMessage('Please provide your full name.'); return; }
 
     const trimmedEmail = formData.email.trim().toLowerCase();
-    if (!trimmedEmail.endsWith('@rjit.ac.in')) {
-      setErrorMessage('Please use your official RJIT college email ending with @rjit.ac.in');
+    if (!trimmedEmail.endsWith('@ced.alliance.edu.in')) {
+      setErrorMessage('Please use your official CED college email ending with @ced.alliance.edu.in');
       return;
     }
 
@@ -57,7 +57,7 @@ const Register = () => {
       await registerUser({ ...formData, name: trimmedName, email: trimmedEmail, phone: trimmedPhone });
       navigate('/');
     } catch (error) {
-      setErrorMessage(error.response?.data?.message || error.message || 'Registration failed. Please use your official RJIT college email ending with @rjit.ac.in');
+      setErrorMessage(error.response?.data?.message || error.message || 'Registration failed. Please use your official CED college email ending with @ced.alliance.edu.in');
     } finally {
       setLoading(false);
     }
@@ -112,10 +112,10 @@ const Register = () => {
 
             {/* Email */}
             <div>
-              <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">RJIT College Email *</label>
+              <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">CED College Email *</label>
               <div className="relative">
                 <Mail className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
-                <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder="your@rjit.ac.in" required
+                <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder="your@ced.alliance.edu.in" required
                   className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50/50 text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 focus:bg-white text-sm transition-all" />
               </div>
             </div>

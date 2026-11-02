@@ -69,7 +69,7 @@ export const loginUser = async (dataOrEmail, maybePassword) => {
 export const loginUserApi = loginUser;
 
 /**
- * Register a new RJIT campus user
+ * Register a new CED campus user
  * @param {Object} userData - Registration payload
  */
 export const registerUser = async (userData) => {

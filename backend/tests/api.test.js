@@ -1,7 +1,7 @@
 ﻿/**
  * @file api.test.js
  * @desc Built-in automated test suite using Node's native test runner (node:test).
- * Validates core business logic, RJIT email security, NoSQL injection sanitization,
+ * Validates core business logic, CED email security, NoSQL injection sanitization,
  * marketplace domain invariants, auth middleware guards, and HTTP health contracts.
  * Zero external testing libraries or mock frameworks required.
  */
@@ -10,7 +10,7 @@
 process.env.NODE_ENV = 'test';
 process.env.PORT = '0';
 process.env.JWT_SECRET = 'test_jwt_secret_token_key_for_unit_tests_32chars';
-process.env.ALLOWED_COLLEGE_DOMAIN = 'rjit.ac.in';
+process.env.ALLOWED_COLLEGE_DOMAIN = 'ced.alliance.edu.in';
 
 import { describe, it, before, after } from 'node:test';
 import assert from 'node:assert/strict';
@@ -35,22 +35,22 @@ const { sendEmailOtp, recentEmails } = await import('../utils/sendEmailOtp.js');
 
 describe('=== Uni-store Senior Engineering Automated Test Suite ===', () => {
 
-  describe('1. RJIT Institutional Email Validation (@rjit.ac.in)', () => {
-    it('should approve valid RJIT student roll number email addresses', () => {
-      assert.strictEqual(isCollegeEmailValid('0902cs241008@rjit.ac.in'), true);
-      assert.strictEqual(isCollegeEmailValid('0902it211045@rjit.ac.in'), true);
-      assert.strictEqual(isCollegeEmailValid('0902me221012@rjit.ac.in'), true);
+  describe('1. CED Institutional Email Validation (@ced.alliance.edu.in)', () => {
+    it('should approve valid CED student roll number email addresses', () => {
+      assert.strictEqual(isCollegeEmailValid('0902cs241008@ced.alliance.edu.in'), true);
+      assert.strictEqual(isCollegeEmailValid('0902it211045@ced.alliance.edu.in'), true);
+      assert.strictEqual(isCollegeEmailValid('0902me221012@ced.alliance.edu.in'), true);
     });
 
     it('should approve valid department subdomains and dot notations', () => {
-      assert.strictEqual(isCollegeEmailValid('student.cse@rjit.ac.in'), true);
-      assert.strictEqual(isCollegeEmailValid('faculty@cs.rjit.ac.in'), true);
-      assert.strictEqual(isCollegeEmailValid('admin.office@rjit.ac.in'), true);
+      assert.strictEqual(isCollegeEmailValid('student.cse@ced.alliance.edu.in'), true);
+      assert.strictEqual(isCollegeEmailValid('faculty@cs.ced.alliance.edu.in'), true);
+      assert.strictEqual(isCollegeEmailValid('admin.office@ced.alliance.edu.in'), true);
     });
 
     it('should normalize and accept mixed-case or padded emails', () => {
-      assert.strictEqual(isCollegeEmailValid('  0902CS241008@RJIT.AC.IN  '), true);
-      assert.strictEqual(isCollegeEmailValid('Student@Rjit.Ac.In'), true);
+      assert.strictEqual(isCollegeEmailValid('  0902CS241008@ced.alliance.edu.in  '), true);
+      assert.strictEqual(isCollegeEmailValid('Student@ced.alliance.edu.in'), true);
     });
 
     it('should strictly reject commercial public email providers', () => {
@@ -64,8 +64,8 @@ describe('=== Uni-store Senior Engineering Automated Test Suite ===', () => {
     it('should reject other university domains or domain spoofing attempts', () => {
       assert.strictEqual(isCollegeEmailValid('student@iitd.ac.in'), false);
       assert.strictEqual(isCollegeEmailValid('student@mit.edu'), false);
-      assert.strictEqual(isCollegeEmailValid('scammer@rjit.ac.in.attacker.com'), false);
-      assert.strictEqual(isCollegeEmailValid('fake@fake-rjit.ac.in'), false);
+      assert.strictEqual(isCollegeEmailValid('scammer@ced.alliance.edu.in.attacker.com'), false);
+      assert.strictEqual(isCollegeEmailValid('fake@fake-ced.alliance.edu.in'), false);
     });
 
     it('should reject malformed emails, non-strings, and empty inputs', () => {
@@ -74,14 +74,14 @@ describe('=== Uni-store Senior Engineering Automated Test Suite ===', () => {
       assert.strictEqual(isCollegeEmailValid(undefined), false);
       assert.strictEqual(isCollegeEmailValid(12345), false);
       assert.strictEqual(isCollegeEmailValid('plainaddress'), false);
-      assert.strictEqual(isCollegeEmailValid('@rjit.ac.in'), false);
+      assert.strictEqual(isCollegeEmailValid('@ced.alliance.edu.in'), false);
     });
   });
 
   describe('2. NoSQL Injection & Input Sanitization (sanitizeKeys)', () => {
     it('should strip malicious MongoDB operator keys ($where, $gt, $ne, $regex)', () => {
       const maliciousPayload = {
-        email: '0902cs241008@rjit.ac.in',
+        email: '0902cs241008@ced.alliance.edu.in',
         password: { $gt: '' },
         $where: 'this.password.length > 0',
         role: 'student',
@@ -91,7 +91,7 @@ describe('=== Uni-store Senior Engineering Automated Test Suite ===', () => {
 
       assert.strictEqual(maliciousPayload.$where, undefined);
       assert.deepStrictEqual(maliciousPayload.password, {});
-      assert.strictEqual(maliciousPayload.email, '0902cs241008@rjit.ac.in');
+      assert.strictEqual(maliciousPayload.email, '0902cs241008@ced.alliance.edu.in');
       assert.strictEqual(maliciousPayload.role, 'student');
     });
 
@@ -333,10 +333,10 @@ describe('=== Uni-store Senior Engineering Automated Test Suite ===', () => {
   });
 
   describe('6. Production-Grade 3-Step Email OTP Password Recovery Flow', () => {
-    it('should correctly mask student college emails for privacy (e.g., 0902â€¢â€¢â€¢â€¢08@rjit.ac.in)', () => {
-      assert.strictEqual(maskEmail('0902cs241008@rjit.ac.in'), '0902â€¢â€¢â€¢â€¢08@rjit.ac.in');
-      assert.strictEqual(maskEmail('0902it211045@rjit.ac.in'), '0902â€¢â€¢â€¢â€¢45@rjit.ac.in');
-      assert.strictEqual(maskEmail('user@rjit.ac.in'), 'uâ€¢â€¢â€¢â€¢r@rjit.ac.in');
+    it('should correctly mask student college emails for privacy (e.g., 0902â€¢â€¢â€¢â€¢08@ced.alliance.edu.in)', () => {
+      assert.strictEqual(maskEmail('0902cs241008@ced.alliance.edu.in'), '0902â€¢â€¢â€¢â€¢08@ced.alliance.edu.in');
+      assert.strictEqual(maskEmail('0902it211045@ced.alliance.edu.in'), '0902â€¢â€¢â€¢â€¢45@ced.alliance.edu.in');
+      assert.strictEqual(maskEmail('user@ced.alliance.edu.in'), 'uâ€¢â€¢â€¢â€¢r@ced.alliance.edu.in');
       assert.strictEqual(maskEmail(''), '');
     });
 
@@ -358,7 +358,7 @@ describe('=== Uni-store Senior Engineering Automated Test Suite ===', () => {
       await forgotPassword(req, res);
       assert.strictEqual(statusCode, 400);
       assert.strictEqual(jsonBody.success, false);
-      assert.match(jsonBody.message, /registered rjit college email or 10-digit/i);
+      assert.match(jsonBody.message, /registered CED college email or 10-digit/i);
     });
 
     it('should return 404 when no student account matches the provided email or phone', async () => {
@@ -366,7 +366,7 @@ describe('=== Uni-store Senior Engineering Automated Test Suite ===', () => {
       User.findOne = async () => null;
 
       try {
-        const req = { body: { identifier: 'unknown.student@rjit.ac.in' } };
+        const req = { body: { identifier: 'unknown.student@ced.alliance.edu.in' } };
         let statusCode = null;
         let jsonBody = null;
         const res = {
@@ -396,7 +396,7 @@ describe('=== Uni-store Senior Engineering Automated Test Suite ===', () => {
 
       const mockUser = {
         _id: testUserId,
-        email: '0902cs241008@rjit.ac.in',
+        email: '0902cs241008@ced.alliance.edu.in',
         phone: '9876543210',
         resetOtpHash: null,
         resetOtpExpires: null,
@@ -410,7 +410,7 @@ describe('=== Uni-store Senior Engineering Automated Test Suite ===', () => {
       User.findOne = async () => mockUser;
 
       try {
-        const req = { body: { identifier: '0902cs241008@rjit.ac.in' } };
+        const req = { body: { identifier: '0902cs241008@ced.alliance.edu.in' } };
         let statusCode = 200;
         let jsonBody = null;
         const res = {
@@ -428,7 +428,7 @@ describe('=== Uni-store Senior Engineering Automated Test Suite ===', () => {
 
         assert.strictEqual(statusCode, 200);
         assert.strictEqual(jsonBody.success, true);
-        assert.strictEqual(jsonBody.maskedEmail, '0902â€¢â€¢â€¢â€¢08@rjit.ac.in');
+        assert.strictEqual(jsonBody.maskedEmail, '0902â€¢â€¢â€¢â€¢08@ced.alliance.edu.in');
         assert.strictEqual(jsonBody.otp, undefined, 'CRITICAL SECURITY INVARIANT: OTP must NEVER be leaked in JSON response');
         assert.strictEqual(jsonBody.code, undefined);
 
@@ -449,7 +449,7 @@ describe('=== Uni-store Senior Engineering Automated Test Suite ===', () => {
         searchedQuery = query;
         return {
           _id: '654321000000000000000001',
-          email: '0902cs241008@rjit.ac.in',
+          email: '0902cs241008@ced.alliance.edu.in',
           phone: '+91 98765 43210',
           save: async () => {},
         };
@@ -473,7 +473,7 @@ describe('=== Uni-store Senior Engineering Automated Test Suite ===', () => {
         await forgotPassword(req, res);
         assert.strictEqual(statusCode, 200);
         assert.strictEqual(jsonBody.success, true);
-        assert.strictEqual(jsonBody.maskedEmail, '0902â€¢â€¢â€¢â€¢08@rjit.ac.in');
+        assert.strictEqual(jsonBody.maskedEmail, '0902â€¢â€¢â€¢â€¢08@ced.alliance.edu.in');
         assert.ok(searchedQuery && searchedQuery.phone);
       } finally {
         User.findOne = origFindOne;
@@ -486,13 +486,13 @@ describe('=== Uni-store Senior Engineering Automated Test Suite ===', () => {
 
       User.findOne = async () => ({
         _id: '654321000000000000000001',
-        email: '0902cs241008@rjit.ac.in',
+        email: '0902cs241008@ced.alliance.edu.in',
         lastOtpSentAt: recentOtpTime,
         save: async () => {},
       });
 
       try {
-        const req = { body: { identifier: '0902cs241008@rjit.ac.in' } };
+        const req = { body: { identifier: '0902cs241008@ced.alliance.edu.in' } };
         let statusCode = null;
         let jsonBody = null;
         const res = {
@@ -522,7 +522,7 @@ describe('=== Uni-store Senior Engineering Automated Test Suite ===', () => {
 
       const mockUser = {
         _id: '654321000000000000000001',
-        email: '0902cs241008@rjit.ac.in',
+        email: '0902cs241008@ced.alliance.edu.in',
         lastOtpSentAt: oldOtpTime,
         resetOtpHash: null,
         resetOtpExpires: null,
@@ -536,7 +536,7 @@ describe('=== Uni-store Senior Engineering Automated Test Suite ===', () => {
       User.findOne = async () => mockUser;
 
       try {
-        const req = { body: { identifier: '0902cs241008@rjit.ac.in' } };
+        const req = { body: { identifier: '0902cs241008@ced.alliance.edu.in' } };
         let statusCode = 200;
         let jsonBody = null;
         const res = {
@@ -568,7 +568,7 @@ describe('=== Uni-store Senior Engineering Automated Test Suite ===', () => {
     });
 
     it('should reject verify-otp if OTP is malformed or not 6 digits', async () => {
-      const req = { body: { identifier: '0902cs241008@rjit.ac.in', otp: '123' } };
+      const req = { body: { identifier: '0902cs241008@ced.alliance.edu.in', otp: '123' } };
       let statusCode = null;
       let jsonBody = null;
       const res = {
@@ -592,14 +592,14 @@ describe('=== Uni-store Senior Engineering Automated Test Suite ===', () => {
       const origFindOne = User.findOne;
       User.findOne = async () => ({
         _id: '654321000000000000000001',
-        email: '0902cs241008@rjit.ac.in',
+        email: '0902cs241008@ced.alliance.edu.in',
         resetOtpHash: '$2a$10$abcdefg',
         resetOtpExpires: new Date(Date.now() - 1000), // Expired 1 second ago
         resetOtpAttempts: 0,
       });
 
       try {
-        const req = { body: { identifier: '0902cs241008@rjit.ac.in', otp: '123456' } };
+        const req = { body: { identifier: '0902cs241008@ced.alliance.edu.in', otp: '123456' } };
         let statusCode = null;
         let jsonBody = null;
         const res = {
@@ -629,7 +629,7 @@ describe('=== Uni-store Senior Engineering Automated Test Suite ===', () => {
 
       const mockUser = {
         _id: '654321000000000000000001',
-        email: '0902cs241008@rjit.ac.in',
+        email: '0902cs241008@ced.alliance.edu.in',
         resetOtpHash: testHash,
         resetOtpExpires: new Date(Date.now() + 600000),
         resetOtpAttempts: 0,
@@ -643,7 +643,7 @@ describe('=== Uni-store Senior Engineering Automated Test Suite ===', () => {
 
       try {
         // Attempt 1: Wrong code '111111'
-        const req1 = { body: { identifier: '0902cs241008@rjit.ac.in', otp: '111111' } };
+        const req1 = { body: { identifier: '0902cs241008@ced.alliance.edu.in', otp: '111111' } };
         let statusCode1 = null;
         let jsonBody1 = null;
         const res1 = {
@@ -665,7 +665,7 @@ describe('=== Uni-store Senior Engineering Automated Test Suite ===', () => {
 
         // Simulate 5 prior failed attempts
         mockUser.resetOtpAttempts = 5;
-        const req2 = { body: { identifier: '0902cs241008@rjit.ac.in', otp: '654321' } };
+        const req2 = { body: { identifier: '0902cs241008@ced.alliance.edu.in', otp: '654321' } };
         let statusCode2 = null;
         let jsonBody2 = null;
         const res2 = {
@@ -696,7 +696,7 @@ describe('=== Uni-store Senior Engineering Automated Test Suite ===', () => {
 
       const mockUser = {
         _id: testUserId,
-        email: '0902cs241008@rjit.ac.in',
+        email: '0902cs241008@ced.alliance.edu.in',
         resetOtpHash: testHash,
         resetOtpExpires: new Date(Date.now() + 600000),
         resetOtpAttempts: 0,
@@ -708,7 +708,7 @@ describe('=== Uni-store Senior Engineering Automated Test Suite ===', () => {
       User.findOne = async () => mockUser;
 
       try {
-        const req = { body: { identifier: '0902cs241008@rjit.ac.in', otp: plainOtp } };
+        const req = { body: { identifier: '0902cs241008@ced.alliance.edu.in', otp: plainOtp } };
         let statusCode = 200;
         let jsonBody = null;
         const res = {
@@ -900,7 +900,7 @@ describe('=== Uni-store Senior Engineering Automated Test Suite ===', () => {
   describe('7. Premium Responsive HTML Email Templates & Onboarding Flow', () => {
     it('should generate responsive HTML OTP email with prominent 6-digit box and security warning', () => {
       const testOtp = '849201';
-      const testEmail = '0902cs241008@rjit.ac.in';
+      const testEmail = '0902cs241008@ced.alliance.edu.in';
       const html = generateOtpEmail(testOtp, testEmail);
 
       assert.ok(typeof html === 'string');
@@ -908,7 +908,7 @@ describe('=== Uni-store Senior Engineering Automated Test Suite ===', () => {
       assert.ok(html.includes(testEmail));
       assert.ok(html.includes('Reuse'));
       assert.ok(html.includes('Campus'));
-      assert.ok(html.includes('RJIT Tekanpur'));
+      assert.ok(html.includes('CED Tekanpur'));
       assert.ok(html.includes('Valid for 10 minutes'));
       assert.ok(html.includes('Security Warning:'));
       assert.ok(html.includes('#059669')); // Emerald brand color
@@ -920,18 +920,18 @@ describe('=== Uni-store Senior Engineering Automated Test Suite ===', () => {
 
       assert.ok(typeof html === 'string');
       assert.ok(html.includes('Welcome to the Campus Family, Abhishek!'));
-      assert.ok(html.includes('Verified @rjit.ac.in Community Only'));
+      assert.ok(html.includes('Verified @ced.alliance.edu.in Community Only'));
       assert.ok(html.includes('100% Free & Zero Commission'));
       assert.ok(html.includes('Direct WhatsApp & Campus Deals'));
-      assert.ok(html.includes('Official RJIT Campus Marketplace'));
+      assert.ok(html.includes('Official CED Campus Marketplace'));
       assert.ok(html.includes('Explore Campus Listings'));
     });
 
     it('should return { mocked: true } in test mode (NODE_ENV=test) for sendEmailOtp and sendWelcomeEmail without sending real emails', async () => {
-      const otpRes = await sendEmailOtp('0902cs241008@rjit.ac.in', '123456');
+      const otpRes = await sendEmailOtp('0902cs241008@ced.alliance.edu.in', '123456');
       assert.strictEqual(otpRes.mocked, true);
 
-      const welcomeRes = await sendWelcomeEmail('0902cs241008@rjit.ac.in', 'Abhishek Pachori');
+      const welcomeRes = await sendWelcomeEmail('0902cs241008@ced.alliance.edu.in', 'Abhishek Pachori');
       assert.strictEqual(welcomeRes.mocked, true);
     });
 
@@ -941,7 +941,7 @@ describe('=== Uni-store Senior Engineering Automated Test Suite ===', () => {
       try {
         process.env.NODE_ENV = 'development';
         delete process.env.SMTP_USER;
-        const res = await sendEmailOtp('test.student@rjit.ac.in', '123456');
+        const res = await sendEmailOtp('test.student@ced.alliance.edu.in', '123456');
         assert.strictEqual(res.success, true);
         assert.strictEqual(res.devFallback, true);
       } finally {
@@ -956,7 +956,7 @@ describe('=== Uni-store Senior Engineering Automated Test Suite ===', () => {
       try {
         process.env.NODE_ENV = 'development';
         delete process.env.SMTP_USER;
-        const res = await sendWelcomeEmail('test.student@rjit.ac.in', 'Abhishek Pachori');
+        const res = await sendWelcomeEmail('test.student@ced.alliance.edu.in', 'Abhishek Pachori');
         assert.strictEqual(res.success, true);
         assert.strictEqual(res.devFallback, true);
       } finally {
@@ -966,14 +966,14 @@ describe('=== Uni-store Senior Engineering Automated Test Suite ===', () => {
     });
 
     it('should enforce module-level in-memory rate-limit lock on recentEmails within 60 seconds', async () => {
-      const testEmail = 'locktest@rjit.ac.in';
+      const testEmail = 'locktest@ced.alliance.edu.in';
       const origEnv = process.env.NODE_ENV;
       const origUser = process.env.SMTP_USER;
       const origPass = process.env.SMTP_PASS;
 
       try {
         process.env.NODE_ENV = 'production';
-        process.env.SMTP_USER = 'dummy@rjit.ac.in';
+        process.env.SMTP_USER = 'dummy@ced.alliance.edu.in';
         process.env.SMTP_PASS = 'dummypass';
 
         // Pre-populate in-memory lock
@@ -1105,7 +1105,7 @@ describe('=== Uni-store Senior Engineering Automated Test Suite ===', () => {
           populate: () => ({
             lean: async () => ({
               _id: id,
-              title: 'RJIT Lab Coat',
+              title: 'CED Lab Coat',
               views: 11,
               status: 'Available',
               seller: { name: 'Abhishek' },

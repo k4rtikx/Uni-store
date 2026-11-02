@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+﻿import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import {
   ShieldCheck,
@@ -323,7 +323,7 @@ const Home = () => {
                     <ShieldCheck className="w-5 h-5" />
                   </div>
                   <div>
-                    <h3 className="text-xs sm:text-sm font-bold text-slate-900">100% @rjit.ac.in Verified</h3>
+                    <h3 className="text-xs sm:text-sm font-bold text-slate-900">100% @ced.alliance.edu.in Verified</h3>
                     <p className="text-[11px] text-slate-500 mt-0.5 leading-snug">Student gatekeeping</p>
                   </div>
                 </Tilt3D>
@@ -544,7 +544,7 @@ const Home = () => {
             </div>
             <h3 className="font-bold text-slate-900 text-base">Verified College Students</h3>
             <p className="text-sm text-slate-500 leading-relaxed">
-              Only students with official @rjit.ac.in institutional accounts can trade, guaranteeing safety and trust.
+              Only students with official @ced.alliance.edu.in institutional accounts can trade, guaranteeing safety and trust.
             </p>
           </Tilt3D>
 

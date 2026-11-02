@@ -1,4 +1,4 @@
-import 'dotenv/config';
+﻿import 'dotenv/config';
 import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -16,17 +16,17 @@ const seedFreeDonation = async () => {
     const usersCol = mongoose.connection.collection('users');
     const listingsCol = mongoose.connection.collection('listings');
 
-    // 1. Locate an existing RJIT senior seller account (e.g., Rohit Sharma or any RJIT student)
+    // 1. Locate an existing CED senior seller account (e.g., Rohit Sharma or any CED student)
     let seniorSeller = await usersCol.findOne({
-      email: { $regex: /rjit\.ac\.in$/i }
+      email: { $regex: /CED\.ac\.in$/i }
     });
 
     if (!seniorSeller) {
-      console.log('[Seed] No RJIT user found, creating Rohit Sharma senior account...');
+      console.log('[Seed] No CED user found, creating Rohit Sharma senior account...');
       const demoSeller = {
         name: 'Rohit Sharma (Senior CSE)',
-        email: '0902cs221045@rjit.ac.in',
-        college: 'Rustamji Institute of Technology (RJIT), Tekanpur',
+        email: '0902cs221045@ced.alliance.edu.in',
+        college: 'CED - Alliance University (CED), Tekanpur',
         phone: '+91 98260 12345',
         createdAt: new Date(),
         updatedAt: new Date(),
@@ -61,7 +61,7 @@ const seedFreeDonation = async () => {
       const freeDonationListing = {
         title: 'RGPV B.Tech CSE 3rd Sem Solved PYQs & Handwritten Notes',
         description:
-          '🎁 Free donation for 2nd/3rd year juniors! Complete handwritten notes for OOPs (Object Oriented Programming), Discrete Mathematics, and Data Structures along with last 5 years RGPV solved mid-sem and end-sem question papers. Free handover near RJIT Central Library or Canteen.',
+          '🎁 Free donation for 2nd/3rd year juniors! Complete handwritten notes for OOPs (Object Oriented Programming), Discrete Mathematics, and Data Structures along with last 5 years RGPV solved mid-sem and end-sem question papers. Free handover near CED Central Library or Canteen.',
         price: 0,
         category: 'Books',
         condition: 'Good',

@@ -139,8 +139,8 @@ const ListingDetails = () => {
     currentUserId && sellerId && String(currentUserId) === String(sellerId)
   );
 
-  const sellerName = listing.seller?.name || 'RJIT Student';
-  const sellerCollege = listing.seller?.college || 'RJIT Tekanpur';
+  const sellerName = listing.seller?.name || 'CED Student';
+  const sellerCollege = listing.seller?.college || 'CED Tekanpur';
   const sellerEmail = listing.seller?.email || 'N/A';
   const sellerPhone = listing.seller?.phone || '';
 
@@ -173,13 +173,13 @@ const ListingDetails = () => {
     const cleanDigits = sellerPhone.replace(/[^0-9]/g, '');
     const phoneWithCountry = cleanDigits.length === 10 ? `91${cleanDigits}` : cleanDigits;
     const message = encodeURIComponent(
-      `Hi, I am interested in your listing "${listing.title}" on Uni-store RJIT!`
+      `Hi, I am interested in your listing "${listing.title}" on Uni-store CED!`
     );
     return `https://wa.me/${phoneWithCountry}?text=${message}`;
   };
 
   const getEmailLink = () => {
-    const subject = encodeURIComponent(`Uni-store RJIT: Inquiring about ${listing.title}`);
+    const subject = encodeURIComponent(`Uni-store CED: Inquiring about ${listing.title}`);
     const body = encodeURIComponent(
       `Hi ${sellerName},\n\nI saw your listing for "${listing.title}" (${
         isFree ? 'FREE / DONATION' : `â‚¹${listing.price}`
@@ -193,7 +193,7 @@ const ListingDetails = () => {
     const priceText = isFree ? 'FREE' : `â‚¹${listing.price}`;
     const shareData = {
       title: listing.title,
-      text: `${listing.title} - ${priceText} on Uni-store RJIT`,
+      text: `${listing.title} - ${priceText} on Uni-store CED`,
       url: shareUrl,
     };
 

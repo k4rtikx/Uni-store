@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+﻿import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import {
   GraduationCap,
@@ -169,7 +169,7 @@ const Navbar = () => {
                   Uni<span className="text-emerald-600">-store</span>
                 </span>
                 <span className="px-1.5 py-0.5 rounded-full text-[9px] sm:text-[10px] font-extrabold bg-emerald-100 text-emerald-800 border border-emerald-200/60 uppercase tracking-wider shrink-0">
-                  RJIT
+                  CED
                 </span>
               </div>
             </Link>
@@ -567,7 +567,7 @@ const Navbar = () => {
                 </h4>
                 <div className="flex items-center gap-1 text-xs text-emerald-800 font-semibold truncate mt-0.5">
                   <GraduationCap className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-                  <span className="truncate">{user?.college || 'RJIT Tekanpur'}</span>
+                  <span className="truncate">{user?.college || 'CED Tekanpur'}</span>
                 </div>
               </div>
             </div>
@@ -623,7 +623,7 @@ const Navbar = () => {
                   <GraduationCap className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
                   <input
                     type="text"
-                    value={user?.college || 'Rustamji Institute of Technology (RJIT)'}
+                    value={user?.college || 'CED - Alliance University (CED)'}
                     readOnly
                     disabled
                     className="w-full pl-10 pr-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-slate-600 text-xs font-medium cursor-not-allowed"

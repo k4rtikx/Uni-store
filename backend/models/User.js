@@ -1,15 +1,15 @@
-import mongoose from 'mongoose';
+﻿import mongoose from 'mongoose';
 
 /**
  * Validates college email against configurable environment variable ALLOWED_COLLEGE_DOMAIN / ALLOWED_EMAIL_DOMAINS
- * Strict support for RJIT campus emails (e.g., 0902cs241008@rjit.ac.in)
+ * Strict support for CED campus emails (e.g., 0902cs241008@ced.alliance.edu.in)
  * as specified in PRD Section 8.
  */
 export const isCollegeEmailValid = (email) => {
   if (!email || typeof email !== 'string') return false;
   const lowerEmail = email.toLowerCase().trim();
 
-  // Basic email structure validation allowing alphanumeric student roll numbers (e.g., 0902cs241008@rjit.ac.in)
+  // Basic email structure validation allowing alphanumeric student roll numbers (e.g., 0902cs241008@ced.alliance.edu.in)
   const emailRegex = /^[a-z0-9._%+-]+@([a-z0-9.-]+\.[a-z]{2,})$/i;
   const match = lowerEmail.match(emailRegex);
   if (!match) return false;
@@ -20,7 +20,7 @@ export const isCollegeEmailValid = (email) => {
   const rawDomains =
     process.env.ALLOWED_COLLEGE_DOMAIN ||
     process.env.ALLOWED_EMAIL_DOMAINS ||
-    'rjit.ac.in';
+    'ced.alliance.edu.in';
 
   const allowedDomains = rawDomains
     .split(',')
@@ -31,7 +31,7 @@ export const isCollegeEmailValid = (email) => {
     return allowedDomains.some((d) => domain === d || domain.endsWith('.' + d));
   }
 
-  return domain === 'rjit.ac.in' || domain.endsWith('.rjit.ac.in');
+  return domain === 'ced.alliance.edu.in' || domain.endsWith('.ced.alliance.edu.in');
 };
 
 const userSchema = new mongoose.Schema(
@@ -52,7 +52,7 @@ const userSchema = new mongoose.Schema(
         validator: function (value) {
           return isCollegeEmailValid(value);
         },
-        message: 'Please use your official RJIT college email ending with @rjit.ac.in',
+        message: 'Please use your official CED college email ending with @ced.alliance.edu.in',
       },
     },
     passwordHash: {

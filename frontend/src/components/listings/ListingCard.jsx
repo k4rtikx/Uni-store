@@ -30,7 +30,7 @@ const ListingCard = ({ item, listing: propListing }) => {
   }, []);
 
   const sellerInitial = listing?.seller?.name ? listing.seller.name.charAt(0).toUpperCase() : 'S';
-  const sellerName = listing?.seller?.name || 'RJIT Student';
+  const sellerName = listing?.seller?.name || 'CED Student';
 
   const handleShare = async (e) => {
     e.stopPropagation();
@@ -38,7 +38,7 @@ const ListingCard = ({ item, listing: propListing }) => {
     const priceText = isFree ? 'FREE' : `â‚¹${listing.price}`;
     const shareData = {
       title: listing.title,
-      text: `${listing.title} - ${priceText} (${listing.condition}) on Uni-store RJIT`,
+      text: `${listing.title} - ${priceText} (${listing.condition}) on Uni-store CED`,
       url: shareUrl,
     };
 
@@ -176,7 +176,7 @@ const ListingCard = ({ item, listing: propListing }) => {
               </div>
               <div className="flex items-center gap-1 min-w-0">
                 <span className="text-xs font-semibold text-slate-700 truncate max-w-[110px]">{sellerName}</span>
-                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" title="Verified RJIT" />
+                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" title="Verified CED" />
               </div>
             </div>
             <div className="text-xs font-semibold text-emerald-600 group-hover:translate-x-0.5 transition-transform flex items-center gap-0.5 shrink-0">

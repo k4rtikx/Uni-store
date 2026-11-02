@@ -29,7 +29,7 @@ Experience the live application deployed across globally distributed edge infras
 
 ## ðŸ’¡ Overview & Problem Statement
 
-Every semester across technical institutes like **Rustamji Institute of Technology (RJIT)**, passing seniors discard or store away expensive academic equipmentâ€”such as engineering drafters, higher mathematics textbooks, lab coats, and scientific calculators (e.g., Casio FX-991EX). Concurrently, incoming juniors spend substantial sums purchasing brand-new supplies from retail outlets.
+Every semester across technical institutes like **CED - Alliance University (CED)**, passing seniors discard or store away expensive academic equipmentâ€”such as engineering drafters, higher mathematics textbooks, lab coats, and scientific calculators (e.g., Casio FX-991EX). Concurrently, incoming juniors spend substantial sums purchasing brand-new supplies from retail outlets.
 
 Generic classifieds (OLX, Facebook Marketplace) introduce safety concerns, stranger fraud, high shipping fees, and unverified users. **Uni-store** resolves this by establishing a walled-garden, peer-to-peer micro-economy exclusively for verified college members, enabling secure same-day handoffs in campus hostels, academic blocks, and canteens.
 
@@ -41,7 +41,7 @@ Generic classifieds (OLX, Facebook Marketplace) introduce safety concerns, stran
 Snap or upload a photo: Gemini identifies the item, the background is removed, campus listings are matched, and Amazon/Flipkart alternatives appear if nothing is found. See [VISUAL_SEARCH.md](VISUAL_SEARCH.md).
 
 ### ðŸ›¡ï¸ Institutional Security & Verification
-- **Domain-Enforced Gatekeeping**: Registration is strictly restricted to verified `@rjit.ac.in` student institutional email addresses via cryptographic regex and database validation, systematically blocking commercial resellers and bad actors.
+- **Domain-Enforced Gatekeeping**: Registration is strictly restricted to verified `@ced.alliance.edu.in` student institutional email addresses via cryptographic regex and database validation, systematically blocking commercial resellers and bad actors.
 - **3-Step Cryptographic Email OTP**: Implements secure 6-digit OTP delivery via Nodemailer with bcrypt-hashed token persistence, strict 10-minute time-to-live (TTL), attempt rate-limiting, and cooldown timers to prevent brute-force recovery attacks.
 
 ### âš¡ Zero-Blink UI Architecture
@@ -210,14 +210,14 @@ The project uses `.env` files to separate configuration from codebase. Below is 
 | `MONGO_URI` | Yes | MongoDB Atlas connection string URI | `mongodb+srv://<user>:<pwd>@cluster0.mongodb.net/<db>?retryWrites=true&w=majority` |
 | `JWT_SECRET` | Yes | Cryptographic secret key used for signing JWT tokens | `your_super_secret_jwt_key_min_32_chars` |
 | `CLIENT_URL` | Yes | Allowed frontend origin for CORS access policies | `http://localhost:5173` |
-| `ALLOWED_COLLEGE_DOMAIN`| Yes | Approved academic email domain for campus gatekeeping | `rjit.ac.in` |
-| `ALLOWED_EMAIL_DOMAINS` | Optional | Secondary alias list for allowed institutional domains | `rjit.ac.in` |
+| `ALLOWED_COLLEGE_DOMAIN`| Yes | Approved academic email domain for campus gatekeeping | `ced.alliance.edu.in` |
+| `ALLOWED_EMAIL_DOMAINS` | Optional | Secondary alias list for allowed institutional domains | `ced.alliance.edu.in` |
 | `CLOUDINARY_CLOUD_NAME` | Yes | Cloudinary cloud account name | `your_cloudinary_cloud_name` |
 | `CLOUDINARY_API_KEY` | Yes | Cloudinary public API key | `your_cloudinary_api_key` |
 | `CLOUDINARY_API_SECRET` | Yes | Cloudinary private API secret | `your_cloudinary_api_secret` |
 | `SMTP_HOST` | Optional | SMTP mail host (defaults to `smtp.gmail.com`) | `smtp.gmail.com` |
 | `SMTP_PORT` | Optional | SMTP network port (defaults to `587`) | `587` / `465` |
-| `SMTP_USER` | Optional | SMTP authentication email address | `student-council@rjit.ac.in` |
+| `SMTP_USER` | Optional | SMTP authentication email address | `student-council@ced.alliance.edu.in` |
 | `SMTP_PASS` | Optional | SMTP app password or credential token | `your_smtp_app_password` |
 
 ### Frontend Configuration (`frontend/.env`)
@@ -235,7 +235,7 @@ All private routes require an `Authorization: Bearer <JWT>` header.
 | Domain | Method | Endpoint | Access | Functionality |
 |---|---|---|---|---|
 | **Health** | `GET` | `/api/health` | Public | System uptime & health diagnostics |
-| **Auth** | `POST` | `/api/auth/register` | Public | Register student with `@rjit.ac.in` email |
+| **Auth** | `POST` | `/api/auth/register` | Public | Register student with `@ced.alliance.edu.in` email |
 | **Auth** | `POST` | `/api/auth/login` | Public | Authenticate user and receive JWT bearer token |
 | **Auth** | `POST` | `/api/auth/forgot-password` | Public | Request 6-digit verification OTP |
 | **Auth** | `POST` | `/api/auth/verify-otp` | Public | Validate OTP and issue single-use reset token |
@@ -274,6 +274,6 @@ copies or substantial portions of the Software.
 ---
 
 <div align="center">
-  <sub>Engineered with precision for the student community of <b>Rustamji Institute of Technology (RJIT)</b>.</sub>
+  <sub>Engineered with precision for the student community of <b>CED - Alliance University (CED)</b>.</sub>
 </div>
 

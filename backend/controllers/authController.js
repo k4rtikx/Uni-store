@@ -1,4 +1,4 @@
-import crypto from 'crypto';
+﻿import crypto from 'crypto';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import User, { isCollegeEmailValid } from '../models/User.js';
@@ -52,7 +52,7 @@ export const registerUser = async (req, res) => {
     if (!isCollegeEmailValid(trimmedEmail)) {
       return res.status(400).json({
         success: false,
-        message: 'Please use your official RJIT college email ending with @rjit.ac.in',
+        message: 'Please use your official CED college email ending with @ced.alliance.edu.in',
       });
     }
 
@@ -204,7 +204,7 @@ export const getMe = async (req, res) => {
 };
 
 /**
- * Formats a college email address with masking for privacy (e.g., 0902••••08@rjit.ac.in)
+ * Formats a college email address with masking for privacy (e.g., 0902••••08@ced.alliance.edu.in)
  */
 export const maskEmail = (email) => {
   if (!email || typeof email !== 'string' || !email.includes('@')) return '';
@@ -248,7 +248,7 @@ export const forgotPassword = async (req, res) => {
     if (!identifier || typeof identifier !== 'string' || !identifier.trim()) {
       return res.status(400).json({
         success: false,
-        message: 'Please provide your registered RJIT college email or 10-digit mobile number.',
+        message: 'Please provide your registered CED college email or 10-digit mobile number.',
       });
     }
 

@@ -68,7 +68,7 @@ export const wrapEmailShell = ({ title, preheader = '', contentHtml }) => {
                 <tr>
                   <td style="background-color: rgba(6, 95, 70, 0.4); border: 1px solid rgba(167, 243, 208, 0.4); border-radius: 20px; padding: 4px 14px; text-align: center;">
                     <span style="color: #e6fffa; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">
-                      Official RJIT Tekanpur Marketplace
+                      Official CED Tekanpur Marketplace
                     </span>
                   </td>
                 </tr>
@@ -87,13 +87,13 @@ export const wrapEmailShell = ({ title, preheader = '', contentHtml }) => {
           <tr>
             <td style="padding: 24px 32px; background-color: #f8fafc; border-top: 1px solid #e2e8f0; text-align: center;">
               <p style="margin: 0 0 6px 0; color: #64748b; font-size: 12px; font-weight: 600;">
-                Rustamji Institute of Technology (RJIT) Â· BSF Academy, Tekanpur, Gwalior (M.P.)
+                CED - Alliance University (CED) Â· BSF Academy, Tekanpur, Gwalior (M.P.)
               </p>
               <p style="margin: 0 0 10px 0; color: #94a3b8; font-size: 11px; line-height: 1.5;">
-                This is an automated transmission for verified student accounts ending with @rjit.ac.in.
+                This is an automated transmission for verified student accounts ending with @ced.alliance.edu.in.
               </p>
               <p style="margin: 0; color: #cbd5e1; font-size: 11px;">
-                Â© ${currentYear} Uni-store RJIT Â· All rights reserved.
+                Â© ${currentYear} Uni-store CED Â· All rights reserved.
               </p>
             </td>
           </tr>
@@ -121,7 +121,7 @@ export const generateOtpEmail = (otp, recipientEmail = '') => {
     </h2>
 
     <p style="margin: 0 0 20px 0; color: #475569; font-size: 14px; line-height: 1.6;">
-      Hello, we received a request to reset the password for your RJIT campus account${
+      Hello, we received a request to reset the password for your CED campus account${
         recipientEmail ? ` (<strong>${recipientEmail}</strong>)` : ''
       }.
       Use the one-time verification code below to complete your password update:
@@ -192,7 +192,7 @@ export const generateWelcomeEmail = (userName) => {
     </h2>
 
     <p style="margin: 0 0 24px 0; color: #475569; font-size: 15px; line-height: 1.6;">
-      Congratulations! Your student account is now verified and active. You have full access to the <strong>Official RJIT Campus Marketplace</strong>â€”where students buy, sell, and donate second-hand academic gear safely on campus.
+      Congratulations! Your student account is now verified and active. You have full access to the <strong>Official CED Campus Marketplace</strong>â€”where students buy, sell, and donate second-hand academic gear safely on campus.
     </p>
 
     <!-- 3 Quick Tips Box -->
@@ -211,7 +211,7 @@ export const generateWelcomeEmail = (userName) => {
           </td>
           <td>
             <h4 style="margin: 0 0 4px 0; color: #0f172a; font-size: 14px; font-weight: 700;">
-              Verified @rjit.ac.in Community Only
+              Verified @ced.alliance.edu.in Community Only
             </h4>
             <p style="margin: 0; color: #64748b; font-size: 13px; line-height: 1.5;">
               Every user on Uni-store is an authenticated student or staff member. No strangers or commercial brokersâ€”trade with trust.
@@ -281,7 +281,7 @@ export const generateWelcomeEmail = (userName) => {
   `;
 
   return wrapEmailShell({
-    title: 'Welcome to Uni-store - RJIT Student Marketplace',
+    title: 'Welcome to Uni-store - CED Student Marketplace',
     preheader: `Welcome ${displayName}! Start buying, selling, and donating academic gear on campus.`,
     contentHtml,
   });

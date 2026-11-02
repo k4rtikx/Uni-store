@@ -8,7 +8,7 @@ export const recentEmails = new Map();
  * Sends a 6-digit OTP to the student's registered college email address.
  * Falls back to formatted console output in local development when SMTP credentials are not configured.
  *
- * @param {string} recipientEmail - Recipient student email (@rjit.ac.in)
+ * @param {string} recipientEmail - Recipient student email (@ced.alliance.edu.in)
  * @param {string} otp - 6-digit one-time password
  * @returns {Promise<{ success?: boolean, devFallback?: boolean, mocked?: boolean }>}
  */
@@ -64,7 +64,7 @@ export const sendEmailOtp = async (recipientEmail, otp) => {
     from: `"Uni-store Security" <${smtpUser}>`,
     to: recipientEmail,
     subject: `Your Uni-store Password Reset Code: ${otp}`,
-    text: `Your 6-digit password reset verification code for Uni-store (RJIT Tekanpur) is: ${otp}\n\nThis code will expire in 10 minutes.\n\nSecurity Notice: Never share this code with anyone.\n\nIf you did not request a password reset, please ignore this email.`,
+    text: `Your 6-digit password reset verification code for Uni-store (CED Tekanpur) is: ${otp}\n\nThis code will expire in 10 minutes.\n\nSecurity Notice: Never share this code with anyone.\n\nIf you did not request a password reset, please ignore this email.`,
     html: generateOtpEmail(otp, recipientEmail),
   };
 

@@ -88,7 +88,7 @@ function App() {
                   </span>
                   <span className="text-slate-300">Â·</span>
                   <span className="text-slate-500 font-medium hidden sm:inline">
-                    Rustamji Institute of Technology (RJIT)
+                    CED - Alliance University (CED)
                   </span>
                 </div>
                 <p className="font-medium text-slate-500">
@@ -99,7 +99,7 @@ function App() {
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse inline-block" />
                     Live Marketplace
                   </span>
-                  <span>RJIT Tekanpur</span>
+                  <span>CED Tekanpur</span>
                 </div>
               </div>
             </footer>
