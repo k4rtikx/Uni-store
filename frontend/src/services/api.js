@@ -5,7 +5,7 @@ const API = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
-  timeout: 90000,
+  timeout: 30000,
 });
 
 API.interceptors.request.use(
@@ -233,7 +233,7 @@ export const deleteListingApi = deleteListing;
 export const identifyProductImage = async (imageBlob, signal) => {
   const form = new FormData();
   form.append('image', imageBlob, 'product.jpg');
-  return API.post('/visual-search/identify', form, { timeout: 120000, signal });
+  return API.post('/visual-search/identify', form, { timeout: 180000, signal });
 };
 
 /** Search existing Uni-Store listings using a Gemini identification */

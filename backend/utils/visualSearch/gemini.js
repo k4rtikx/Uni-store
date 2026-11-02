@@ -130,65 +130,71 @@ let keyIndex = 0;
 
 export const identifyProduct = async (jpegBuffer) => {
   const cfg = getVisualSearchConfig();
-  const apiKeys = cfg.geminiApiKeys && cfg.geminiApiKeys.length > 0 ? cfg.geminiApiKeys : [cfg.geminiApiKey].filter(Boolean);
+  const apiKeys = cfg.geminiApiKeys && cfg.geminiApiKeys.length > 0
+    ? cfg.geminiApiKeys
+    : [cfg.geminiApiKey].filter(Boolean);
 
   if (!apiKeys.length) {
-    throw new GeminiError('Visual search is not configured on the server (missing GEMINI_API_KEY).', 503, 'GEMINI_NOT_CONFIGURED');
+    throw new GeminiError('Visual search is not configured (missing GEMINI_API_KEY).', 503, 'GEMINI_NOT_CONFIGURED');
   }
 
   const imageBase64 = jpegBuffer.toString('base64');
-
-  // Build model list: primary + fallback + extra models
-  // Only use primary + 1 fallback to keep total time under 50s
+  // 2 models max, 3 keys max per model = worst case 6 attempts x 10s = 60s
   const models = [...new Set([cfg.geminiModel, cfg.geminiFallbackModel].filter(Boolean))].slice(0, 2);
-
+  const PER_ATTEMPT_MS = 10000; // 10s hard cap per attempt
   let lastErr;
 
-  // Outer: models — Inner: keys. Try all keys on primary model before falling back.
   for (const model of models) {
-    const maxAttempts = Math.min(apiKeys.length, 3); // try at most 3 keys per model
-    for (let attempt = 0; attempt < maxAttempts; attempt++) {
-      const activeKey = apiKeys[(keyIndex + attempt) % apiKeys.length];
+    const keysToTry = apiKeys.slice(0, 3); // max 3 keys per model
+    for (let i = 0; i < keysToTry.length; i++) {
+      const ki = (keyIndex + i) % apiKeys.length;
+      const activeKey = apiKeys[ki];
+      console.log(`[Gemini] Trying model=${model} key#${ki + 1}`);
+
+      // Race the SDK call against a hard timer promise
+      let timerHandle;
+      const timeoutPromise = new Promise((_, reject) => {
+        timerHandle = setTimeout(() => reject(new Error('AbortError')), PER_ATTEMPT_MS);
+      });
+
       let result;
       try {
-        console.log(`[Gemini] Trying model=${model} key#${(keyIndex + attempt) % apiKeys.length + 1}`);
-        result = await callModel({
-          model,
-          apiKey: activeKey,
-          imageBase64,
-          mimeType: 'image/jpeg',
-          timeoutMs: Math.min(cfg.geminiTimeoutMs, 8000), // cap 8s per attempt
-        });
+        result = await Promise.race([
+          callModel({ model, apiKey: activeKey, imageBase64, mimeType: 'image/jpeg', timeoutMs: PER_ATTEMPT_MS }),
+          timeoutPromise,
+        ]);
+        clearTimeout(timerHandle);
       } catch (err) {
-        const isTimeout = err.name === 'AbortError' || /timeout|aborted/i.test(err.message);
-        const is503 = /503|unavailable|high demand/i.test(err.message);
-        const is404 = /404|not found|no longer available/i.test(err.message);
-        console.error(`[Gemini] model=${model} key#${(keyIndex + attempt) % apiKeys.length + 1} error: ${err.message?.slice(0, 100)}`);
+        clearTimeout(timerHandle);
+        const isTimeout = /AbortError|timeout|aborted/i.test(err.message || err.name || '');
+        const is503 = /503|unavailable|high demand/i.test(err.message || '');
+        const is404 = /404|not found|no longer available/i.test(err.message || '');
+        console.error(`[Gemini] model=${model} key#${ki + 1} failed: ${String(err.message).slice(0, 80)}`);
         lastErr = new GeminiError(
-          isTimeout ? 'The AI took too long. Please try again.'
-            : is503 ? 'AI service busy, trying next key...'
-            : is404 ? `Model ${model} unavailable, trying fallback...`
-            : `AI error: ${err.message?.slice(0, 80)}`,
+          isTimeout ? 'AI timed out, retrying...'
+            : is503 ? 'AI busy, trying next key...'
+            : is404 ? `Model ${model} not found, trying fallback...`
+            : `AI error: ${String(err.message).slice(0, 60)}`,
           is503 ? 503 : isTimeout ? 504 : 502,
           'GEMINI_UNREACHABLE'
         );
-        if (is404) break; // 404 = model not found, no point trying other keys for this model
+        if (is404) break;
         continue;
       }
 
       const text = result?.text;
       if (!text) {
         const blockReason = result?.promptFeedback?.blockReason;
-        if (blockReason) throw new GeminiError('Image could not be analysed. Try a different photo.', 422, 'GEMINI_BLOCKED');
-        lastErr = new GeminiError('AI returned no result. Try a clearer photo.', 502, 'GEMINI_EMPTY');
+        if (blockReason) throw new GeminiError('Image blocked by AI safety filter. Try a clearer product photo.', 422, 'GEMINI_BLOCKED');
+        lastErr = new GeminiError('AI returned empty result. Try a clearer photo.', 502, 'GEMINI_EMPTY');
         continue;
       }
 
-      keyIndex = (keyIndex + attempt) % apiKeys.length;
+      keyIndex = ki;
       console.log(`[Gemini] Success: model=${model} key#${keyIndex + 1}`);
       return { ...parseIdentification(text), modelUsed: model };
     }
   }
 
-  throw lastErr || new GeminiError('The AI service is unavailable. Please try again.', 502);
+  throw lastErr || new GeminiError('The AI service is unavailable. Please try again later.', 502);
 };
