@@ -221,5 +221,30 @@ export const deleteListing = async (id) => {
 };
 export const deleteListingApi = deleteListing;
 
+/* ==========================================================================
+   AI VISUAL SEARCH APIS (Gemini runs on the server; no keys in the browser)
+   ========================================================================== */
+
+/**
+ * Upload a product photo; server identifies it (Gemini) and isolates it (segmentation)
+ * @param {Blob|File} imageBlob
+ * @param {AbortSignal} [signal]
+ */
+export const identifyProductImage = async (imageBlob, signal) => {
+  const form = new FormData();
+  form.append('image', imageBlob, 'product.jpg');
+  return API.post('/visual-search/identify', form, { timeout: 60000, signal });
+};
+
+/** Search existing Uni-Store listings using a Gemini identification */
+export const searchStoreByIdentification = async (identification, signal) => {
+  return API.post('/visual-search/search', { identification }, { signal });
+};
+
+/** Amazon / Flipkart alternatives (verified search links, plus live items when configured) */
+export const searchExternalByIdentification = async (identification, signal) => {
+  return API.post('/visual-search/external', { identification }, { timeout: 25000, signal });
+};
+
 export { API };
 export default API;

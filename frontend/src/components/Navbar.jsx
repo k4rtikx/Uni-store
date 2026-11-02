@@ -20,13 +20,16 @@ import {
   CheckCircle2,
   ArrowLeft,
   Heart,
+  Camera,
 } from 'lucide-react';
 import useAuth from '../context/useAuth';
 import useWishlist from '../context/useWishlist';
+import VisualSearchModal, { OPEN_VISUAL_SEARCH_EVENT } from './visualSearch/VisualSearchModal';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [isLensOpen, setIsLensOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const { user, logout, updateProfile, isAuthenticated } = useAuth();
@@ -81,6 +84,18 @@ const Navbar = () => {
       ignore = true;
     };
   }, [user, isProfileOpen]);
+
+  // Any page can open AI visual search via window.dispatchEvent(new Event(OPEN_VISUAL_SEARCH_EVENT))
+  useEffect(() => {
+    const open = () => setIsLensOpen(true);
+    window.addEventListener(OPEN_VISUAL_SEARCH_EVENT, open);
+    return () => window.removeEventListener(OPEN_VISUAL_SEARCH_EVENT, open);
+  }, []);
+
+  // Close the visual-search sheet when the user opens a product (route change)
+  useEffect(() => {
+    setIsLensOpen(false);
+  }, [location.pathname]);
 
   const isActive = (path) => location.pathname === path;
 
@@ -187,6 +202,18 @@ const Navbar = () => {
                 </Link>
               )}
 
+              {/* AI Visual Search (camera) */}
+              <button
+                type="button"
+                onClick={() => setIsLensOpen(true)}
+                className="ml-1 inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 text-white text-sm font-semibold shadow-md shadow-emerald-600/20 hover:from-emerald-700 hover:to-teal-700 transition-all active:scale-95 cursor-pointer"
+                aria-label="Search by photo"
+                title="Search by photo"
+              >
+                <Camera className="w-4 h-4" />
+                <span>Search by photo</span>
+              </button>
+
               {/* Sell / Donate Item CTA Button */}
               <Link
                 to="/create"
@@ -283,6 +310,17 @@ const Navbar = () => {
 
             {/* Mobile Actions Strip (scaled appropriately to fit a single row on mobile without overflow) */}
             <div className="flex md:hidden items-center gap-1.5">
+              {/* Mobile AI Visual Search */}
+              <button
+                type="button"
+                onClick={() => setIsLensOpen(true)}
+                className="p-1.5 rounded-lg bg-gradient-to-br from-emerald-500 to-teal-600 text-white shadow-xs active:scale-95 shrink-0 cursor-pointer"
+                aria-label="Search by photo"
+                title="Search by photo"
+              >
+                <Camera className="w-4 h-4" />
+              </button>
+
               {/* Scaled Sell Button for mobile */}
               <Link
                 to="/create"
@@ -388,6 +426,18 @@ const Navbar = () => {
               Home
             </Link>
 
+            <button
+              type="button"
+              onClick={() => {
+                setIsOpen(false);
+                setIsLensOpen(true);
+              }}
+              className="w-full flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl text-sm font-semibold text-emerald-800 bg-emerald-50 border border-emerald-200 cursor-pointer"
+            >
+              <Camera className="w-4 h-4" />
+              Search by photo (AI)
+            </button>
+
             <Link
               to="/create"
               onClick={() => setIsOpen(false)}
@@ -461,6 +511,8 @@ const Navbar = () => {
           </div>
         )}
       </nav>
+
+      <VisualSearchModal open={isLensOpen} onClose={() => setIsLensOpen(false)} />
 
       {/* Sleek "My Campus Profile" Modal */}
       {isProfileOpen && (

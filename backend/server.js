@@ -17,6 +17,7 @@ import connectDB from './config/db.js';
 import authRoutes from './routes/authRoutes.js';
 import listingRoutes from './routes/listingRoutes.js';
 import userRoutes from './routes/userRoutes.js';
+import visualSearchRoutes from './routes/visualSearchRoutes.js';
 import mongoose from 'mongoose';
 import { notFound, errorHandler } from './middlewares/errorHandler.js';
 import { globalApiLimiter } from './middlewares/rateLimiter.js';
@@ -125,6 +126,7 @@ app.get('/api/health', (req, res) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/listings', listingRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/visual-search', visualSearchRoutes);
 
 // Error Handling Middlewares
 app.use(notFound);

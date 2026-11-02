@@ -37,6 +37,9 @@ Generic classifieds (OLX, Facebook Marketplace) introduce safety concerns, stran
 
 ## ⚡ Key Features (Engineering Highlights)
 
+### 📸 AI Visual Search
+Snap or upload a photo: Gemini identifies the item, the background is removed, campus listings are matched, and Amazon/Flipkart alternatives appear if nothing is found. See [VISUAL_SEARCH.md](VISUAL_SEARCH.md).
+
 ### 🛡️ Institutional Security & Verification
 - **Domain-Enforced Gatekeeping**: Registration is strictly restricted to verified `@rjit.ac.in` student institutional email addresses via cryptographic regex and database validation, systematically blocking commercial resellers and bad actors.
 - **3-Step Cryptographic Email OTP**: Implements secure 6-digit OTP delivery via Nodemailer with bcrypt-hashed token persistence, strict 10-minute time-to-live (TTL), attempt rate-limiting, and cooldown timers to prevent brute-force recovery attacks.

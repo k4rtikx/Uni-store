@@ -30,3 +30,18 @@ export const authLimiter = rateLimit({
     message: 'Too many attempts, please try again after 15 minutes.',
   },
 });
+
+/**
+ * Visual Search tier: every identify call spends Gemini quota, so it is throttled per IP
+ * (on top of the global limiter). 30 calls / 15 minutes covers ~10 full searches.
+ */
+export const visualSearchLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 30,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: {
+    success: false,
+    message: 'Too many visual searches. Please wait a few minutes and try again.',
+  },
+});
