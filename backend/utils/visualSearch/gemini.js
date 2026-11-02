@@ -138,17 +138,19 @@ export const identifyProduct = async (jpegBuffer) => {
 
   const imageBase64 = jpegBuffer.toString('base64');
 
-  // Build model list: primary + fallback + any extra models from env
+  // Build model list: primary + fallback + extra models
   const extraModels = (process.env.GEMINI_EXTRA_MODELS || '').split(',').map(m => m.trim()).filter(Boolean);
   const models = [...new Set([cfg.geminiModel, cfg.geminiFallbackModel, ...extraModels].filter(Boolean))];
 
   let lastErr;
-  for (let attempt = 0; attempt < apiKeys.length; attempt++) {
-    const activeKey = apiKeys[(keyIndex + attempt) % apiKeys.length];
 
-    for (const model of models) {
+  // Outer: models — Inner: keys. Try all keys on primary model before falling back.
+  for (const model of models) {
+    for (let attempt = 0; attempt < apiKeys.length; attempt++) {
+      const activeKey = apiKeys[(keyIndex + attempt) % apiKeys.length];
       let result;
       try {
+        console.log(`[Gemini] Trying model=${model} key#${(keyIndex + attempt) % apiKeys.length + 1}`);
         result = await callModel({
           model,
           apiKey: activeKey,
@@ -157,37 +159,35 @@ export const identifyProduct = async (jpegBuffer) => {
           timeoutMs: cfg.geminiTimeoutMs,
         });
       } catch (err) {
-        const isTimeout = err.message === 'AbortError' || err.name === 'AbortError' || /timeout/i.test(err.message);
+        const isTimeout = err.name === 'AbortError' || /timeout|aborted/i.test(err.message);
         const is503 = /503|unavailable|high demand/i.test(err.message);
-        console.error(`[Gemini] model=${model} error:`, err.message?.slice(0, 120));
+        const is404 = /404|not found|no longer available/i.test(err.message);
+        console.error(`[Gemini] model=${model} key#${(keyIndex + attempt) % apiKeys.length + 1} error: ${err.message?.slice(0, 100)}`);
         lastErr = new GeminiError(
-          isTimeout
-            ? 'The AI took too long to respond. Please try again.'
-            : is503
-            ? 'The AI service is busy. Please try again in a moment.'
-            : `Could not reach the AI service: ${err.message}`,
+          isTimeout ? 'The AI took too long. Please try again.'
+            : is503 ? 'AI service busy, trying next key...'
+            : is404 ? `Model ${model} unavailable, trying fallback...`
+            : `AI error: ${err.message?.slice(0, 80)}`,
           is503 ? 503 : isTimeout ? 504 : 502,
           'GEMINI_UNREACHABLE'
         );
+        if (is404) break; // 404 = model not found, no point trying other keys for this model
         continue;
       }
 
-      // SDK returns the response object directly
       const text = result?.text;
       if (!text) {
-        // Check for blocked content
         const blockReason = result?.promptFeedback?.blockReason;
-        if (blockReason) {
-          throw new GeminiError('This image could not be analysed. Try a different photo.', 422, 'GEMINI_BLOCKED');
-        }
-        lastErr = new GeminiError('The AI returned no result. Try a clearer photo.', 502, 'GEMINI_EMPTY');
+        if (blockReason) throw new GeminiError('Image could not be analysed. Try a different photo.', 422, 'GEMINI_BLOCKED');
+        lastErr = new GeminiError('AI returned no result. Try a clearer photo.', 502, 'GEMINI_EMPTY');
         continue;
       }
 
       keyIndex = (keyIndex + attempt) % apiKeys.length;
+      console.log(`[Gemini] Success: model=${model} key#${keyIndex + 1}`);
       return { ...parseIdentification(text), modelUsed: model };
     }
   }
 
-  throw lastErr || new GeminiError('The AI service is unavailable.', 502);
+  throw lastErr || new GeminiError('The AI service is unavailable. Please try again.', 502);
 };
