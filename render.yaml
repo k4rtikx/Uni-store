@@ -38,3 +38,4 @@ services:
         value: none
       - key: VISUAL_SEARCH_REQUIRE_AUTH
         value: false
+
